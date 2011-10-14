@@ -1,0 +1,7 @@
+# Ignore Play! working directory #
+log
+logs
+precompiled
+tmp
+test-result
+server.pid
