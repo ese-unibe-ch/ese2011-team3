@@ -7,3 +7,6 @@ test-result
 server.pid
 eclipse
 *.log
+.classpath
+.project
+.metadata
