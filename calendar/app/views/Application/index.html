@@ -1,4 +1,11 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-#{welcome /}
+<h1>${user.fullname}'s Calendars:</h1>
+				#{list items:calendars, as:'calendar'}
+					<ul>
+						<a href=@{Application.showCalendar(user.nickname, calendar.name)}>
+						${calendar.name}</a>
+					</ul>
+				#{/list}
+
