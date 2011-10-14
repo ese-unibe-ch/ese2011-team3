@@ -39,5 +39,16 @@ public class UserTest extends UnitTest {
 
 		Assert.assertTrue(userOne.following.contains(userTwo));
 	}
+	
+	@Test
+	public void testUserAuthenticate(){
+		String testNickname = "wuschu";
+		String testUserPassword = "secret";
+		User testUser = User.connect(testNickname, testUserPassword);
+		assertNotNull(testUser);
+		assertEquals(testUser.nickname, testNickname);
+		
+		
+	}
 
 }

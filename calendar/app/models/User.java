@@ -32,4 +32,8 @@ public class User extends Model {
 		this.following = new ArrayList<User>();
 	}
 
+	public static User connect(String nickname, String password) {
+		return User.find("byNicknameAndPassword", nickname, password).first();
+	}
+
 }
