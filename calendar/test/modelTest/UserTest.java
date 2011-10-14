@@ -15,6 +15,7 @@ public class UserTest extends UnitTest {
 	@Before
 	public void setUp() throws Exception {
 		new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com").save();
+		new User("polj", "WTH", "hidden", "polj@alt-f4.com").save();
 	}
 
 	@After
@@ -27,6 +28,16 @@ public class UserTest extends UnitTest {
 		User userOne = User.find("byFullname", "WTF").first();
 		User userTwo = User.find("byMail", "wuschu@alt-f4.com").first();
 		Assert.assertEquals(userOne, userTwo);
+	}
+
+	@Test
+	public void testFollowSystem() {
+		User userOne = User.find("byNickname", "wuschu").first();
+		User userTwo = User.find("byNickname", "polj").first();
+
+		userOne.following.add(userTwo);
+
+		Assert.assertTrue(userOne.following.contains(userTwo));
 	}
 
 }

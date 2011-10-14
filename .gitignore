@@ -6,3 +6,4 @@ tmp
 test-result
 server.pid
 eclipse
+*.log

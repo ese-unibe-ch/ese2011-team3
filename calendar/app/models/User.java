@@ -1,9 +1,11 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import play.db.jpa.Model;
@@ -16,6 +18,9 @@ public class User extends Model {
 	public String password;
 	public String mail;
 
+	@ManyToMany
+	public List<User> following;
+
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	public List<Calendar> calendars;
 
@@ -24,6 +29,7 @@ public class User extends Model {
 		this.fullname = name;
 		this.password = pass;
 		this.mail = mail;
+		this.following = new ArrayList<User>();
 	}
 
 }
