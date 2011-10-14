@@ -1,7 +1,5 @@
 package modelTest;
 
-import static org.junit.Assert.*;
-
 import models.User;
 
 import org.junit.After;
@@ -9,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import play.test.Fixtures;
 import play.test.UnitTest;
 
 public class UserTest extends UnitTest {
@@ -20,13 +19,14 @@ public class UserTest extends UnitTest {
 
 	@After
 	public void tearDown() throws Exception {
+		Fixtures.deleteAllModels();
 	}
 
 	@Test
 	public void testUser() {
-		User u = User.find("byFullname", "WTF").first();
-		User v = User.find("byMail", "wuschu@alt-f4.com").first();
-		Assert.assertEquals(u, v);
+		User userOne = User.find("byFullname", "WTF").first();
+		User userTwo = User.find("byMail", "wuschu@alt-f4.com").first();
+		Assert.assertEquals(userOne, userTwo);
 	}
 
 }
