@@ -10,7 +10,7 @@ import play.mvc.With;
 public class Application extends Controller {
 
 	public static void index() {
-		render();
+		Application.showCalendars(Security.connected());
 	}
 
 	public static void showCalendars(String nickname) {
