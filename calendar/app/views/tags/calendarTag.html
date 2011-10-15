@@ -1,45 +1,59 @@
 *{ this tag shows a simple calendar in a month view }*
 #{stylesheet 'calendar.css' /}
-<p>
-Calendar Tag!
 %{
-		java.util.Calendar javaCalendar = java.util.Calendar.getInstance();
-		int maxDaysOfMonth = javaCalendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+	/*
+	 * this code below, handles all the date arithmetic
+	 */
+	//transform aDate to a joda time date (aJodaDate)
+	org.joda.time.DateTime aJodaDate = new org.joda.time.DateTime(_aDate);	
 	
-		//
-		javaCalendar.set(java.util.Calendar.DAY_OF_MONTH, 0);
-		int startDay = javaCalendar.get(java.util.Calendar.DAY_OF_WEEK);
-}%
-
-<div id="calendarheader">
-	%{
-		for(int i = 0; i<7; i++){
-		}%
-			<div id="dayfield"> ${i}</div>
-		%{
-		}
-	}%
-</div>
-
-
-<div id="calendartable">
-%{
-	String dayString = "";
-	int dayNumberOfMonth = 1;
-	for(int i = 1; i <= 42; i++){
-		
-		if(i>=startDay && dayNumberOfMonth <=maxDaysOfMonth){
-				dayString = ""+dayNumberOfMonth;
-				dayNumberOfMonth++;
+	//get a list of all days of a week
+	org.joda.time.DateTime.Property propertyOfWeek = aJodaDate.dayOfWeek();
+	String[] daysOfWeek = new String[propertyOfWeek.getMaximumValue()];
+	
+	//create an array of days of a week
+	for(int i = 0; i < daysOfWeek.length; i++){
+		daysOfWeek[i] = aJodaDate.withDayOfWeek(i+1).toString('E',_aLocale);
+	}
+	
+	//get today as int
+	org.joda.time.DateTime now = new org.joda.time.DateTime();
+	int today = now.dayOfMonth().get();
+	
+	//get selected day as int
+	int selectedDay = aJodaDate.dayOfMonth().get();
+	
+	//constraints...
+	int maxDaysOfMonth = aJodaDate.dayOfMonth().getMaximumValue();
+	//get the first day of the month as int. Ex.: monday = 1, etc...
+	int startDay = aJodaDate.withDayOfMonth(1).dayOfWeek().get();
+	
+	//create field of days for the calendartable
+	int dayOfMonth = 1;
+	String[] dayFields = new String[42];
+	
+	for(int i = 0; i < dayFields.length; i++) {
+		if(i>=(startDay-1) && dayOfMonth <=maxDaysOfMonth){
+			dayFields[i] = ""+dayOfMonth;
+			dayOfMonth++;
 		} else {
-			dayString = "#";
+			dayFields[i] = "#";
 		}
-		
-		}%
-			<div id="dayfield"> ${dayString}</div>
-		%{
 	}
 }%
+<p>
+Calendar Tag!
+<div id="calendarheader">
+	#{list items:daysOfWeek, as:'dayOfWeek'}
+   			<div id="dayfield"> ${dayOfWeek} </div>
+	#{/list}
 </div>
+
+<div id="calendartable">
+	#{list items:dayFields, as:'dayField'}
+   			<div id="dayfield"> ${dayField} </div>
+	#{/list}
+</div>
+
 <div id="calendarend"></div>
 </p>

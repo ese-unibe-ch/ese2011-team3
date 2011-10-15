@@ -2,16 +2,10 @@
 #{set title:'Home' /}
 
 <h1>${user.fullname}'s ${calendar.name}</h1>
-<p>
-#{if events.size() != 0}
-	<ul>
-	#{list items: events, as: 'event' }
-		<li>${ event.name }, ${ event.start}, ${ event.end }</li>
-	#{/list}
-	</ul>
-#{/if}
-#{else}
-	There are no events.
-#{/else}
-</p>
+<h2><|- ${aDate.format('yyyy-MM-dd')} -|></h2>
+
+#{calendarTag aDate: aDate, aLocale:aLocale /}
+
+#{eventsTag events:events /}
+
 #{a @showCalendars(user.nickname)} Back #{/a}

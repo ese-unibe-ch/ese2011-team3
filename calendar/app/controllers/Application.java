@@ -1,6 +1,8 @@
 package controllers;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import models.Calendar;
 import models.Event;
@@ -38,7 +40,19 @@ public class Application extends Controller {
 		User user = User.find("byNickname", nickname).first();
 		Calendar calendar = Calendar.findById(id);
 		List<Event> events =calendar.events;
-		render(user, calendar, events);
+		
+		Date aDate = new Date();
+		Locale aLocale = new Locale("en", "CH");
+		render(user, calendar, events, aDate, aLocale);
 	}
 
+	public static void showOtherUsers(String userNickname) {
+		User user = User.find("byNickname", userNickname).first();
+		List users = User.findAll();
+		for (int i=0;i<users.size();i++)
+			if (user.equals(users.get(i)))
+				users.remove(i);
+		Collections.sort(users);
+		render(users);
+	}
 }
