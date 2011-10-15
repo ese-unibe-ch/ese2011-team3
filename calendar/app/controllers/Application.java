@@ -14,7 +14,7 @@ import play.mvc.With;
 
 @With(Secure.class)
 public class Application extends Controller {
-	
+
 	/**
 	 * this method creates a user object of the currently logged in user and
 	 * makes it accessible for all views and tag views.
@@ -22,11 +22,12 @@ public class Application extends Controller {
 	@Before
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
-			User account = User.find("byNickname", Security.connected()).first();
+			User account = User.find("byNickname", Security.connected())
+					.first();
 			renderArgs.put("account", account);
 		}
 	}
-	   
+
 	public static void index() {
 		Application.showCalendars(Security.connected());
 	}
@@ -36,12 +37,12 @@ public class Application extends Controller {
 		List calendars = user.calendars;
 		render(user, calendars);
 	}
-	
-	public static void showCalendar(String nickname, long id){
+
+	public static void showCalendar(String nickname, long id) {
 		User user = User.find("byNickname", nickname).first();
 		Calendar calendar = Calendar.findById(id);
-		List<Event> events =calendar.events;
-		
+		List<Event> events = calendar.events;
+
 		Date aDate = new Date();
 		Locale aLocale = new Locale("en", "CH");
 		render(user, calendar, events, aDate, aLocale);
@@ -50,7 +51,7 @@ public class Application extends Controller {
 	public static void showOtherUsers(String userNickname) {
 		User user = User.find("byNickname", userNickname).first();
 		List users = User.findAll();
-		for (int i=0;i<users.size();i++)
+		for (int i = 0; i < users.size(); i++)
 			if (user.equals(users.get(i)))
 				users.remove(i);
 		Collections.sort(users);
