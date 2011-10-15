@@ -17,11 +17,15 @@
 }
 
 .today {
-	background: gray;
+	background: yellow;
 }
 
 .selectedday {
 	background: orange;
+}
+
+.otherdays {
+	background: gray;
 }
 
 

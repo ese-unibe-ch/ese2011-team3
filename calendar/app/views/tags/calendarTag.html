@@ -67,8 +67,11 @@
    		#{elseif day.format('yyyy-MM-dd').equals(_aDate.format('yyyy-MM-dd'))}
 			<div id="dayfield" class="selectedday"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
 		#{/elseif}
+		#{elseif _aDate.format('yyyy-MM').equals(day.format('yyyy-MM'))}
+			<div id="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+		#{/elseif}
    		#{else}
-   		<div id="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+   		<div id="dayfield" class="otherdays"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
    		#{/else}
 	#{/list}
 </div>
