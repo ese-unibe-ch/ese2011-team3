@@ -4,9 +4,14 @@
 
 # Home page
 GET     /                                       Application.index
-GET		/user/{nickname}		Application.showCalendars
-GET		/user/{nickname}/calendar/{id}	Application.showCalendar
-GET		/users				Application.showUsers
+GET		/user/{nickname}						Application.showCalendars
+GET		/user/{nickname}/calendar/{id}			Application.showCalendar
+GET		/users									Application.showUsers
+
+GET 	/profile/contacts 						Contacts.index
+GET 	/profile/contacts/add 					Contacts.addContacts
+GET		/profile/contacts/add/{contactId}		Contacts.addContact
+GET	 	/profile/contacts/remove/{contactId} 	Contacts.removeContact
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
