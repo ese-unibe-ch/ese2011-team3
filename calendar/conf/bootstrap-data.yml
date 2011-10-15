@@ -1,0 +1,48 @@
+User(wuschu):
+    nickname:  wuschu
+    password:  secret
+    fullname:  Domi Jackson
+    mail:      domi@gmail.com
+    
+User(lexy):
+    nickname:  lexy
+    password:  secret
+    fullname:  lex McColin
+    mail:      lex@gmail.com
+    
+User(king_julien):
+    nickname:  king_julien
+    password:  secret
+    fullname:  Julien Peterson
+    mail:      king@gmail.com
+    
+User(joe):
+    nickname:  joe
+    password:  secret
+    fullname:  Joe Gargamel
+    mail:      gargamel@gmail.com
+    
+    
+Calendar(wuschu_home):
+    name:  Home
+    owner:  wuschu
+    
+Calendar(wuschu_work):
+    name:  Work
+    owner:  wuschu
+
+Calendar(lexy_home):
+    name:  Home
+    owner: lexy
+
+Calendar(lexy_work):
+    name: Work
+    owner: lexy
+    
+Calendar(joe_sports):
+    name:  sports
+    owner: joe
+
+Calendar(joe_uni):
+    name:  Uni
+    owner: joe 
