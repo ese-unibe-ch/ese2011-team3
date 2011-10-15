@@ -2,9 +2,8 @@
 #{set title:'Home' /}
 
 <h1>${user.fullname}'s ${calendar.name}</h1>
-<h2><|- ${aDate.format('yyyy-MM-dd')} -|></h2>
 
-#{calendarTag aDate: aDate, aLocale:aLocale /}
+#{calendarTag aDate: aDate, aLocale:aLocale , user:user, calendar:calendar/}
 
 #{a @Events.addEvent(calendar.id)} Add Event #{/a}
 

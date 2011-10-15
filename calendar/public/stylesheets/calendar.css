@@ -7,11 +7,21 @@
 	clear: both;
 }
 
-#dayfield{
+#dayfield {
 	float: left;
 	width: 13%;
 	height: 30px;
 	border: solid 1px black;
+	text-align: center;
+	color: black;
+}
+
+.today {
+	background: gray;
+}
+
+.selectedday {
+	background: orange;
 }
 
 

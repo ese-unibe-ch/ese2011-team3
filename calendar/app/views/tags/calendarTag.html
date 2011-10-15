@@ -10,6 +10,8 @@
 	 */
 	//transform aDate to a joda time date (aJodaDate)
 	org.joda.time.DateTime aJodaDate = new org.joda.time.DateTime(_aDate);	
+	Date nextMonth = aJodaDate.plusMonths(1).toDate();
+	Date prevMonth = aJodaDate.minusMonths(1).toDate();
 	
 	//get a list of all days of a week
 	org.joda.time.DateTime.Property propertyOfWeek = aJodaDate.dayOfWeek();
@@ -27,24 +29,29 @@
 	//get selected day as int
 	int selectedDay = aJodaDate.dayOfMonth().get();
 	
-	//constraints...
+	//max days of a month
 	int maxDaysOfMonth = aJodaDate.dayOfMonth().getMaximumValue();
-	//get the first day of the month as int. Ex.: monday = 1, etc...
-	int startDay = aJodaDate.withDayOfMonth(1).dayOfWeek().get();
 	
-	//create field of days for the calendartable
+	//get the first day of the month as int. Ex.: monday = 1, etc...
+	org.joda.time.DateTime firstDayOfMonth = aJodaDate.withDayOfMonth(1);
+	int startDay = firstDayOfMonth.dayOfWeek().get();
+	
+	//create a "runner" day object
+	org.joda.time.DateTime runDay = firstDayOfMonth.minusDays(startDay-1);
+	
+	
+	//create days for the calendartable
 	int dayOfMonth = 1;
 	String[] dayFields = new String[42];
-	
+	Date[] days = new Date[42];
+		
 	for(int i = 0; i < dayFields.length; i++) {
-		if(i>=(startDay-1) && dayOfMonth <=maxDaysOfMonth){
-			dayFields[i] = ""+dayOfMonth;
-			dayOfMonth++;
-		} else {
-			dayFields[i] = "#";
-		}
+		days[i] = runDay.plusDays(i).toDate();
 	}
 }%
+
+<h2>#{a @showDate(_user.nickname,_calendar.id,prevMonth)}<|-#{/a} ${_aDate.format('yyyy-MM-dd')} #{a @showDate(_user.nickname,_calendar.id,nextMonth)}-|>#{/a}</h2>
+
 <p>
 <div id="calendarheader">
 	#{list items:daysOfWeek, as:'dayOfWeek'}
@@ -53,8 +60,16 @@
 </div>
 
 <div id="calendartable">
-	#{list items:dayFields, as:'dayField'}
-   			<div id="dayfield"> ${dayField} </div>
+	#{list items:days, as:'day'}
+		#{if day.format('yyyy-MM-dd').equals(new Date().format('yyyy-MM-dd'))}
+   			<div id="dayfield" class="today"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+   		#{/if}
+   		#{elseif day.format('yyyy-MM-dd').equals(_aDate.format('yyyy-MM-dd'))}
+			<div id="dayfield" class="selectedday"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+		#{/elseif}
+   		#{else}
+   		<div id="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+   		#{/else}
 	#{/list}
 </div>
 

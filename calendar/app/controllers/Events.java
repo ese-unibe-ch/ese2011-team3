@@ -49,6 +49,7 @@ public class Events extends Controller {
 		event.end = end;
 		event.note = note;
 		event.save();
+
 		editEvent(eventId);
 		String nickname = event.calendar.owner.nickname;
 		Long calendarId = event.calendar.id;

@@ -15,11 +15,11 @@ public class Calendars extends Controller {
 
 	public static void showCalendars(String nickname) {
 		User user = User.find("byNickname", nickname).first();
-		List calendars = user.calendars;
+		List<Calendar> calendars = user.calendars;
 		render(user, calendars);
 	}
 
-	public static void showCalendar(String nickname, long id) {
+	public static void showCalendar(String nickname, Long id) {
 		User user = User.find("byNickname", nickname).first();
 		Calendar calendar = Calendar.findById(id);
 		List<Event> events = calendar.events;
@@ -28,4 +28,16 @@ public class Calendars extends Controller {
 		Locale aLocale = new Locale("en", "CH");
 		render(user, calendar, events, aDate, aLocale);
 	}
+
+	public static void showDate(String nickname, Long id, Date day) {
+		User user = User.find("byNickname", nickname).first();
+		Calendar calendar = Calendar.findById(id);
+		List<Event> events = calendar.events;
+
+		Date aDate = day;
+		Locale aLocale = new Locale("en", "CH");
+		render("Calendars/showCalendar.html", user, calendar, events, aDate,
+				aLocale);
+	}
+
 }
