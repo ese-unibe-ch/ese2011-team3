@@ -19,6 +19,7 @@ public class Contacts extends Controller {
 		User user = User.find("byNickname", Security.connected()).first();
 		User contact = User.findById(contactId);
 		user.following.add(contact);
+		user.save();
 		index();
 	}
 
@@ -33,6 +34,7 @@ public class Contacts extends Controller {
 		User user = User.find("byNickname", Security.connected()).first();
 		User contact = User.findById(contactId);
 		user.following.remove(contact);
+		user.save();
 		index();
 	}
 }
