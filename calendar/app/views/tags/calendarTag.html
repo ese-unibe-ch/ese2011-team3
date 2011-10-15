@@ -1,0 +1,45 @@
+*{ this tag shows a simple calendar in a month view }*
+#{stylesheet 'calendar.css' /}
+<p>
+Calendar Tag!
+%{
+		java.util.Calendar javaCalendar = java.util.Calendar.getInstance();
+		int maxDaysOfMonth = javaCalendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+	
+		//
+		javaCalendar.set(java.util.Calendar.DAY_OF_MONTH, 0);
+		int startDay = javaCalendar.get(java.util.Calendar.DAY_OF_WEEK);
+}%
+
+<div id="calendarheader">
+	%{
+		for(int i = 0; i<7; i++){
+		}%
+			<div id="dayfield"> ${i}</div>
+		%{
+		}
+	}%
+</div>
+
+
+<div id="calendartable">
+%{
+	String dayString = "";
+	int dayNumberOfMonth = 1;
+	for(int i = 1; i <= 42; i++){
+		
+		if(i>=startDay && dayNumberOfMonth <=maxDaysOfMonth){
+				dayString = ""+dayNumberOfMonth;
+				dayNumberOfMonth++;
+		} else {
+			dayString = "#";
+		}
+		
+		}%
+			<div id="dayfield"> ${dayString}</div>
+		%{
+	}
+}%
+</div>
+<div id="calendarend"></div>
+</p>

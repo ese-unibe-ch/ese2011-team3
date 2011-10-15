@@ -1,0 +1,13 @@
+*{ this tag lists all events of a calendar at a specific date }*
+<p>
+#{if _events.size() != 0}
+	<ul>
+	#{list items: _events, as: 'event' }
+		<li>${ event.name }, ${ event.start}, ${ event.end }</li>
+	#{/list}
+	</ul>
+#{/if}
+#{else}
+	There are no events.
+#{/else}
+</p>

@@ -46,3 +46,38 @@ Calendar(joe_sports):
 Calendar(joe_uni):
     name:  Uni
     owner: joe 
+    
+Event(joe_ev1):
+    name: drinking
+    calendar: joe_sports
+    start: 2011-10-14 10:00
+    end:   2011-10-14 12:00
+    note:  Don't forget to buy beer.
+    
+Event(joe_ev2):
+    name: ese exercise
+    calendar: joe_uni
+    start: 2011-10-15 10:00
+    end:   2011-10-15 12:00
+    note: 
+    
+Event(wu_ev1):
+    name: rechnungswesen
+    calendar: wuschu_work
+    start: 2011-10-15 10:00
+    end:   2011-10-15 12:00
+    note:  tötet das rechnungswesen
+    
+Event(wu_ev2):
+    name: ese
+    calendar: wuschu_work
+    start: 2011-10-14 10:00
+    end:   2011-10-14 12:00
+    note: 
+      
+Event(wu_ev3):
+    name: english
+    calendar: wuschu_work
+    start: 2011-10-13 10:00
+    end:   2011-10-13 12:00
+    note:      

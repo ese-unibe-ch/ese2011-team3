@@ -5,6 +5,7 @@
 # Home page
 GET     /                                       Application.index
 GET		/user/{nickname}						Application.showCalendars
+GET		/user/{nickname}/calendar/{id}			Application.showCalendar
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

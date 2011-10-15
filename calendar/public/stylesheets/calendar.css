@@ -1,0 +1,20 @@
+
+#calendartable {
+
+}
+
+#calendarend {
+	clear: both;
+}
+
+#dayfield{
+	float: left;
+	width: 13%;
+	height: 30px;
+	border: solid 1px black;
+}
+
+
+
+
+
