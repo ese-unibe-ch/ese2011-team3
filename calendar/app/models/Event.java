@@ -28,4 +28,9 @@ public class Event extends Model {
 		this.calendar = calendar;
 	}
 
+	public Event(String name, Date start, Date end, Calendar calendar,
+			String note) {
+		this(name, start, end, calendar);
+		this.note = note;
+	}
 }

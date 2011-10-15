@@ -1,0 +1,36 @@
+#{form @updateEvent(event.id)}
+<h1>Edit Event -  ${event.name}</h1>
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+<p>
+#{field 'name'}
+	<label>&{field.name}</label>
+	<input type="text" id="${field.id}" name="${field.name}" value="${event?.name}" class="${field.errorClass}">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+#{field 'start'}
+	<label>&{field.name}</label>
+	<input type="text" id="${field.id}" name="${field.name}" value="${event?.start}" class="${field.errorClass}">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+#{field 'end'}
+	<label>&{field.name}</label>
+	<input type="text" id="${field.id}" name="${field.name}" value="${event?.end}" class="${field.errorClass}">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+#{field 'note'}
+	<label>&{field.name}</label>
+	<textarea rows="6" cols="100" id="${field.id}" name="${field.name}" class="${field.errorClass}">${event?.note}</textarea>
+	<span class="error">${field.error}</span>
+#{/}
+<p>
+	<input type="submit" id="submit" name="Edit" value="Edit" />
+</p>
+#{/form}
+#{a @Calendars.showCalendar(user.nickname,calendar.id)}Back #{/a}

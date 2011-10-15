@@ -4,14 +4,22 @@
 
 # Home page
 GET     /                                       Application.index
-GET		/user/{nickname}						Application.showCalendars
-GET		/user/{nickname}/calendar/{id}			Application.showCalendar
+GET		/user/{nickname}						Calendars.showCalendars
+GET		/user/{nickname}/calendar/{id}			Calendars.showCalendar
 GET		/users									Application.showUsers
 
 GET 	/profile/contacts 						Contacts.index
 GET 	/profile/contacts/add 					Contacts.addContacts
 GET		/profile/contacts/add/{contactId}		Contacts.addContact
 GET	 	/profile/contacts/remove/{contactId} 	Contacts.removeContact
+
+
+POST    /events/{calendarId}/add				Events.createEvent  
+GET	    /events/{nickname}/index				Events.index 
+GET     /calendar/{calendarId}/addEvent			Events.addEvent
+GET     /events/{eventId}/edit					Events.editEvent
+POST    /events/{eventId}/update				Events.updateEvent
+GET     /events/{eventId}/remove				Events.removeEvent
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

@@ -29,23 +29,7 @@ public class Application extends Controller {
 	}
 
 	public static void index() {
-		Application.showCalendars(Security.connected());
-	}
-
-	public static void showCalendars(String nickname) {
-		User user = User.find("byNickname", nickname).first();
-		List calendars = user.calendars;
-		render(user, calendars);
-	}
-
-	public static void showCalendar(String nickname, long id) {
-		User user = User.find("byNickname", nickname).first();
-		Calendar calendar = Calendar.findById(id);
-		List<Event> events = calendar.events;
-
-		Date aDate = new Date();
-		Locale aLocale = new Locale("en", "CH");
-		render(user, calendar, events, aDate, aLocale);
+		Calendars.showCalendars(Security.connected());
 	}
 
 	public static void showOtherUsers(String userNickname) {
