@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Collections;
 import java.util.List;
 
 import models.User;
@@ -32,4 +33,13 @@ public class Application extends Controller {
 		render(user, calendars);
 	}
 
+	public static void showOtherUsers(String userNickname) {
+		User user = User.find("byNickname", userNickname).first();
+		List users = User.findAll();
+		for (int i=0;i<users.size();i++)
+			if (user.equals(users.get(i)))
+				users.remove(i);
+		Collections.sort(users);
+		render(users);
+	}
 }

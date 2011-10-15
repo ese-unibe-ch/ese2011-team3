@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import play.db.jpa.Model;
 
 @Entity
-public class User extends Model {
+public class User extends Model implements Comparable<User> {
 
 	public String nickname;
 	public String fullname;
@@ -35,5 +35,9 @@ public class User extends Model {
 	public static User connect(String nickname, String password) {
 		return User.find("byNicknameAndPassword", nickname, password).first();
 	}
-
+	
+	public int compareTo(User u){
+		int compare = nickname.compareTo(u.nickname);
+		return compare;
+	}
 }
