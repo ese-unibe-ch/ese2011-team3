@@ -8,6 +8,10 @@ GET		/user/{nickname}						Application.showCalendars
 GET		/user/{nickname}/calendar/{id}			Application.showCalendar
 GET		/users									Application.showUsers
 
+GET		/profile								Profile.index
+GET		/profile/edit							Profile.edit
+POST	/profile/save							Profile.save
+
 GET 	/profile/contacts 						Contacts.index
 GET 	/profile/contacts/add 					Contacts.addContacts
 GET		/profile/contacts/add/{contactId}		Contacts.addContact

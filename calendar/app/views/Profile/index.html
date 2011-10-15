@@ -1,0 +1,16 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+*{Renders the profile of the currently logged in user. Provides links to edit profile and manage contacts}*
+*{renderArgs: name (String), description (String)}*
+
+<div id="profileView">
+	<h1>my profile</h1>
+	<table border="1">
+			<tr>
+				<td width="200px">${name}</td><td width="500px">${description}</td>
+			</tr>
+	</table>
+	<p>#{a @Contacts.index()}manage contacts#{/a}</p>
+	<p>#{a @Profile.edit()}edit profile#{/a}</p>
+</div>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -17,6 +18,9 @@ public class User extends Model implements Comparable<User> {
 	public String fullname;
 	public String password;
 	public String mail;
+
+	@Lob
+	public String profile;
 
 	@ManyToMany
 	public List<User> following;
@@ -35,8 +39,8 @@ public class User extends Model implements Comparable<User> {
 	public static User connect(String nickname, String password) {
 		return User.find("byNicknameAndPassword", nickname, password).first();
 	}
-	
-	public int compareTo(User u){
+
+	public int compareTo(User u) {
 		int compare = nickname.compareTo(u.nickname);
 		return compare;
 	}
