@@ -7,7 +7,7 @@
 <div id="contactsList">
 	<h1>my contacts</h1>
 	<table border="1">
-		#{list items:contacts as:'contact'}
+		#{list items:contacts, as:'contact'}
 			<tr>
 				<td width="300px">${contact.fullname}</td><td width="100px">#{a @Contacts.remove(contact.id)}remove#{/a}</td>
 			</tr>
