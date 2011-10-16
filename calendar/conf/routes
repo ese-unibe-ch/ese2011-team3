@@ -6,7 +6,7 @@
 GET     /                                       Application.index
 GET		/user/{nickname}						Calendars.showCalendars
 GET		/user/{nickname}/calendar/{id}			Calendars.showCalendar
-GET		/user/{nickname}/calendar/{id}/date/{day}	Calendars.showDate
+GET		/user/{nickname}/calendar/{id}/date/{aDate}	Calendars.showDate
 GET		/users									Application.showUsers
 
 GET		/profile								Profile.index

@@ -52,6 +52,8 @@ Event(joe_ev1):
     calendar: joe_sports
     start: 2011-10-14 10:00
     end:   2011-10-14 12:00
+    lowerBound:  2011-10-14 00:00
+    upperBound:  2011-10-14 23:59
     note:  Don't forget to buy beer.
     
 Event(joe_ev2):
@@ -59,6 +61,8 @@ Event(joe_ev2):
     calendar: joe_uni
     start: 2011-10-15 10:00
     end:   2011-10-15 12:00
+    lowerBound:  2011-10-15 00:00
+    upperBound:  2011-10-15 23:59
     note: 
     
 Event(wu_ev1):
@@ -66,18 +70,33 @@ Event(wu_ev1):
     calendar: wuschu_work
     start: 2011-10-15 10:00
     end:   2011-10-15 12:00
+    lowerBound:  2011-10-15 00:00
+    upperBound:  2011-10-15 23:59
     note:  tötet das rechnungswesen
     
 Event(wu_ev2):
     name: ese
     calendar: wuschu_work
-    start: 2011-10-14 10:00
-    end:   2011-10-14 12:00
+    start: 2011-10-14 10:00:00
+    end:   2011-10-14 12:00:00
+    lowerBound:  2011-10-14 00:00
+    upperBound:  2011-10-14 23:59
     note: 
       
 Event(wu_ev3):
     name: english
     calendar: wuschu_work
-    start: 2011-10-13 10:00
-    end:   2011-10-13 12:00
-    note:      
+    start: 2011-10-13 10:00:00
+    end:   2011-10-13 12:00:00
+    lowerBound:  2011-10-13 00:00
+    upperBound:  2011-10-13 23:59
+    note:   
+    
+Event(wu_ev4):
+    name: long event
+    calendar: wuschu_work
+    start: 2011-10-12 10:00:00
+    end:   2011-11-12 12:00:00
+    lowerBound:  2011-10-12 00:00:00
+    upperBound:  2011-11-12 23:59:59
+    note:    

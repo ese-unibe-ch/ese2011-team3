@@ -1,4 +1,4 @@
-#{form @updateEvent(event.id)}
+#{form @updateEvent(event.id) , id:'updateForm', enctype:'multipart/form-data'}
 <h1>Edit Event -  ${event.name}</h1>
 #{if flash.success}
     <p class="success">${flash.success}</p>
@@ -11,24 +11,40 @@
 #{/}
 </p>
 <p>
-#{field 'start'}
+#{field 'startDate'}
 	<label>&{field.name}</label>
-	<input type="text" id="${field.id}" name="${field.name}" value="${event?.start}" class="${field.errorClass}">
+	<input type="date" id="${field.id}" name="${field.name}"  value="${event?.start.format('yyyy-MM-dd')}" class="${field.errorClass}" placeholder="yyyy-MM-dd">
 	<span class="error">${field.error}</span>
 #{/}
 </p>
 <p>
-#{field 'end'}
+#{field 'endDate'}
 	<label>&{field.name}</label>
-	<input type="text" id="${field.id}" name="${field.name}" value="${event?.end}" class="${field.errorClass}">
+	<input type="date" id="${field.id}" name="${field.name}"  value="${event?.end.format('yyyy-MM-dd')}" class="${field.errorClass}" placeholder="yyyy-MM-dd"> 
 	<span class="error">${field.error}</span>
 #{/}
 </p>
+<p>
+#{field 'startTime'}
+	<label>&{field.name}</label>
+	<input type="time" id="${field.id}" name="${field.name}"  value="${event?.start.format('HH:mm')}" class="${field.errorClass}" placeholder="HH:mm">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+#{field 'endTime'}
+	<label>&{field.name}</label>
+	<input type="time" id="${field.id}" name="${field.name}"  value="${event?.end.format('HH:mm')}" class="${field.errorClass}" placeholder="HH:mm">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
 #{field 'note'}
 	<label>&{field.name}</label>
 	<textarea rows="6" cols="100" id="${field.id}" name="${field.name}" class="${field.errorClass}">${event?.note}</textarea>
 	<span class="error">${field.error}</span>
 #{/}
+</p>
 <p>
 	<input type="submit" id="submit" name="Edit" value="Edit" />
 </p>

@@ -3,7 +3,7 @@
 #{if _events.size() != 0}
 	<ul>
 	#{list items: _events, as: 'event' }
-		<li>${ event.name }, ${ event.start}, ${ event.end } #{a @Events.editEvent(event.id)} Edit #{/a}  #{a @Events.removeEvent(event.id)} | Remove #{/a} </li>
+		<li>${ event.name }, start: ${ event.start.format('yyyy-MM-dd , HH:mm') }, end: ${ event.end.format('yyyy-MM-dd , HH:mm') } #{a @Events.editEvent(event.id)} Edit #{/a}  #{a @Events.removeEvent(event.id)} | Remove #{/a} </li>
 	#{/list}
 	</ul>
 #{/if}

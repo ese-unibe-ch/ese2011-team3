@@ -1,4 +1,4 @@
-#{form @createEvent(calendar.id)}
+#{form @createEvent(calendar.id) , id:'updateForm', enctype:'multipart/form-data'}
 <h1>Add Event</h1>
 #{if flash.success}
     <p class="success">${flash.success}</p>
@@ -11,16 +11,30 @@
 #{/}
 </p>
 <p>
-#{field 'start'}
+#{field 'startDate'}
 	<label>&{field.name}</label>
-	<input type="text" id="${field.id}" name="${field.name}" value="${flash.start}" class="${field.errorClass}">
+	<input type="date" id="${field.id}" name="${field.name}" value="${flash.startDate}" class="${field.errorClass}" placeholder="yyyy-MM-dd">
 	<span class="error">${field.error}</span>
 #{/}
 </p>
 <p>
-#{field 'end'}
+#{field 'endDate'}
 	<label>&{field.name}</label>
-	<input type="text" id="${field.id}" name="${field.name}" value="${flash.end}" class="${field.errorClass}">
+	<input type="date" id="${field.id}" name="${field.name}" value="${flash.endDate}" class="${field.errorClass}" placeholder="yyyy-MM-dd">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+#{field 'startTime'}
+	<label>&{field.name}</label>
+	<input type="time" id="${field.id}" name="${field.name}" value="${flash.startTime}" class="${field.errorClass}" placeholder="HH:mm">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+#{field 'endTime'}
+	<label>&{field.name}</label>
+	<input type="time" id="${field.id}" name="${field.name}" value="${flash.endTime}" class="${field.errorClass}" placeholder="HH:mm">
 	<span class="error">${field.error}</span>
 #{/}
 </p>
