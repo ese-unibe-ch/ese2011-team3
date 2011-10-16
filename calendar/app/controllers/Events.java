@@ -20,8 +20,7 @@ public class Events extends Controller {
 		validation.required(startDate);
 		validation.required(endDate);
 		validation.required(startTime);
-		validation.equals(endTime);
-		validation.match("d{2}:d{2}", startTime);
+		validation.required(endTime);
 
 		if (validation.hasErrors()) {
 			params.flash();
@@ -47,7 +46,7 @@ public class Events extends Controller {
 		validation.required(startDate);
 		validation.required(endDate);
 		validation.required(startTime);
-		validation.equals(endTime);
+		validation.required(endTime);
 
 		if (validation.hasErrors()) {
 			params.flash();
