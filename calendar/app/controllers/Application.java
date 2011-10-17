@@ -1,12 +1,8 @@
 package controllers;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-import models.Calendar;
-import models.Event;
 import models.User;
 import play.mvc.Before;
 import play.mvc.Controller;

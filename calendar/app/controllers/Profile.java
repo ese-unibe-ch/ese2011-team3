@@ -27,4 +27,8 @@ public class Profile extends Controller {
 		index();
 	}
 
+	public static void profile() {
+		render();
+	}
+
 }

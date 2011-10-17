@@ -11,3 +11,4 @@ eclipse
 .project
 .metadata
 *.launch
+.settings/
