@@ -27,14 +27,14 @@
 <p>
 #{field 'startTime'}
 	<label>&{field.name}</label>
-	<input type="time" id="${field.id}" name="${field.name}"  value="${event?.start.format('HH:mm')}" class="${field.errorClass}" placeholder="HH:mm">
+	<input type="text" id="${field.id}" name="${field.name}"  value="${event?.start.format('HH:mm')}" class="${field.errorClass}" placeholder="HH:mm">
 	<span class="error">${field.error}</span>
 #{/}
 </p>
 <p>
 #{field 'endTime'}
 	<label>&{field.name}</label>
-	<input type="time" id="${field.id}" name="${field.name}"  value="${event?.end.format('HH:mm')}" class="${field.errorClass}" placeholder="HH:mm">
+	<input type="text" id="${field.id}" name="${field.name}"  value="${event?.end.format('HH:mm')}" class="${field.errorClass}" placeholder="HH:mm">
 	<span class="error">${field.error}</span>
 #{/}
 </p>

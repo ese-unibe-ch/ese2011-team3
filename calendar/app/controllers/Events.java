@@ -5,6 +5,11 @@ import java.util.Date;
 import models.Calendar;
 import models.Event;
 import models.User;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import play.data.validation.Required;
 import play.mvc.Controller;
 import play.mvc.With;
@@ -25,17 +30,38 @@ public class Events extends Controller {
 		if (validation.hasErrors()) {
 			params.flash();
 			validation.keep();
-			Date aDate = startDate;
 			addEvent(calendarId);
 		}
 
-		helperMakeDates(startDate, endDate, startTime, endTime);
-
 		Calendar calendar = Calendar.findById(calendarId);
-		new Event(name, startDate, endDate, calendar, note).save();
+
+		Event event = helperBuildEvent(new Event(name, startDate, endDate,
+				calendar, note), startTime, endTime);
+		event.save();
 
 		String nickname = calendar.owner.nickname;
 		Calendars.showCalendar(nickname, calendarId);
+	}
+
+	private static Event helperBuildEvent(Event event, String startTime,
+			String endTime) {
+
+		DateTimeFormatter parser = DateTimeFormat.forPattern("HH:mm");
+		int startHours = parser.parseDateTime(startTime).getHourOfDay();
+		int startMinutes = parser.parseDateTime(startTime).getMinuteOfHour();
+
+		int endHours = parser.parseDateTime(endTime).getHourOfDay();
+		int endMinutes = parser.parseDateTime(endTime).getMinuteOfHour();
+
+		Date startDate = new DateTime(event.start).withTime(startHours,
+				startMinutes, 0, 0).toDate();
+		Date endDate = new DateTime(event.end).withTime(endHours, endMinutes,
+				0, 0).toDate();
+
+		event.start = startDate;
+		event.end = endDate;
+
+		return event;
 	}
 
 	public static void updateEvent(Long eventId, @Required String name,
@@ -54,37 +80,19 @@ public class Events extends Controller {
 			editEvent(eventId);
 		}
 
-		helperMakeDates(startDate, endDate, startTime, endTime);
-
 		Event event = Event.findById(eventId);
 		event.name = name;
-		event.start = startDate;
 		event.lowerBound = Event.makeLowerBound(startDate);
-		event.end = endDate;
 		event.upperBound = Event.makeUpperBound(endDate);
 		event.note = note;
+
+		helperBuildEvent(event, startTime, endTime);
 		event.save();
 
 		editEvent(eventId);
 		String nickname = event.calendar.owner.nickname;
 		Long calendarId = event.calendar.id;
 		Calendars.showCalendar(nickname, calendarId);
-	}
-
-	private static void helperMakeDates(Date startDate, Date endDate,
-			String startTime, String endTime) {
-		String[] startTimeA = startTime.split(":");
-		String[] endTimeA = endTime.split(":");
-
-		int hoursS = Integer.parseInt(startTimeA[0]);
-		int minutesS = Integer.parseInt(startTimeA[1]);
-		startDate.setHours(hoursS);
-		startDate.setMinutes(minutesS);
-
-		int hoursE = Integer.parseInt(endTimeA[0]);
-		int minutesE = Integer.parseInt(endTimeA[1]);
-		endDate.setHours(hoursE);
-		endDate.setMinutes(minutesE);
 	}
 
 	public static void editEvent(Long eventId) {
