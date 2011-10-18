@@ -39,6 +39,13 @@
 #{/}
 </p>
 <p>
+#{field 'isPublic'}
+	<label>&{field.name}</label>
+	this is a public event: <input type="checkbox" id="${field.id}" name="${field.name}" value="${flash.isPublic}"  />
+#{/}
+</p>
+
+<p>
 #{field 'note'}
 	<label>&{field.name}</label>
 	<textarea rows="6" cols="100" id="${field.id}" name="${field.name}" class="${field.errorClass}">${flash.note}</textarea>
