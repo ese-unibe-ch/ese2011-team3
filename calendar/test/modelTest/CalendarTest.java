@@ -17,6 +17,7 @@ public class CalendarTest extends UnitTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Fixtures.deleteAllModels();
 		User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
 				.save();
 		new Calendar("Home", testUser).save();

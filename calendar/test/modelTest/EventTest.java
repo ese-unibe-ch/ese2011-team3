@@ -13,12 +13,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import play.test.Fixtures;
 import play.test.UnitTest;
 
 public class EventTest extends UnitTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Fixtures.deleteAllModels();
 		User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
 				.save();
 		Calendar testCalendar = new Calendar("Home", testUser).save();

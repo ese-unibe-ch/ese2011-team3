@@ -14,6 +14,7 @@ public class UserTest extends UnitTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Fixtures.deleteAllModels();
 		new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com").save();
 		new User("polj", "WTH", "hidden", "polj@alt-f4.com").save();
 	}
@@ -39,16 +40,15 @@ public class UserTest extends UnitTest {
 
 		Assert.assertTrue(userOne.following.contains(userTwo));
 	}
-	
+
 	@Test
-	public void testUserAuthenticate(){
+	public void testUserAuthenticate() {
 		String testNickname = "wuschu";
 		String testUserPassword = "secret";
 		User testUser = User.connect(testNickname, testUserPassword);
 		assertNotNull(testUser);
 		assertEquals(testUser.nickname, testNickname);
-		
-		
+
 	}
 
 }
