@@ -89,7 +89,7 @@ public class Events extends Controller {
 		event.isPublic = isPublic;
 
 		event.save();
-//		editEvent(eventId); //Why was this here? should not render the edit view, but go back to calendar
+		//editEvent(eventId); //Why was this here? should not render the edit view, but go back to calendar
 		
 		String nickname = event.calendar.owner.nickname;
 		Long calendarId = event.calendar.id;

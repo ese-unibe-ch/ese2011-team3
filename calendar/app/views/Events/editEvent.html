@@ -41,8 +41,8 @@
 
 <p>
 #{field 'isPublic'}
-	<label>is this a public event?: </label>
-	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" ></input>
+	<label>is this event public?: </label>
+	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" #{if event?.isPublic} checked #{/if}></input>
 #{/}
 </p>
 
