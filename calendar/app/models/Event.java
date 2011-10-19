@@ -16,7 +16,7 @@ public class Event extends Model {
 	public String name;
 	public Date start;
 	public Date end;
-
+	public boolean isPublic;
 	public Date lowerBound;
 	public Date upperBound;
 
@@ -26,18 +26,20 @@ public class Event extends Model {
 	@ManyToOne
 	public Calendar calendar;
 
-	public Event(String name, Date start, Date end, Calendar calendar) {
+	public Event(String name, Date start, Date end, Calendar calendar,
+			boolean isPublic) {
 		this.name = name;
 		this.start = start;
 		this.end = end;
 		this.calendar = calendar;
+		this.isPublic = isPublic;
 		this.lowerBound = makeLowerBound(start);
 		this.upperBound = makeUpperBound(end);
 	}
 
 	public Event(String name, Date start, Date end, Calendar calendar,
-			String note) {
-		this(name, start, end, calendar);
+			boolean isPublic, String note) {
+		this(name, start, end, calendar, isPublic);
 		this.note = note;
 	}
 

@@ -27,7 +27,7 @@ public class EventTest extends UnitTest {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
 		Date start = formatter.parse("2011/10/14, 09:00");
 		Date end = formatter.parse("2011/10/14, 15:00");
-		new Event("ESE sucks", start, end, testCalendar).save();
+		new Event("ESE sucks", start, end, testCalendar, false).save();
 	}
 
 	@After
