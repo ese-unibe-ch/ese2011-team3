@@ -2,7 +2,8 @@
 #{set title:'Home' /}
 
 <h1>${user.fullname}'s ${calendar.name}</h1>
-
+*{stylesheet for the calendar}*
+#{stylesheet 'calendar.css' /}
 #{calendarTag aDate: aDate, aLocale:aLocale , user:user, calendar:calendar/}
 
 #{a @Events.addEvent(calendar.id)} Add Event #{/a}
