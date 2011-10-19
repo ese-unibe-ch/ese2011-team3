@@ -22,11 +22,12 @@ public class Events extends Controller {
 	public static void createEvent(Long calendarId, @Required String name,
 			@Required Date startDate, @Required Date endDate,
 			@Required String startTime, @Required String endTime,
-			@Required String isPublic, String note) {
+			@Required boolean isPublic, String note) {
 
 		validation.required(name);
 		validation.required(startDate);
 		validation.required(endDate);
+		validation.required(isPublic);
 		validation.match(startTime, regexTime).message("Invalid!");
 		validation.match(endTime, regexTime).message("Invalid!");
 
@@ -40,9 +41,9 @@ public class Events extends Controller {
 
 		startDate = helperCreateDate(startDate, startTime, "HH:mm");
 		endDate = helperCreateDate(endDate, endTime, "HH:mm");
-
+		
 		Event event = new Event(name, startDate, endDate, calendar,
-				((isPublic.equalsIgnoreCase("true")) ? true : false), note);
+				isPublic, note);
 
 		event.save();
 
@@ -71,7 +72,7 @@ public class Events extends Controller {
 		validation.match(startTime, regexTime).message("Invalid!");
 		validation.match(endTime, regexTime).message("Invalid!");
 		validation.required(isPublic);
-
+		
 		if (validation.hasErrors()) {
 			params.flash();
 			validation.keep();
@@ -85,10 +86,11 @@ public class Events extends Controller {
 		event.lowerBound = Event.makeLowerBound(startDate);
 		event.upperBound = Event.makeUpperBound(endDate);
 		event.note = note;
+		event.isPublic = isPublic;
 
 		event.save();
-
-		editEvent(eventId);
+		//editEvent(eventId); //Why was this here? should not render the edit view, but go back to calendar
+		
 		String nickname = event.calendar.owner.nickname;
 		Long calendarId = event.calendar.id;
 		Calendars.showCalendar(nickname, calendarId);

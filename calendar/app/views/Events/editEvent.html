@@ -41,13 +41,8 @@
 
 <p>
 #{field 'isPublic'}
-	<label>is this a public event?: </label>
-
-	<select name = "isPublic" value="#{if field.value == true}true#{/if}#{else}false#{/else}">
-		<!--<option value="null">Please choose...</option>-->	
-		<option value="true" name="true" id="true">Yes</option>
-		<option value="false" name="false" id="false">No</option>
-</select>
+	<label>is this event public?: </label>
+	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" #{if event?.isPublic} checked #{/if}></input>
 #{/}
 </p>
 
