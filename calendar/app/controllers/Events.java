@@ -20,14 +20,13 @@ public class Events extends Controller {
 	public static void createEvent(Long calendarId, @Required String name,
 			@Required Date startDate, @Required Date endDate,
 			@Required String startTime, @Required String endTime,
-			@Required boolean isPublic, String note) {
-		System.out.println(isPublic);
+			@Required String isPublic, String note) {
+
 		validation.required(name);
 		validation.required(startDate);
 		validation.required(endDate);
 		validation.required(startTime);
 		validation.required(endTime);
-		validation.required(isPublic);
 
 		if (validation.hasErrors()) {
 			params.flash();
@@ -38,7 +37,8 @@ public class Events extends Controller {
 		Calendar calendar = Calendar.findById(calendarId);
 
 		Event event = helperBuildEvent(new Event(name, startDate, endDate,
-				calendar, isPublic, note), startTime, endTime);
+				calendar, ((isPublic.equalsIgnoreCase("true")) ? true : false),
+				note), startTime, endTime);
 		event.save();
 
 		String nickname = calendar.owner.nickname;

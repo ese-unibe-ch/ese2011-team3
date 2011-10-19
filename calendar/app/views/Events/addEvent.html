@@ -40,8 +40,12 @@
 </p>
 <p>
 #{field 'isPublic'}
-	<label>&{field.name}</label>
-	this is a public event: <input type="checkbox" id="${field.id}" name="${field.name}" value="${flash.isPublic}"  />
+	<label>is this a public event?: </label>
+	<select name = "isPublic">
+		<!--<option value="null">Please choose...</option>-->	
+		<option value="true">Yes</option>
+		<option value="false">No</option>
+</select>
 #{/}
 </p>
 

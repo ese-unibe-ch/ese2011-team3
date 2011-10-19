@@ -38,6 +38,19 @@
 	<span class="error">${field.error}</span>
 #{/}
 </p>
+
+<p>
+#{field 'isPublic'}
+	<label>is this a public event?: </label>
+
+	<select name = "isPublic" value="#{if field.value == true}true#{/if}#{else}false#{/else}">
+		<!--<option value="null">Please choose...</option>-->	
+		<option value="true" name="true" id="true">Yes</option>
+		<option value="false" name="false" id="false">No</option>
+</select>
+#{/}
+</p>
+
 <p>
 #{field 'note'}
 	<label>&{field.name}</label>
