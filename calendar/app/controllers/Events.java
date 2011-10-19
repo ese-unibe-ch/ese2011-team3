@@ -16,6 +16,8 @@ import play.mvc.With;
 
 @With(Secure.class)
 public class Events extends Controller {
+	// HH:mm
+	private static final String regexTime = "^([0-1][0-9]|[2][0-3]):([0-5][0-9])$";
 
 	public static void createEvent(Long calendarId, @Required String name,
 			@Required Date startDate, @Required Date endDate,
@@ -25,8 +27,8 @@ public class Events extends Controller {
 		validation.required(name);
 		validation.required(startDate);
 		validation.required(endDate);
-		validation.required(startTime);
-		validation.required(endTime);
+		validation.match(startTime, regexTime).message("Invalid!");
+		validation.match(endTime, regexTime).message("Invalid!");
 
 		if (validation.hasErrors()) {
 			params.flash();
@@ -36,34 +38,26 @@ public class Events extends Controller {
 
 		Calendar calendar = Calendar.findById(calendarId);
 
-		Event event = helperBuildEvent(new Event(name, startDate, endDate,
-				calendar, ((isPublic.equalsIgnoreCase("true")) ? true : false),
-				note), startTime, endTime);
+		startDate = helperCreateDate(startDate, startTime, "HH:mm");
+		endDate = helperCreateDate(endDate, endTime, "HH:mm");
+
+		Event event = new Event(name, startDate, endDate, calendar,
+				((isPublic.equalsIgnoreCase("true")) ? true : false), note);
+
 		event.save();
 
 		String nickname = calendar.owner.nickname;
 		Calendars.showCalendar(nickname, calendarId);
 	}
 
-	private static Event helperBuildEvent(Event event, String startTime,
-			String endTime) {
-
+	private static Date helperCreateDate(Date date, String timeString,
+			String pattern) {
 		DateTimeFormatter parser = DateTimeFormat.forPattern("HH:mm");
-		int startHours = parser.parseDateTime(startTime).getHourOfDay();
-		int startMinutes = parser.parseDateTime(startTime).getMinuteOfHour();
-
-		int endHours = parser.parseDateTime(endTime).getHourOfDay();
-		int endMinutes = parser.parseDateTime(endTime).getMinuteOfHour();
-
-		Date startDate = new DateTime(event.start).withTime(startHours,
-				startMinutes, 0, 0).toDate();
-		Date endDate = new DateTime(event.end).withTime(endHours, endMinutes,
-				0, 0).toDate();
-
-		event.start = startDate;
-		event.end = endDate;
-
-		return event;
+		DateTime time = parser.parseDateTime(timeString);
+		DateTime aDate = new DateTime(date);
+		aDate = aDate.withTime(time.getHourOfDay(), time.getMinuteOfHour(),
+				time.getSecondOfMinute(), time.getMillisOfSecond());
+		return aDate.toDate();
 	}
 
 	public static void updateEvent(Long eventId, @Required String name,
@@ -74,8 +68,8 @@ public class Events extends Controller {
 		validation.required(name);
 		validation.required(startDate);
 		validation.required(endDate);
-		validation.required(startTime);
-		validation.required(endTime);
+		validation.match(startTime, regexTime).message("Invalid!");
+		validation.match(endTime, regexTime).message("Invalid!");
 		validation.required(isPublic);
 
 		if (validation.hasErrors()) {
@@ -86,11 +80,12 @@ public class Events extends Controller {
 
 		Event event = Event.findById(eventId);
 		event.name = name;
+		event.start = helperCreateDate(startDate, startTime, "HH:mm");
+		event.end = helperCreateDate(endDate, endTime, "HH:mm");
 		event.lowerBound = Event.makeLowerBound(startDate);
 		event.upperBound = Event.makeUpperBound(endDate);
 		event.note = note;
 
-		helperBuildEvent(event, startTime, endTime);
 		event.save();
 
 		editEvent(eventId);
