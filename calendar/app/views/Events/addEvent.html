@@ -40,12 +40,8 @@
 </p>
 <p>
 #{field 'isPublic'}
-	<label>is this a public event?: </label>
-	<select name = "isPublic">
-		<!--<option value="null">Please choose...</option>-->	
-		<option value="true">Yes</option>
-		<option value="false">No</option>
-</select>
+	<label>is this event public?: </label>
+	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" ></input>
 #{/}
 </p>
 
