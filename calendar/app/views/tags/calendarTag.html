@@ -1,7 +1,9 @@
 *{ this tag shows a simple calendar in a month view 
 	requiered parameters for this tag are:
-		- aDate
-		- aLocale
+		@param aDate 		a specific date 
+		@param aLocale		a locale object to specify local date and time formatting
+		@param aCalendar	a calendar for obtaining a calendar.id to build an URL
+		@param user			a user for obtaining a nickname to build an URL
 }*
 #{stylesheet 'calendar.css' /}
 %{
@@ -55,23 +57,23 @@
 <p>
 <div id="calendarheader">
 	#{list items:daysOfWeek, as:'dayOfWeek'}
-   			<div id="dayfield"> ${dayOfWeek} </div>
+   			<div class="weekday"> ${dayOfWeek} </div>
 	#{/list}
 </div>
 
 <div id="calendartable">
 	#{list items:days, as:'day'}
 		#{if day.format('yyyy-MM-dd').equals(new Date().format('yyyy-MM-dd'))}
-   			<div id="dayfield" class="today"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+   			<div id="today" class="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
    		#{/if}
    		#{elseif day.format('yyyy-MM-dd').equals(_aDate.format('yyyy-MM-dd'))}
-			<div id="dayfield" class="selectedday"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+			<div id="selectedday" class="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
 		#{/elseif}
 		#{elseif _aDate.format('yyyy-MM').equals(day.format('yyyy-MM'))}
-			<div id="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+			<div class="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
 		#{/elseif}
    		#{else}
-   		<div id="dayfield" class="otherdays"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+   		<div class="otherdayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
    		#{/else}
 	#{/list}
 </div>
