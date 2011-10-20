@@ -1,13 +1,15 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-<h1>${user.fullname}'s ${calendar.name}</h1>
+<h1>${calendar.owner.fullname}'s ${calendar.name}</h1>
 *{stylesheet for the calendar}*
 #{stylesheet 'calendar.css' /}
 #{calendarTag aDate: aDate, aLocale:aLocale , user:user, calendar:calendar/}
 
+#{if calendar.owner == user}
 #{a @Events.addEvent(calendar.id)} Add Event #{/a}
+#{/if}
 
-#{eventsTag events:events /}
+#{eventsTag owner:calendar.owner, user:user, events:events /}
 
 #{a @Application.index()} Back #{/a}

@@ -75,18 +75,8 @@ public class Calendars extends Application {
 
 		List<Event> events = query.getResultList();
 
-		List<Event> list = new ArrayList<Event>();
-
-		if (user.equals(calendar.owner)) {
-			for (Event ev : events) {
-				if (!ev.isPublic)
-					list.add(ev);
-			}
-		}
-
-		renderArgs.put("events", list);
-
 		Locale aLocale = new Locale("en", "CH");
-		render("Calendars/showCalendar.html", user, calendar, aDate, aLocale);
+		render("Calendars/showCalendar.html", user, calendar, events, aDate,
+				aLocale);
 	}
 }
