@@ -20,12 +20,23 @@ import play.mvc.With;
 @With(Secure.class)
 public class Calendars extends Application {
 
+	/**
+	 * shows a list of calendars
+	 * 
+	 * @param nickname
+	 */
 	public static void showCalendars(String nickname) {
 		User user = User.find("byNickname", nickname).first();
 		List<Calendar> calendars = user.calendars;
 		render(user, calendars);
 	}
 
+	/**
+	 * shows a calendar at the current date
+	 * 
+	 * @param nickname
+	 * @param id the calendar id
+	 */
 	public static void showCalendar(String nickname, Long id) {
 		User user = User.find("byNickname", Security.connected()).first();
 		Calendar calendar = Calendar.findById(id);
@@ -43,21 +54,29 @@ public class Calendars extends Application {
 				.setParameter("cid", calendar.id);
 
 		List<Event> events = query.getResultList();
+		ArrayList<Event> list = new ArrayList(events);
 
-		List<Event> list = new ArrayList<Event>();
-
-		if (user.equals(calendar.owner)) {
-			for (Event ev : events) {
-				if (!ev.isPublic)
-					list.add(ev);
+		if (!user.equals(calendar.owner)) {
+			for (Event ev : list) {
+				if (!ev.isPublic) {
+					events.remove(ev);
+				}
 			}
 		}
-		renderArgs.put("events", list);
+
+		renderArgs.put("events", events);
 
 		Locale aLocale = new Locale("en", "CH");
 		render(user, calendar, aDate, aLocale);
 	}
 
+	/**
+	 * shows a specific date in the calendar
+	 * 
+	 * @param nickname
+	 * @param id the calendar id
+	 * @param aDate a specific date
+	 */
 	public static void showDate(String nickname, Long id, Date aDate) {
 		User user = User.find("byNickname", Security.connected()).first();
 		Calendar calendar = Calendar.findById(id);
@@ -74,9 +93,19 @@ public class Calendars extends Application {
 				.setParameter("cid", calendar.id);
 
 		List<Event> events = query.getResultList();
+		ArrayList<Event> list = new ArrayList(events);
+
+		if (!user.equals(calendar.owner)) {
+			for (Event ev : list) {
+				if (!ev.isPublic) {
+					events.remove(ev);
+				}
+			}
+		}
+
+		renderArgs.put("events", events);
 
 		Locale aLocale = new Locale("en", "CH");
-		render("Calendars/showCalendar.html", user, calendar, events, aDate,
-				aLocale);
+		render("Calendars/showCalendar.html", user, calendar, aDate, aLocale);
 	}
 }

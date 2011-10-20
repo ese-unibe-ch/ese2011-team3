@@ -4,7 +4,7 @@
 <h1>${calendar.owner.fullname}'s ${calendar.name}</h1>
 *{stylesheet for the calendar}*
 #{stylesheet 'calendar.css' /}
-#{calendarTag aDate: aDate, aLocale:aLocale , user:user, calendar:calendar/}
+#{calendarTag aDate: aDate, aLocale:aLocale , user:user, events:events, calendar:calendar/}
 
 #{if calendar.owner == user}
 #{a @Events.addEvent(calendar.id)} Add Event #{/a}

@@ -1,3 +1,4 @@
+<div>
 *{ this tag shows a simple calendar in a month view 
 	requiered parameters for this tag are:
 		@param aDate 		a specific date 
@@ -53,10 +54,8 @@
 	boolean[] boldDays = new Boolean[42];
 	
 	for(int i = 0; i < boldDays.length; i++){
-		
-		
-		for(models.Event ev : _calendar.events){
-			boldDays[i] = ev.happensOnDay(days[i]) || boldDays[i];
+		for(models.Event ev : _events){
+			boldDays[i] = (ev.happensOnDay(days[i]) || boldDays[i]);
 		}
 	}
 }%
@@ -99,6 +98,6 @@
 	}
 }%
 </div>
-
 <div id="calendarend"></div>
 </p>
+</div>
