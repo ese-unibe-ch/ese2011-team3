@@ -49,6 +49,16 @@
 	for(int i = 0; i < dayFields.length; i++) {
 		days[i] = runDay.plusDays(i).toDate();
 	}
+	
+	boolean[] boldDays = new Boolean[42];
+	
+	for(int i = 0; i < boldDays.length; i++){
+		
+		
+		for(models.Event ev : _calendar.events){
+			boldDays[i] = ev.happensOnDay(days[i]) || boldDays[i];
+		}
+	}
 }%
 
 <h2>#{a @showDate(_user.nickname,_calendar.id,prevMonth)}<|-#{/a} ${_aDate.format('yyyy-MM-dd')} #{a @showDate(_user.nickname,_calendar.id,nextMonth)}-|>#{/a}</h2>
@@ -61,7 +71,14 @@
 </div>
 
 <div id="calendartable">
-	#{list items:days, as:'day'}
+%{
+	for(int i = 0; i < days.length; i++ ) {
+		Date day = days[i];	
+}%
+		#{if boldDays[i] }
+			<strong>
+		#{/if}
+		
 		#{if day.format('yyyy-MM-dd').equals(new Date().format('yyyy-MM-dd'))}
    			<div id="today" class="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
    		#{/if}
@@ -74,7 +91,13 @@
    		#{else}
    		<div class="otherdayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
    		#{/else}
-	#{/list}
+   		
+   		#{if boldDays[i] }
+			</strong>
+		#{/if}
+	%{
+	}
+}%
 </div>
 
 <div id="calendarend"></div>
