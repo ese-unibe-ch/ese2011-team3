@@ -1,0 +1,10 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<h1> All Other Users:</h1>
+<ul>
+#{list items:users, as:'user'}
+	<li><a href="#">${user.nickname}</a></li>
+#{/list}
+</ul>
+#{a @index()}Back#{/a}

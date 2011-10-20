@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Collections;
 import java.util.List;
 
 import models.User;
@@ -27,6 +28,8 @@ public class Contacts extends Controller {
 		User user = User.find("byNickname", Security.connected()).first();
 		List<User> contacts = User.findAll();
 		contacts.removeAll(user.following);
+		contacts.remove(user);
+		Collections.sort(contacts);
 		render(contacts);
 	}
 

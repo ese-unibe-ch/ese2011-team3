@@ -8,6 +8,7 @@ GET		/user/{nickname}						Calendars.showCalendars
 GET		/user/{nickname}/calendar/{id}			Calendars.showCalendar
 GET		/user/{nickname}/calendar/{id}/date/{aDate}	Calendars.showDate
 GET		/users									Application.showUsers
+GET		/user/{nickname}/contacts				Application.showContacts
 
 GET		/profile								Profile.index
 GET		/profile/edit							Profile.edit
