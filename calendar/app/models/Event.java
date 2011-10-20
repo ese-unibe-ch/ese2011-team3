@@ -50,4 +50,15 @@ public class Event extends Model {
 	public static Date makeUpperBound(Date endDate) {
 		return new DateTime(endDate).withTime(23, 59, 59, 0).toDate();
 	}
+
+	public boolean happensOnDay(Date aDay) {
+		DateTime dayLowerBound = new DateTime(makeLowerBound(aDay));
+		DateTime dayUpperBound = new DateTime(makeUpperBound(aDay));
+		DateTime eventStart = new DateTime(this.lowerBound);
+		DateTime eventEnd = new DateTime(this.upperBound);
+		return (dayLowerBound.isAfter(eventStart) || dayLowerBound
+				.equals(eventStart))
+				&& (dayUpperBound.isBefore(eventEnd) || dayUpperBound
+						.equals(eventEnd));
+	}
 }
