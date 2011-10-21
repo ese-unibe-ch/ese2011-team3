@@ -25,7 +25,10 @@ public class Application extends Controller {
 	}
 
 	public static void index() {
-		Calendars.showCalendars(Security.connected());
+		// Calendars.showCalendars(Security.connected());
+		Application.renderArgs.put("loginUser",
+				User.find("byNickname", Security.connected()).first());
+		render();
 	}
 
 	public static void showOtherUsers(String userNickname) {

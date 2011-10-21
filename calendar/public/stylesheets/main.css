@@ -1,0 +1,163 @@
+p, a, li, span, h1, h2, h3, td, input, textarea, form {
+	text-decoration: none;
+	font-family: Geneva, sans-serif;
+	color: #000000;
+	margin: 0px;
+	padding: 0px;
+}
+
+input, textarea {
+	width: 500px;
+	color: inherit;
+}
+
+a {
+	color: inherit;
+}
+
+body {
+	background: -moz-linear-gradient(top, #f2ffff, #fcffff) no-repeat;
+	background: -webkit-linear-gradient(top, #f2ffff, #fcffff) no-repeat;
+}
+
+#main {
+	-moz-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+	-moz-border-radius: 5px;
+	-webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+	-webkit-border-radius: 5px;
+	background: -moz-linear-gradient(top,  #eeeeff,  #ffffff);
+	background: -webkit-linear-gradient(top,  #eeeeff,  #ffffff);
+	border: 1px solid #9f9f9f;
+	width: 1000px;
+	margin: 20px auto;
+}
+
+#title {
+	height: 30px;
+}
+
+#titlename {
+	padding: 10px;
+	border-bottom: 1px solid #9f9f9f;
+}
+
+#titlemenu {
+	padding: 10px;
+	border-bottom: 1px solid #9f9f9f;
+	text-align: right;
+}
+
+#titlename h1 {
+	padding: 0px 15px;
+	margin: 0px;
+	font-weight: bold;
+	font-size: 24px;
+	color: #5f5f5f;
+}
+
+#titlemenu ul {
+	list-style: none;
+	margin: 0px;
+}
+
+#titlemenu li {
+	padding: 3px 20px;
+	color: #5f5f5f;
+	display:inline;
+	font-size: 20px;
+	border-left: 1px solid #9f9f9f;
+}
+
+#titlemenu li.selected, #titlemenu li:hover {
+	color: #1f1f1f;
+}
+
+#titlemenu li:first-child {
+	border: none;
+}
+
+#menu {
+	padding: 10px;
+	height: 100%;
+	width: 150px;
+}
+
+#menu h1 {
+	margin-top: 10px;
+	font-weight: bold;
+	font-size: 16px;
+	color: #5f5f5f;
+	text-align: left;
+}
+
+#menu h2 {
+	margin-top: 5px;
+	font-weight: bold;
+	font-size: 13px;
+	color: #5f5f5f;
+	text-align: left;
+}
+
+#menu ul {
+	list-style: none;
+	margin: 10px 10px 0px;
+	padding: 0px;
+}
+
+#menu ul ul {
+	list-style: none;
+	margin: 0px 12px 0px;
+	padding: 0px;
+}
+
+#menu li {
+	color: #5f5f5f;
+	text-align: left;
+	padding: 5px 10px;
+}
+
+#menu ul ul li {
+	padding: 1px 10px;
+}
+
+#menu li.selected, #menu li:hover {
+	color: #1f1f1f;
+}
+
+#content {
+	border-left: 1px solid #9f9f9f;
+	padding: 10px;
+	min-height: 150px;
+	vertical-align:top;
+}
+
+#content td {
+	vertical-align: top;
+	padding: 0px 10px;
+	margin: 0px;
+}
+
+#content table {
+	border-spacing: 20px;
+}
+
+#content td.key {
+	text-align: right;
+	width: 200px;
+	color: #1f1f1f;
+}
+
+#content td.value {
+	color: #3f3f3f;
+	padding-top: 3px;
+	padding-bottom: 2px;
+}
+
+#content h1 {
+	padding: 0px 15px;
+	margin: 10px 0px;
+	font-weight: bold;
+	font-size: 23px;
+	color: #5f5f5f;
+	text-align: center;
+}
