@@ -1,5 +1,5 @@
+<div id="content">
 #{extends 'main.html' /}
-#{set title:'Home' /}
 
 <h1> All Other Users:</h1>
 <ul>
@@ -7,4 +7,4 @@
 	<li><a href="@{Calendars.showCalendars(user.nickname)}">${user.nickname}</a></li>
 #{/list}
 </ul>
-#{a @index()}Back#{/a}
+</div>
