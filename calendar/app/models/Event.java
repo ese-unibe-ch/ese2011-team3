@@ -36,8 +36,6 @@ public class Event extends Model {
 	@ManyToMany
 	public List<Calendar> calendars;
 	
-	
-
 	public Event(String name, Date start, Date end, Calendar calendar,
 			boolean isPublic, boolean followable) {
 		this.name = name;
