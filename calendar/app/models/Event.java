@@ -1,9 +1,12 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.joda.time.DateTime;
@@ -20,26 +23,30 @@ public class Event extends Model {
     public Date lowerBound;
     public Date upperBound;
 
+    @ManyToOne
+    public User owner;
+
     @Lob
     public String note;
 
-    @ManyToOne
-    public Calendar calendar;
+    @ManyToMany
+    public List<Calendar> calendars = new ArrayList<Calendar>();
 
-    public Event(String name, Date start, Date end, Calendar calendar,
-	    boolean isPublic) {
+    public Event(String name, Date start, Date end, User owner,
+	    Calendar calendar, boolean isPublic) {
 	this.name = name;
 	this.start = start;
 	this.end = end;
-	this.calendar = calendar;
+	this.calendars.add(calendar);
 	this.isPublic = isPublic;
 	this.lowerBound = makeLowerBound(start);
 	this.upperBound = makeUpperBound(end);
+	this.owner = owner;
     }
 
-    public Event(String name, Date start, Date end, Calendar calendar,
-	    boolean isPublic, String note) {
-	this(name, start, end, calendar, isPublic);
+    public Event(String name, Date start, Date end, User owner,
+	    Calendar calendar, boolean isPublic, String note) {
+	this(name, start, end, owner, calendar, isPublic);
 	this.note = note;
     }
 
@@ -70,5 +77,11 @@ public class Event extends Model {
 		.equals(eventStart))
 		&& (dayUpperBound.isBefore(eventEnd) || dayUpperBound
 			.equals(eventEnd));
+    }
+
+    public boolean isOwner(User owner) {
+	assert owner != null;
+	assert this.owner != null;
+	return this.owner.equals(owner);
     }
 }
