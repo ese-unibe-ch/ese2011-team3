@@ -49,9 +49,9 @@ public class Calendars extends Application {
      * @param id the calendar id
      * @param aDate a specific date
      */
-    public static void showDate(String nickname, Long id, Date aDate) {
+    public static void showDate(String nickname, Long calendarId, Date aDate) {
 	User user = User.find("byNickname", Security.connected()).first();
-	Calendar calendar = Calendar.findById(id);
+	Calendar calendar = Calendar.findById(calendarId);
 
 	Date start = new DateTime(aDate).withTime(0, 0, 0, 0).toDate();
 	Date end = new DateTime(aDate).withTime(23, 59, 59, 999).toDate();
@@ -65,6 +65,7 @@ public class Calendars extends Application {
 		.setParameter("cid", calendar.id);
 
 	List<Event> events = query.getResultList();
+
 	List<Event> list = new ArrayList(events);
 
 	// check if logged in user is not equals to calendar owner
