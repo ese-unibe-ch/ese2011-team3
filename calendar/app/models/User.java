@@ -9,6 +9,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+
 import play.db.jpa.Model;
 
 @Entity
@@ -22,6 +23,12 @@ public class User extends Model implements Comparable<User> {
 	@Lob
 	public String profile;
 
+	@OneToMany(mappedBy = "owner")
+	public List<Event> events;
+	
+	@OneToMany(mappedBy = "followingEvents")
+	public List<Event> followingEvents;
+	
 	@ManyToMany
 	public List<User> following;
 
@@ -34,6 +41,8 @@ public class User extends Model implements Comparable<User> {
 		this.password = pass;
 		this.mail = mail;
 		this.following = new ArrayList<User>();
+		this.events = new ArrayList<Event>();
+		this.followingEvents = new ArrayList<Event>();
 	}
 
 	public static User connect(String nickname, String password) {
