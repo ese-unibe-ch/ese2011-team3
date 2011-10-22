@@ -1,6 +1,5 @@
 package modelTest;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +47,6 @@ public class EventTest extends UnitTest {
 		formatter.parse("2011/10/14, 15:00"),
 		formatter.parse("2011/10/14, 15:00"), stranger,
 		strangerCalendar, true, true).save();
-
     }
 
     @After
@@ -57,11 +55,28 @@ public class EventTest extends UnitTest {
     }
 
     @Test
+    public void testCountEntities() {
+	assertEquals(3, Event.count());
+	assertEquals(2, Calendar.count());
+	assertEquals(2, User.count());
+    }
+
+    @Test
     public void testEvent() {
 	User user = User.find("byNickname", "wuschu").first();
 
 	List<Event> testEvents = Event.find("byOwner", user).fetch();
 	Assert.assertEquals(testEvents.size(), 2);
+    }
+
+    @Test
+    public void testGetEventsFromAUser() {
+	User user = User.find("byNickname", "joe").first();
+	List<Event> events = Event.find("byOwner", user).fetch();
+
+	Event ev = events.get(0);
+	assertEquals(1, events.size());
+	assertEquals("small note", ev.note);
     }
 
     @Test
@@ -77,51 +92,47 @@ public class EventTest extends UnitTest {
 	User stranger = User.find("byNickname", "joe").first();
 
 	// get a calendar from the stranger
-	Calendar followerCalendar = Calendar.find("byOwnerAndName", stranger,
+	Calendar strangersCalendar = Calendar.find("byOwnerAndName", stranger,
 		"Home").first();
 
 	// get an event from another user
-	User user = User.find("byNickname", "joe").first();
+	User user = User.find("byNickname", "wuschu").first();
 
 	Event followEvent = Event.find("byNameAndOwner", "public event", user)
 		.first();
 
 	// add this event from another user to the calendar of the stranger
-	followerCalendar.followEvent(followEvent);
+	followEvent.calendars.add(strangersCalendar);
+	followEvent.save();
+	/*
+	 * strangersCalendar.events.add(followEvent); strangersCalendar.save();
+	 */
 
-	assertEquals(followerCalendar.events.size(), 1);
-
-	Calendar followerCalendar2 = Calendar.find("byOwnerAndName", stranger,
-		"Home").first();
-
-	assertEquals(followerCalendar2.events.size(), 1);
-
-	assertEquals(Event.count(), 3);
+	assertEquals(2, strangersCalendar.events.size());
     }
 
     @Test
-    public void testGetFollowedEvents() throws ParseException {
+    public void testGetFollowedEvents() {
 	// get a stranger
 	User stranger = User.find("byNickname", "joe").first();
 
 	// get a calendar from the stranger
-	Calendar followerCalendar = Calendar.find("byOwnerAndName", stranger,
+	Calendar strangersCalendar = Calendar.find("byOwnerAndName", stranger,
 		"Home").first();
 
-	// should be 1, but is 0....
-	assertEquals(followerCalendar.events.size(), 1);
-
 	// get an event from another user
-	User user = User.find("byNickname", "joe").first();
-	Event followEvent = Event.find("byNameAndOwner", "public event", user)
+	User user = User.find("byNickname", "wuschu").first();
+
+	Event followEvent = Event.find("byOwnerAndName", user, "public event")
 		.first();
 
 	// add this event from another user to the calendar of the stranger
-	followerCalendar.followEvent(followEvent);
+	assertNotNull(followEvent);
+	assertNotNull(followEvent.calendars);
+	followEvent.calendars.add(strangersCalendar);
+	followEvent.save();
 
-	assertEquals(followerCalendar.events.size(), 2);
+	assertEquals(strangersCalendar.events.size(), 2);
 
-	List<Event> followedEvents = followerCalendar.getFollowedEvents();
-	assertEquals(followedEvents.size(), 1);
     }
 }

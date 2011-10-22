@@ -31,7 +31,7 @@ public class Event extends Model {
     public String note;
 
     @ManyToMany
-    public List<Calendar> calendars = new ArrayList<Calendar>();
+    public List<Calendar> calendars;
 
     public Event(String name, String note, Date start, Date end, User owner,
 	    Calendar calendar) {
@@ -40,6 +40,7 @@ public class Event extends Model {
 	this.start = start;
 	this.end = end;
 	this.owner = calendar.owner;
+	this.calendars = new ArrayList<Calendar>();
 	calendars.add(calendar);
 
 	this.lowerBound = makeLowerBound(start);
@@ -81,11 +82,5 @@ public class Event extends Model {
 		.equals(eventStart))
 		&& (dayUpperBound.isBefore(eventEnd) || dayUpperBound
 			.equals(eventEnd));
-    }
-
-    public boolean isOwner(User owner) {
-	assert owner != null;
-	assert this.owner != null;
-	return this.owner.equals(owner);
     }
 }
