@@ -1,9 +1,9 @@
-<div id="content">
-#{extends 'main.html' /}
+#{extends 'parentViews/home.html' /}
 
 <h1>${calendar.owner.fullname}'s ${calendar.name}</h1>
 *{stylesheet for the calendar}*
 #{stylesheet 'calendar.css' /}
+
 #{calendarTag aDate: aDate, aLocale:aLocale , user:user, calendar:calendar/}
 
 #{if calendar.owner == user}
@@ -11,5 +11,3 @@
 #{/if}
 
 #{eventsTag owner:calendar.owner, user:user, events:events /}
-
-</div>

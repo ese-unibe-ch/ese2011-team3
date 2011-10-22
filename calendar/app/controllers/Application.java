@@ -17,18 +17,14 @@ public class Application extends Controller {
 	 */
 	@Before
 	static void setConnectedUser() {
-		if (Security.isConnected()) {
-			User account = User.find("byNickname", Security.connected())
-					.first();
-			renderArgs.put("account", account);
-		}
+		User login = User.find("byNickname", Security.connected()).first();
+		Application.renderArgs.put("loginUser", login);
 	}
 
 	public static void index() {
-		// Calendars.showCalendars(Security.connected());
-		Application.renderArgs.put("loginUser",
-				User.find("byNickname", Security.connected()).first());
-		render();
+		User login = User.find("byNickname", Security.connected()).first();
+		Calendars.showCalendar(Security.connected(), login.calendars.get(0)
+				.getId());
 	}
 
 	public static void showOtherUsers(String userNickname) {

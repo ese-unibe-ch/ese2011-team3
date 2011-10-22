@@ -1,4 +1,5 @@
-<div id="content">
+#{extends 'parentViews/home.html' /}
+
 #{form @createEvent(calendar.id) , id:'updateForm', enctype:'multipart/form-data'}
 <h1>Add Event</h1>
 #{if flash.success}
@@ -58,4 +59,3 @@
 </p>
 #{/form}
 <a href="@{Calendars.showCalendar(user.nickname,calendar.id)}">Cancel</a>
-</div>
