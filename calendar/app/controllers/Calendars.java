@@ -5,16 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
-
 import models.Calendar;
 import models.Event;
 import models.User;
-
-import org.joda.time.DateTime;
-
-import play.db.jpa.JPA;
 import play.mvc.With;
 
 @With(Secure.class)
@@ -53,18 +46,8 @@ public class Calendars extends Application {
 	User user = User.find("byNickname", Security.connected()).first();
 	Calendar calendar = Calendar.findById(calendarId);
 
-	Date start = new DateTime(aDate).withTime(0, 0, 0, 0).toDate();
-	Date end = new DateTime(aDate).withTime(23, 59, 59, 999).toDate();
-
-	Query query = JPA
-		.em()
-		.createQuery(
-			"from Event where lowerBound <= :start and upperBound >= :end and calendar_id=:cid order by start")
-		.setParameter("start", start, TemporalType.DATE)
-		.setParameter("end", end, TemporalType.DATE)
-		.setParameter("cid", calendar.id);
-
-	List<Event> events = query.getResultList();
+	// get all events on this day aDate
+	List<Event> events = Calendar.getAllEventsOnDay(calendar, aDate);
 
 	List<Event> list = new ArrayList();
 
@@ -85,4 +68,5 @@ public class Calendars extends Application {
 	Locale aLocale = new Locale("en", "CH");
 	render("Calendars/showCalendar.html", user, calendar, aDate, aLocale);
     }
+
 }
