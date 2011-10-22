@@ -1,13 +1,13 @@
 User(wuschu):
     nickname:  wuschu
     password:  secret
-    fullname:  Domi Jackson
+    fullname:  Wuschu Jackson
     mail:      domi@gmail.com
     
 User(lexy):
     nickname:  lexy
     password:  secret
-    fullname:  lex McColin
+    fullname:  Lex McColin
     mail:      lex@gmail.com
     
 User(king_julien):
