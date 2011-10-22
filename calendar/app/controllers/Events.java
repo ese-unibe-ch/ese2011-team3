@@ -42,8 +42,9 @@ public class Events extends Controller {
 	startDate = helperCreateDate(startDate, startTime, "HH:mm");
 	endDate = helperCreateDate(endDate, endTime, "HH:mm");
 
-	Event event = new Event(name, startDate, endDate, calendar, isPublic,
-		note);
+	User owner = calendar.owner;
+	Event event = new Event(name, note, startDate, endDate, owner,
+		calendar, isPublic, false);
 
 	event.save();
 
@@ -90,15 +91,17 @@ public class Events extends Controller {
 
 	event.save();
 
-	String nickname = event.calendar.owner.nickname;
-	Long calendarId = event.calendar.id;
+	String nickname = event.owner.nickname;
+	// TODO:
+	Long calendarId = event.calendars.get(0).id;
 	Calendars.showCalendar(nickname, calendarId);
     }
 
     public static void editEvent(Long eventId) {
 	Event event = Event.findById(eventId);
-	Calendar calendar = event.calendar;
-	User user = calendar.owner;
+	// TODO:
+	Calendar calendar = event.calendars.get(0);
+	User user = event.owner;
 	render(calendar, event, user);
     }
 
@@ -111,8 +114,8 @@ public class Events extends Controller {
     public static void removeEvent(Long eventId) {
 	Event event = Event.findById(eventId);
 	event.delete();
-	String nickname = event.calendar.owner.nickname;
-	Long calendarId = event.calendar.id;
+	String nickname = event.owner.nickname;
+	Long calendarId = event.calendars.get(0).id;
 	Calendars.showCalendar(nickname, calendarId);
     }
 }

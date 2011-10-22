@@ -22,11 +22,11 @@ public class User extends Model implements Comparable<User> {
     @Lob
     public String profile;
 
+    @OneToMany(mappedBy = "owner")
+    public List<Event> events;
+
     @ManyToMany
     public List<User> following;
-
-    @OneToMany(mappedBy = "owner")
-    List<Event> events;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     public List<Calendar> calendars;
@@ -37,6 +37,9 @@ public class User extends Model implements Comparable<User> {
 	this.password = pass;
 	this.mail = mail;
 	this.following = new ArrayList<User>();
+	this.events = new ArrayList<Event>();
+	this.calendars = new ArrayList<Calendar>();
+
     }
 
     public static User connect(String nickname, String password) {

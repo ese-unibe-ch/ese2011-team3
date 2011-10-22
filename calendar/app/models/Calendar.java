@@ -55,6 +55,10 @@ public class Calendar extends Model {
 
 	List<Event> followedEvents = new ArrayList<Event>();
 
+	for (Event ev : this.events) {
+	    followedEvents.add(ev);
+	}
+
 	return followedEvents;
     }
 
