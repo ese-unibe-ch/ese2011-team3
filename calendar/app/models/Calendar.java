@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -18,7 +19,7 @@ public class Calendar extends Model {
 	@ManyToOne
 	public User owner;
 
-	@OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "calendars")
 	public List<Event> events;
 
 	public Calendar(String name, User owner) {

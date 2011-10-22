@@ -1,9 +1,12 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.joda.time.DateTime;
@@ -19,27 +22,40 @@ public class Event extends Model {
 	public boolean isPublic;
 	public Date lowerBound;
 	public Date upperBound;
-
+	public boolean followable;
+	
 	@Lob
 	public String note;
 
 	@ManyToOne
-	public Calendar calendar;
+	public User owner;
+	
+	@ManyToMany
+	public List<User> follower;
+	
+	@ManyToMany
+	public List<Calendar> calendars;
+	
+	
 
 	public Event(String name, Date start, Date end, Calendar calendar,
-			boolean isPublic) {
+			boolean isPublic, boolean followable) {
 		this.name = name;
 		this.start = start;
 		this.end = end;
-		this.calendar = calendar;
+		this.calendars = new ArrayList<Calendar>();
+		calendars.add(calendar);
 		this.isPublic = isPublic;
 		this.lowerBound = makeLowerBound(start);
 		this.upperBound = makeUpperBound(end);
+		this.followable = followable;
+		this.owner = calendar.owner;
+		this.follower = new ArrayList<User>();
 	}
 
 	public Event(String name, Date start, Date end, Calendar calendar,
-			boolean isPublic, String note) {
-		this(name, start, end, calendar, isPublic);
+			boolean isPublic, boolean followable, String note) {
+		this(name, start, end, calendar, isPublic, followable);
 		this.note = note;
 	}
 
