@@ -22,38 +22,38 @@ public class Event extends Model {
     public boolean isPublic;
     public Date lowerBound;
     public Date upperBound;
-	public boolean followable;
-	
+    public boolean isFollowable;
+
     @Lob
     public String note;
 
     @ManyToOne
-	public User owner;
-	
-	@ManyToMany
-	public List<User> follower;
-	
-	@ManyToMany
-	public List<Calendar> calendars;
-	
+    public User owner;
+
+    @ManyToMany
+    public List<User> follower;
+
+    @ManyToMany
+    public List<Calendar> calendars;
+
     public Event(String name, Date start, Date end, Calendar calendar,
-	    boolean isPublic) {
+	    boolean isPublic, boolean isFollowable) {
 	this.name = name;
 	this.start = start;
 	this.end = end;
-		this.calendars = new ArrayList<Calendar>();
-		calendars.add(calendar);
+	this.calendars = new ArrayList<Calendar>();
+	calendars.add(calendar);
 	this.isPublic = isPublic;
 	this.lowerBound = makeLowerBound(start);
 	this.upperBound = makeUpperBound(end);
-		this.followable = followable;
-		this.owner = calendar.owner;
-		this.follower = new ArrayList<User>();
+	this.isFollowable = isFollowable;
+	this.owner = calendar.owner;
+	this.follower = new ArrayList<User>();
     }
 
     public Event(String name, Date start, Date end, Calendar calendar,
-			boolean isPublic, boolean followable, String note) {
-		this(name, start, end, calendar, isPublic, followable);
+	    boolean isPublic, boolean isFollowable, String note) {
+	this(name, start, end, calendar, isPublic, isFollowable);
 	this.note = note;
     }
 
