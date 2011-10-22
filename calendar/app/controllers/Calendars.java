@@ -66,7 +66,7 @@ public class Calendars extends Application {
 
 	List<Event> events = query.getResultList();
 
-	List<Event> list = new ArrayList(events);
+	List<Event> list = new ArrayList();
 
 	// check if logged in user is not equals to calendar owner
 	if (!user.equals(calendar.owner)) {
