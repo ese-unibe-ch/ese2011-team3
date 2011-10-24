@@ -12,7 +12,7 @@ public class Bootstrap extends Job {
     public void doJob() {
 	Fixtures.deleteAllModels();
 	if (User.count() == 0) {
-	    Fixtures.loadModels("large-bootstrap-data.yml");
+	    Fixtures.loadModels("bootstrap-data.yml");
 	}
     }
 }

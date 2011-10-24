@@ -38,12 +38,19 @@ public class Calendar extends Model {
 	Query query = JPA
 		.em()
 		.createQuery(
-			"from Event where lowerBound <= :start and upperBound >= :end and calendar_id=:cid order by start")
+			"from Event where lowerBound <= :start and upperBound >= :end  order by start")
 		.setParameter("start", start, TemporalType.DATE)
-		.setParameter("end", end, TemporalType.DATE)
-		.setParameter("cid", calendar.id);
+		.setParameter("end", end, TemporalType.DATE);
 
 	List<Event> events = query.getResultList();
+	List<Event> copy = new ArrayList<Event>();
+
+	for (Event ev : events) {
+	    if (ev.calendars.contains(calendar)) {
+		copy.add(ev);
+	    }
+	}
+
 	return events;
     }
 

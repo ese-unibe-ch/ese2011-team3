@@ -39,12 +39,13 @@ public class Event extends Model {
 	this.note = note;
 	this.start = start;
 	this.end = end;
-	this.owner = calendar.owner;
-	this.calendars = new ArrayList<Calendar>();
-	calendars.add(calendar);
+	this.owner = owner;
 
 	this.lowerBound = makeLowerBound(start);
 	this.upperBound = makeUpperBound(end);
+
+	this.calendars = new ArrayList<Calendar>();
+	this.calendars.add(calendar);
 
     }
 
