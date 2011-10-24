@@ -54,18 +54,13 @@ public class Calendar extends Model {
 	return events;
     }
 
-    public void followEvent(Event followEvent) {
-	this.events.add(followEvent);
-    }
-
     public List<Event> getFollowedEvents() {
-
 	List<Event> followedEvents = new ArrayList<Event>();
-
 	for (Event ev : this.events) {
-	    followedEvents.add(ev);
+	    if (!ev.owner.equals(this.owner)) {
+		followedEvents.add(ev);
+	    }
 	}
-
 	return followedEvents;
     }
 

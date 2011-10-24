@@ -31,6 +31,8 @@ public class User extends Model implements Comparable<User> {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     public List<Calendar> calendars;
 
+    public Calendar defaultCalendar;
+
     public User(String nick, String name, String pass, String mail) {
 	this.nickname = nick;
 	this.fullname = name;

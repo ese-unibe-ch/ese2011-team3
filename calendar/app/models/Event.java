@@ -84,4 +84,18 @@ public class Event extends Model {
 		&& (dayUpperBound.isBefore(eventEnd) || dayUpperBound
 			.equals(eventEnd));
     }
+
+    public List<User> getAllFollowers() {
+	List<User> followers = new ArrayList<User>();
+	for (Calendar calendar : this.calendars) {
+	    if (!calendar.owner.equals(this.owner))
+		followers.add(calendar.owner);
+	}
+	return followers;
+    }
+
+    public void follow(Calendar calendar) {
+	this.calendars.add(calendar);
+	calendar.events.add(this);
+    }
 }

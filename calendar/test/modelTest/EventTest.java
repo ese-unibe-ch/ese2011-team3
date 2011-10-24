@@ -83,8 +83,8 @@ public class EventTest extends UnitTest {
 
 	assertNotNull(followableEvent);
 
-	joesCalendar.followEvent(followableEvent); // ugly!
-	joesCalendar.save();
+	followableEvent.follow(joesCalendar); // ugly!
+	followableEvent.save();
 
 	Calendar testCalendar = Calendar.find("byOwner", joe).first();
 	assertEquals(1, testCalendar.events.size());
