@@ -26,6 +26,7 @@ GET     /calendar/{calendarId}/addEvent			Events.addEvent
 GET     /events/{eventId}/edit					Events.editEvent
 POST    /events/{eventId}/update				Events.updateEvent
 GET     /events/{eventId}/remove				Events.removeEvent
+GET		/events/follow/{eventId}				Events.followEvent
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

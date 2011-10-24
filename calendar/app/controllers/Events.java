@@ -118,4 +118,10 @@ public class Events extends Controller {
 	Long calendarId = event.calendars.get(0).id;
 	Calendars.showCalendar(nickname, calendarId);
     }
+
+    // TODO: implement this controller
+    public static void followEvent(Long eventId) {
+	// TODO: implement the view to this controller
+	renderText("todo");
+    }
 }

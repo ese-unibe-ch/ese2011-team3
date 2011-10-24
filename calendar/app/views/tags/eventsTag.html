@@ -3,7 +3,17 @@
 #{if _events.size() != 0}
 	<ul>
 	#{list items: _events, as: 'event' }
-		<li>${ event.name }, start: ${ event.start.format('yyyy-MM-dd , HH:mm') }, end: ${ event.end.format('yyyy-MM-dd , HH:mm') } #{if event.isPublic == true}(public)#{/if}#{else}(private)#{/else} #{if _owner == _user}#{a @Events.editEvent(event.id)} Edit #{/a}  #{a @Events.removeEvent(event.id)} | Remove #{/a} #{/if}</li>
+		<li>${ event.name }, start: ${ event.start.format('yyyy-MM-dd , HH:mm') }, end: ${ event.end.format('yyyy-MM-dd , HH:mm') } 
+		#{if event.isPublic == true}(public)#{/if}
+		#{else}(private)#{/else} 
+		#{if _owner == _user}
+			#{a @Events.editEvent(event.id)} Edit #{/a}  
+			#{a @Events.removeEvent(event.id)} | Remove #{/a} 
+		#{/if}
+		#{elseif event.isFollowable} 
+			#{a @Events.followEvent(event.id)} Follow #{/a} 
+		#{/elseif}
+		</li>
 	#{/list}
 	</ul>
 #{/if}

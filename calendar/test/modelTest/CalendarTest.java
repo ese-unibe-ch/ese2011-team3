@@ -121,8 +121,10 @@ public class CalendarTest extends UnitTest {
     public void testGetAllEventsOnADay() throws ParseException {
 	User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
 		.save();
-	Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
+	User tom = new User("tom", "WTF", "secret", "tom@alt-f4.com").save();
 
+	Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
+	Calendar tomsCalendar = new Calendar("Home", wuschu).save();
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
 
 	new Event("ESE sucks", "small note",
@@ -135,8 +137,13 @@ public class CalendarTest extends UnitTest {
 		formatter.parse("2011/10/15, 15:00"), wuschu, wuschusCalendar,
 		false, true).save();
 
-	List<Event> events = Calendar.getAllEventsOnDay(wuschusCalendar,
-		formatter.parse("2011/10/14, 09:00"));
+	new Event("ESE sucks again!", "small note",
+		formatter.parse("2011/10/15, 09:00"),
+		formatter.parse("2011/10/15, 15:00"), tom, tomsCalendar, false,
+		true).save();
+
+	List<Event> events = wuschusCalendar.getAllEventsOnDay(wuschu,
+		formatter.parse("2011/10/15, 09:00"));
 	assertEquals(1, events.size());
 
     }

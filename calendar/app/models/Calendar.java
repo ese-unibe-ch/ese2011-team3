@@ -32,7 +32,7 @@ public class Calendar extends Model {
 	this.events = new ArrayList<Event>();
     }
 
-    public static List<Event> getAllEventsOnDay(Calendar calendar, Date aDate) {
+    public List<Event> getAllEventsOnDay(User user, Date aDate) {
 	Date start = new DateTime(aDate).withTime(0, 0, 0, 0).toDate();
 	Date end = new DateTime(aDate).withTime(23, 59, 59, 999).toDate();
 	Query query = JPA
@@ -46,12 +46,18 @@ public class Calendar extends Model {
 	List<Event> copy = new ArrayList<Event>();
 
 	for (Event ev : events) {
-	    if (ev.calendars.contains(calendar)) {
-		copy.add(ev);
+	    if (ev.calendars.contains(this)) {
+		if (this.owner.equals(user)) {
+		    copy.add(ev);
+		} else {
+		    if (ev.isPublic) {
+			copy.add(ev);
+		    }
+		}
 	    }
 	}
 
-	return events;
+	return copy;
     }
 
     public List<Event> getFollowedEvents() {

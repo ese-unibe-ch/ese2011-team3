@@ -47,7 +47,7 @@ public class Calendars extends Application {
 	Calendar calendar = Calendar.findById(calendarId);
 
 	// get all events on this day aDate
-	List<Event> events = Calendar.getAllEventsOnDay(calendar, aDate);
+	List<Event> events = calendar.getAllEventsOnDay(user, aDate);
 
 	List<Event> list = new ArrayList();
 
