@@ -1,4 +1,4 @@
-package controllers;
+package old;
 
 import java.util.Date;
 
@@ -9,6 +9,8 @@ import models.User;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import controllers.Secure;
 
 import play.data.validation.Required;
 import play.mvc.With;

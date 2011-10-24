@@ -1,7 +1,9 @@
-package controllers;
+package old;
 
 import java.util.Collections;
 import java.util.List;
+
+import controllers.Secure;
 
 import models.User;
 import play.mvc.Before;
