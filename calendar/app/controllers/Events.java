@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.Date;
+import java.util.List;
 
 import models.Calendar;
 import models.Event;
@@ -120,8 +121,19 @@ public class Events extends Controller {
     }
 
     // TODO: implement this controller
-    public static void followEvent(Long eventId) {
-	// TODO: implement the view to this controller
-	renderText("todo");
+    public static void selectCalendarToFollowEvent(Long eventId, Long originalCalendarId) {
+    	User connectedUser = User.find("byNickname", Security.connected()).first();
+    	List<Calendar> calendars =connectedUser.calendars;
+    	Calendar originalCalendar = Calendar.find("byId", originalCalendarId).first();
+    	Event event = Event.find("byID", eventId).first();
+    	render(calendars, originalCalendar, event);
+    }
+    public static void followEvent(Long ownCalendarId, Long originalCalendarId, Long eventId){
+    	String nickname = Security.connected();
+    	Event event = Event.find("byId", eventId).first();
+    	Calendar calendar = Calendar.find("byId", ownCalendarId).first();
+    	event.follow(calendar);
+    	event.save();
+    	Calendars.showCalendar(nickname, originalCalendarId);
     }
 }

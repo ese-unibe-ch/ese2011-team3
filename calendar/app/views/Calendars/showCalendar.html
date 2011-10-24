@@ -10,6 +10,6 @@
 #{a @Events.addEvent(calendar.id)} Add Event #{/a}
 #{/if}
 
-#{eventsTag owner:calendar.owner, user:user, events:events /}
+#{eventsTag owner:calendar.owner, user:user, events:events, calendar:calendar /}
 
 #{a @Application.index()} Back #{/a}

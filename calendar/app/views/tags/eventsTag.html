@@ -11,7 +11,7 @@
 			#{a @Events.removeEvent(event.id)} | Remove #{/a} 
 		#{/if}
 		#{elseif event.isFollowable} 
-			#{a @Events.followEvent(event.id)} Follow #{/a} 
+			#{a @Events.selectCalendarToFollowEvent(event.id, _calendar.id)} Follow #{/a} 
 		#{/elseif}
 		</li>
 	#{/list}
