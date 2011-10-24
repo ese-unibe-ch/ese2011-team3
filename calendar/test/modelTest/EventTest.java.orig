@@ -1,0 +1,161 @@
+package modelTest;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import models.Calendar;
+import models.Event;
+import models.User;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import play.test.Fixtures;
+import play.test.UnitTest;
+
+public class EventTest extends UnitTest {
+
+    @Before
+    public void setUp() throws Exception {
+	Fixtures.deleteAllModels();
+<<<<<<< HEAD
+
+	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+		.save();
+
+	User stranger = new User("joe", "WTF", "secret", "joe@alt-f4.com")
+		.save();
+
+	Calendar testCalendar = new Calendar("Home", testUser).save();
+	Calendar strangerCalendar = new Calendar("Home", stranger).save();
+
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+	Date start = formatter.parse("2011/10/14, 09:00");
+	Date end = formatter.parse("2011/10/14, 15:00");
+
+	new Event("ESE sucks", "small note", start, end, testUser,
+		testCalendar, false, false).save();
+
+	new Event("public event #1", "small note",
+		formatter.parse("2011/10/14, 15:00"),
+		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+		true, true).save();
+
+	new Event("public event #2", "small note",
+		formatter.parse("2011/10/14, 15:00"),
+		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+		true, true).save();
+
+	new Event("strangers event", "small note",
+		formatter.parse("2011/10/14, 15:00"),
+		formatter.parse("2011/10/14, 15:00"), stranger,
+		strangerCalendar, true, true).save();
+
+=======
+>>>>>>> origin/exp_event_manytomany
+    }
+
+    @After
+    public void tearDown() throws Exception {
+	Fixtures.deleteAllModels();
+    }
+
+    @Test
+<<<<<<< HEAD
+    public void testCountEntities() {
+	assertEquals(4, Event.count());
+	assertEquals(2, Calendar.count());
+	assertEquals(2, User.count());
+    }
+
+    @Test
+    public void testEvent() {
+	User user = User.find("byNickname", "wuschu").first();
+
+	List<Event> testEvents = Event.find("byOwner", user).fetch();
+	Assert.assertEquals(testEvents.size(), 3);
+    }
+
+    @Test
+    public void testCreateEvent() throws ParseException {
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+	Date start = formatter.parse("2011/10/14, 09:00");
+	Date end = formatter.parse("2011/10/14, 15:00");
+
+	User user = User.find("byNickname", "wuschu").first();
+	new Event("test event", "test note", start, end, user).save();
+
+	assertEquals(5, Event.count());
+	Event ev = Event.find("byName", "test event").first();
+	assertNotNull(ev);
+
+	List<Event> testEvents = Event.find("byOwner", user).fetch();
+	Assert.assertEquals(testEvents.size(), 4);
+    }
+
+=======
+    public void testCreateEvent() throws ParseException {
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+
+	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+		.save();
+	Calendar testCalendar = new Calendar("Home", testUser).save();
+
+	new Event("ESE sucks", "small note",
+		formatter.parse("2011/10/14, 09:00"),
+		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+		false, false).save();
+
+	User user = User.find("byNickname", "wuschu").first();
+	Event testEvent = Event.find("byOwner", user).first();
+	assertNotNull(testEvent);
+    }
+
+    @Test
+    public void testGetFollowableEvents() throws ParseException {
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+
+	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+		.save();
+	Calendar testCalendar = new Calendar("Home", testUser).save();
+
+	new Event("ESE sucks", "small note",
+		formatter.parse("2011/10/14, 09:00"),
+		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+		false, true).save();
+
+	Event followableEvent = Event.find("byIsFollowableAndOwner", true,
+		testUser).first();
+	assertNotNull(followableEvent);
+    }
+
+    @Test
+    public void testFollowEvent() throws ParseException {
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+
+	User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+		.save();
+
+	User joe = new User("joe", "WTF", "secret", "joe@alt-f4.com").save();
+
+	Calendar joesCalendar = new Calendar("Home", joe).save();
+	Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
+
+	new Event("ESE sucks", "small note",
+		formatter.parse("2011/10/14, 09:00"),
+		formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
+		false, true).save();
+
+	Event followableEvent = Event.find("byIsFollowable", true).first();
+
+	assertNotNull(followableEvent);
+
+	followableEvent.follow(joesCalendar); // ugly!
+	followableEvent.save();
+
+	Calendar testCalendar = Calendar.find("byOwner", joe).first();
+	assertEquals(1, testCalendar.events.size());
+    }
+>>>>>>> origin/exp_event_manytomany
+}

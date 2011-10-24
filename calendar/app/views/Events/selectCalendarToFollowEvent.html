@@ -1,0 +1,11 @@
+<div>
+In what calendar should the event be put?
+	<ul>
+		#{list items:calendars, as:'calendar'}
+			<li>
+				<a href="@{followEvent(calendar.id, originalCalendar.id, event.id)}">${calendar.name}</a>
+			</li>
+		#{/list}	
+	</ul>
+
+</div>
