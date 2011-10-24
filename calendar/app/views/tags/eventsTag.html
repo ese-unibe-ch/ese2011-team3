@@ -14,8 +14,12 @@
 			#{a @Events.selectCalendarToFollowEvent(event.id, _calendar.id)} Follow #{/a} 
 		#{/if}
 		
+		#{if _owner != event.owner && event.isFollowable && event.isFollowedBy(_user)} 
+			 following!
+		#{/if}
+		
 		#{if event.owner == _user && event.isFollowedBy(_owner) && _owner!=_user }
-			Your event is followed!
+			followed!
 		#{/if}
 		</li>
 	#{/list}
