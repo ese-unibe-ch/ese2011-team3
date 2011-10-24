@@ -20,7 +20,8 @@ public class Calendars extends Application {
      */
     public static void showCalendars(String nickname) {
 	User user = User.find("byNickname", nickname).first();
-	List<Calendar> calendars = user.calendars;
+
+	List<Calendar> calendars = Calendar.find("byOwner", user).fetch();
 	render(user, calendars);
     }
 
