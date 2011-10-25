@@ -1,4 +1,5 @@
 #{form @updateEvent(event.id, calendar.id) , id:'updateForm', enctype:'multipart/form-data'}
+
 <h1>Edit Event -  ${event.name}</h1>
 #{if flash.success}
     <p class="success">${flash.success}</p>
@@ -62,4 +63,4 @@
 	<input type="submit" id="submit" name="Edit" value="Edit" />
 </p>
 #{/form}
-#{a @Calendars.showCalendar(user.nickname,calendar.id)}Back #{/a}
+<a href="@{Calendars.showCalendar(user.nickname,calendar.id)}">Back </a>

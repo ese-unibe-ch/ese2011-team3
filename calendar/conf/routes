@@ -3,12 +3,13 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
-GET		/user/{nickname}						Calendars.showCalendars
-GET		/user/{nickname}/calendar/{id}			Calendars.showCalendar
-GET		/user/{nickname}/calendar/{id}/date/{aDate}	Calendars.showDate
-GET		/users									Application.showUsers
-GET		/user/{nickname}/contacts				Application.showContacts
+GET     /                                       			Calendars.index
+GET		/calendar/{calendarId}/{currentDate}/nextMonth		Calendars.viewNextMonth
+GET		/calendar/{calendarId}/{currentDate}/prevMonth		Calendars.viewPrevMonth
+GET		/calendar/{calendarId}/{currentDate}/add			Calendars.addEvent
+GET		/calendar/{calendarId}/{currentDate}				Calendars.viewCalendar
+GET		/calendar/{calendarId}								Calendars.viewCalendar
+
 
 GET		/profile								Profile.index
 GET		/profile/edit							Profile.edit
@@ -22,7 +23,6 @@ GET	 	/profile/contacts/remove/{contactId} 	Contacts.removeContact
 
 POST    /events/{calendarId}/add				Events.createEvent  
 GET	    /events/{nickname}/index				Events.index 
-GET     /calendar/{calendarId}/addEvent			Events.addEvent
 GET     /events/{eventId}/{calendarId}/edit		Events.editEvent
 POST    /events/{eventId}/update				Events.updateEvent
 GET     /events/{eventId}/{calendarId}/remove	Events.removeEvent

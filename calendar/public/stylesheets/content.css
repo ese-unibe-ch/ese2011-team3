@@ -1,0 +1,15 @@
+#content_content {
+	border-left: 1px solid #9f9f9f;
+	padding: 10px 0px;
+	height: 500px;
+	vertical-align:top;
+}
+
+#content_content h1 {
+	padding: 0px 15px;
+	margin: 10px 0px;
+	font-weight: bold;
+	font-size: 23px;
+	color: #5f5f5f;
+	text-align: center;
+}

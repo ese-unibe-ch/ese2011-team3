@@ -15,7 +15,6 @@ import play.db.jpa.Model;
 
 @Entity
 public class Event extends Model {
-
     public String name;
     public Date start;
     public Date end;

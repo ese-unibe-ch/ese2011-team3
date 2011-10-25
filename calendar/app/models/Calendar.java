@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,10 +15,10 @@ import org.joda.time.DateTime;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Model;
+import utilities.DayContainer;
 
 @Entity
 public class Calendar extends Model {
-
     public String name;
 
     @ManyToOne
@@ -32,45 +33,49 @@ public class Calendar extends Model {
 	this.events = new ArrayList<Event>();
     }
 
-    public List<Event> getAllEventsOnDay(User user, Date aDate) {
-	Date start = new DateTime(aDate).withTime(0, 0, 0, 0).toDate();
-	Date end = new DateTime(aDate).withTime(23, 59, 59, 999).toDate();
-	Query query = JPA
-		.em()
-		.createQuery(
-			"from Event where lowerBound <= :start and upperBound >= :end  order by start")
-		.setParameter("start", start, TemporalType.DATE)
-		.setParameter("end", end, TemporalType.DATE);
+	public List<DayContainer> getCalendarData(Date currentDate) {
+		DateTime date = new DateTime(currentDate);
 
-	List<Event> events = query.getResultList();
-	List<Event> copy = new ArrayList<Event>();
+		DateTime now = new DateTime();
+		DateTime firstDayOfMonth = date.withDayOfMonth(1);
+		DateTime runDay = firstDayOfMonth.minusDays(firstDayOfMonth.dayOfWeek()
+				.get());
 
-	for (Event ev : events) {
-	    if (ev.calendars.contains(this)) {
-		if (this.owner.equals(user)) {
-		    copy.add(ev);
-		} else {
-		    if (ev.isPublic) {
-			copy.add(ev);
-		    }
+		DayContainer[] days = new DayContainer[42];
+
+		for (int i = 0; i < days.length; i++) {
+			days[i] = new DayContainer();
+			runDay = runDay.plusDays(1);
+			days[i].date = runDay.toDate();
+			DayContainer.DayContainerType type = DayContainer.DayContainerType.THISMONTH;
+			if (runDay.getDayOfMonth() == date.getDayOfMonth()
+					&& runDay.getMonthOfYear() == date.getMonthOfYear()
+					&& runDay.getYear() == date.getYear()) {
+				type = DayContainer.DayContainerType.SELECTED;
+			} else if (runDay.getDayOfMonth() == now.getDayOfMonth()
+					&& runDay.getMonthOfYear() == now.getMonthOfYear()
+					&& runDay.getYear() == now.getYear()) {
+				type = DayContainer.DayContainerType.TODAY;
+			} else if (!runDay.monthOfYear().equals(date.monthOfYear())) {
+				type = DayContainer.DayContainerType.OTHERMONTH;
+			}
+			days[i].type = type;
+			days[i].containsEvents = (this.eventsAtDay(runDay.toDate()).size() > 0);
 		}
-	    }
+		return (List<DayContainer>) Arrays.asList(days);
 	}
 
-	return copy;
-    }
-
-    public List<Event> getFollowingEvents() {
-	List<Event> followingEvents = new ArrayList<Event>();
-	for (Event ev : this.events) {
-	    /*
-	     * check if the owner of the calendar is equals to the event owner,
-	     * if not, then this event is followed by the calendar owner.
-	     */
-	    if (!ev.owner.equals(this.owner)) {
-		followingEvents.add(ev);
-	    }
+	public List<Event> eventsAtDay(Date currentDate) {
+		Query eventsQuery = JPA.em()
+				.createQuery("SELECT e FROM Event e WHERE e.calendar.id = :id")
+				.setParameter("id", this.id);
+		List<Event> results = eventsQuery.getResultList();
+		List<Event> events = new ArrayList<Event>();
+		for (Event e : results) {
+			if (e.happensOnDay(currentDate)) {
+				events.add(e);
+			}
+		}
+		return events;
 	}
-	return followingEvents;
-    }
 }

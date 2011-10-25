@@ -1,0 +1,23 @@
+#event_event {
+	padding: 3px;
+	width: 100%;
+	border: 1px solid #9f9f9f;
+}
+
+.event_title {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.event_properties {
+	text-align: right;
+	font-size: 10px;
+}
+
+.event_date {
+	font-size: 10px;
+}
+
+.event_note {
+	font-size: 11px;
+}

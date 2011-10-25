@@ -1,17 +1,17 @@
+<div id="contactsList">
+
 #{extends 'main.html' /}
-#{set title:'Home' /}
 
 *{Renders a list of all the contacts that aren't already contacts. Provides links to add them}*
 *{renderArgs: contacts (List<User>)}*
 
-<div id="contactsList">
 	<h1>add a contact to my contacts</h1>
 	<table border="1">
 		#{list items:contacts, as:'contact'}
 			<tr>
-				<td width="300px">${contact.fullname}</td><td width="100px">#{a @Contacts.addContact(contact.id)}add#{/a}</td>
+				<td width="300px">${contact.fullname}</td><td width="100px"><a href="@{Contacts.addContact(contact.id)}">add</a></td>
 			</tr>
 		#{/list}
 	</table>
-	<p>#{a @Contacts.index()}cancel#{/a}</p>
+	
 </div>
