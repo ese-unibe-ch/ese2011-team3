@@ -3,10 +3,12 @@
 # ~~~~
 
 # Home page
-GET     /                                       	Calendars.index
-GET		/calendar/{calendarId}/{currentDate}/add	Calendars.addEvent
-GET		/calendar/{calendarId}/{currentDate}		Calendars.viewCalendar
-GET		/calendar/{calendarId}						Calendars.viewCalendar
+GET     /                                       			Calendars.index
+GET		/calendar/{calendarId}/{currentDate}/nextMonth		Calendars.viewNextMonth
+GET		/calendar/{calendarId}/{currentDate}/prevMonth		Calendars.viewPrevMonth
+GET		/calendar/{calendarId}/{currentDate}/add			Calendars.addEvent
+GET		/calendar/{calendarId}/{currentDate}				Calendars.viewCalendar
+GET		/calendar/{calendarId}								Calendars.viewCalendar
 
 
 GET		/profile								Profile.index
