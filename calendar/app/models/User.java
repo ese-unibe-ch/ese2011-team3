@@ -13,7 +13,6 @@ import play.db.jpa.Model;
 
 @Entity
 public class User extends Model implements Comparable<User> {
-
 	public String nickname;
 	public String fullname;
 	public String password;

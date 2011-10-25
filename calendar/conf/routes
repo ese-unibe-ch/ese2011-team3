@@ -3,12 +3,12 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
-GET		/user/{nickname}						Calendars.showCalendars
-GET		/user/{nickname}/calendar/{id}			Calendars.showCalendar
-GET		/user/{nickname}/calendar/{id}/date/{aDate}	Calendars.showDate
-GET		/users									Application.showUsers
-GET		/user/{nickname}/contacts				Application.showContacts
+GET     /                                       	Calendars.index
+GET		/user/{nickname}							Calendars.showCalendars
+GET		/calendar/{calendarId}/{currentDate}/add	Calendars.addEvent
+GET		/calendar/{calendarId}/{currentDate}		Calendars.viewCalendar
+GET		/calendar/{calendarId}						Calendars.viewCalendar
+
 
 GET		/profile								Profile.index
 GET		/profile/edit							Profile.edit

@@ -1,0 +1,13 @@
+#{extends 'Calendars/calendars.html' /}
+
+<h1>${calendar.owner.fullname}'s ${calendar.name}</h1>
+*{stylesheet for the calendar}*
+#{stylesheet 'calendar.css' /}
+
+#{calendarTag calendar:calendar, date:currentDate, locale:currentLocale, user:loginUser /}
+
+#{if calendar.owner == loginUser}
+	<a href="@{Calendars.addEvent(calendar.id, currentDate)}">Add Event</a>
+#{/if}
+
+#{eventsTag events:calendar.events, owner:calendar.owner, user:loginUser /}

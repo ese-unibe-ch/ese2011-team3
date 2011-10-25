@@ -12,7 +12,6 @@ import play.db.jpa.Model;
 
 @Entity
 public class Calendar extends Model {
-
 	public String name;
 
 	@ManyToOne
@@ -26,5 +25,4 @@ public class Calendar extends Model {
 		this.owner = owner;
 		this.events = new ArrayList<Event>();
 	}
-
 }

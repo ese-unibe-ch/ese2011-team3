@@ -1,11 +1,11 @@
-#{extends 'parentViews/main.html' /}
-#{set pageTitle:'home' /}
+#{extends 'main.html' /}
+#{set pageTitle:'calendars' /}
 
 <td id="menu">
 	<h1>my calendars</h1>
    	<ul>
    		#{list items:loginUser.calendars, as:'calendar'}
-   			<li><a href="@{Calendars.showCalendar(loginUser.nickname, calendar.id)}">${calendar.name}</a></li>
+   			<li><a href="@{Calendars.viewCalendar(calendar.id)}">${calendar.name}</a></li>
    		#{/list}
     </ul>
     <h1>upcoming events</h1>
