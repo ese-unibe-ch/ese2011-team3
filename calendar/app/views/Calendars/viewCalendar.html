@@ -38,7 +38,7 @@
 		</td>
 		<td id="calendar_content">
 			<table id="calendar_list">
-				#{list items:calendar.events, as:'event'}
+				#{list items:calendar.eventsAtDay(currentDate), as:'event'}
 					#{calendar_event event:event, owner:calendar.owner, user:loginUser /}
 				#{/list}
 			</table>
