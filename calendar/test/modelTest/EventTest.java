@@ -16,77 +16,127 @@ import play.test.UnitTest;
 
 public class EventTest extends UnitTest {
 
-    @Before
-    public void setUp() throws Exception {
-	Fixtures.deleteAllModels();
-    }
+	@Before
+	public void setUp() throws Exception {
+		Fixtures.deleteAllModels();
+	}
 
-    @After
-    public void tearDown() throws Exception {
-	Fixtures.deleteAllModels();
-    }
+	@After
+	public void tearDown() throws Exception {
+		Fixtures.deleteAllModels();
+	}
 
-    @Test
-    public void testCreateEvent() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+	@Test
+	public void testCreateEvent() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
 
-	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar testCalendar = new Calendar("Home", testUser).save();
+		User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
+		Calendar testCalendar = new Calendar("Home", testUser).save();
 
-	new Event("ESE sucks", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, false).save();
+		new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+				false, false).save();
 
-	User user = User.find("byNickname", "wuschu").first();
-	Event testEvent = Event.find("byOwner", user).first();
-	assertNotNull(testEvent);
-    }
+		User user = User.find("byNickname", "wuschu").first();
+		Event testEvent = Event.find("byOwner", user).first();
+		assertNotNull(testEvent);
+	}
 
-    @Test
-    public void testGetFollowableEvents() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+	@Test
+	public void testIfEventIsFollowedBy() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+		User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
 
-	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar testCalendar = new Calendar("Home", testUser).save();
+		User joe = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
+		Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
+		Calendar joesCalendar = new Calendar("Home", joe).save();
 
-	new Event("ESE sucks", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, true).save();
+		new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
+				false, false).save();
 
-	Event followableEvent = Event.find("byIsFollowableAndOwner", true,
-		testUser).first();
-	assertNotNull(followableEvent);
-    }
+		User user = User.find("byNickname", "wuschu").first();
+		Event testEvent = Event.find("byOwner", user).first();
 
-    @Test
-    public void testFollowEvent() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+		testEvent.follow(joesCalendar);
+		testEvent.save();
 
-	User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
+		assertTrue(testEvent.isFollowedBy(joe));
+	}
 
-	User joe = new User("joe", "WTF", "secret", "joe@alt-f4.com").save();
+	@Test
+	public void testIfEventIsFollowed() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+		User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
 
-	Calendar joesCalendar = new Calendar("Home", joe).save();
-	Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
+		User joe = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
+		Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
+		Calendar joesCalendar = new Calendar("Home", joe).save();
 
-	new Event("ESE sucks", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
-		false, true).save();
+		new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
+				false, false).save();
 
-	Event followableEvent = Event.find("byIsFollowable", true).first();
+		User user = User.find("byNickname", "wuschu").first();
+		Event testEvent = Event.find("byOwner", user).first();
 
-	assertNotNull(followableEvent);
+		testEvent.follow(joesCalendar);
+		testEvent.save();
 
-	followableEvent.follow(joesCalendar); // ugly!
-	followableEvent.save();
+		assertTrue(testEvent.isFollowed());
+	}
 
-	Calendar testCalendar = Calendar.find("byOwner", joe).first();
-	assertEquals(1, testCalendar.events.size());
-    }
+	@Test
+	public void testGetFollowableEvents() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+
+		User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
+		Calendar testCalendar = new Calendar("Home", testUser).save();
+
+		new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+				false, true).save();
+
+		Event followableEvent = Event.find("byIsFollowableAndOwner", true,
+				testUser).first();
+		assertNotNull(followableEvent);
+	}
+
+	@Test
+	public void testFollowEvent() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+
+		User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
+
+		User joe = new User("joe", "WTF", "secret", "joe@alt-f4.com").save();
+
+		Calendar joesCalendar = new Calendar("Home", joe).save();
+		Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
+
+		new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
+				false, true).save();
+
+		Event followableEvent = Event.find("byIsFollowable", true).first();
+
+		assertNotNull(followableEvent);
+
+		followableEvent.follow(joesCalendar); // ugly!
+		followableEvent.save();
+
+		Calendar testCalendar = Calendar.find("byOwner", joe).first();
+		assertEquals(1, testCalendar.events.size());
+	}
 }

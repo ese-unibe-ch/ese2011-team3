@@ -70,7 +70,7 @@ public class CalendarTest extends UnitTest {
 
 	Event event = Event.find("byName", "ESE sucks").first();
 
-	List<User> followers = event.getAllFollowers();
+	List<User> followers = event.getFollowers();
 
 	assertEquals(2, followers.size());
 	assert (joesCalendar.events.contains(event));

@@ -10,15 +10,15 @@
 			#{a @Events.editEvent(event.id)} Edit #{/a}  
 			#{a @Events.removeEvent(event.id)} | Remove #{/a} 
 		#{/if}
-		#{if _owner != event.owner && event.isFollowable && !event.isFollowedBy(_user)} 
+		#{if _user != event.owner && event.isFollowable && !event.isFollowedBy(_user)} 
 			#{a @Events.selectCalendarToFollowEvent(event.id, _calendar.id)} Follow #{/a} 
 		#{/if}
 		
-		#{if _owner != event.owner && event.isFollowable && event.isFollowedBy(_user)} 
+		#{if _owner != event.owner && event.isFollowable && event.isFollowedBy(_user) && _user!=event.owner} 
 			 following!
 		#{/if}
 		
-		#{if event.owner == _user && event.isFollowedBy(_owner) && _owner!=_user }
+		#{if event.owner == _user && event.isFollowed()}
 			followed!
 		#{/if}
 		</li>
