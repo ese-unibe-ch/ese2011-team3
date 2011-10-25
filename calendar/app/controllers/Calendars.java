@@ -3,7 +3,14 @@ package controllers;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import models.Calendar;
+import models.User;
+
+import org.joda.time.DateTime;
+
+import play.db.jpa.JPA;
 import play.mvc.With;
 
 @With(Secure.class)
@@ -16,14 +23,14 @@ public class Calendars extends Main {
 		// TODO: estimate what to do if an user don't got any calendars.
 		// @poljpocket
 		assert calendarList.size() != 0;
-		viewCalendar(calendarList.get(0).getId(), null);	
-    }
+		viewCalendar(calendarList.get(0).getId(), null);
+	}
+
 	public static void viewCalendar(Long calendarId, Date currentDate) {
 		Query calendarQuery = JPA.em()
 				.createQuery("SELECT c FROM Calendar c WHERE c.id = :id")
 				.setParameter("id", calendarId);
 		Calendar calendar = (Calendar) calendarQuery.getSingleResult();
-     */
 		if (currentDate == null) {
 			currentDate = new Date();
 		}
@@ -31,7 +38,7 @@ public class Calendars extends Main {
 		renderArgs.put("calendar", calendar);
 		renderArgs.put("calendarData", calendar.getCalendarData(currentDate));
 		renderArgs.put("currentDate", currentDate);
- 
+
 		render();
 	}
 
@@ -49,23 +56,23 @@ public class Calendars extends Main {
 
 	}
 
-
 	public static void addEvent(Long calendarId, Date currentDate) {
 
-    }
-    
-	public static void editEvent(Long eventId) {
-    	render();
-    }
-    public static void addCalendar(String calendarName){
-    	User user = User.find("byNickname",Security.connected()).first();
-    	Calendar calendar = new Calendar(calendarName, user).save();
-    	user.addCalendar(calendar);
-    	
-    	showCalendar(user.nickname, calendar.id);
-    }
+	}
 
+	public static void editEvent(Long eventId) {
+		render();
+	}
+
+	public static void addCalendar(String calendarName) {
+		User user = User.find("byNickname", Security.connected()).first();
+		Calendar calendar = new Calendar(calendarName, user).save();
+		user.addCalendar(calendar);
+
+		viewCalendar(calendar.id, null);
+	}
 
 	public static void saveEvent() {
-    
+
+	}
 }
