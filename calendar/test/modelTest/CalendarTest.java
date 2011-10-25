@@ -2,6 +2,7 @@ package modelTest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import models.Calendar;
@@ -144,8 +145,7 @@ public class CalendarTest extends UnitTest {
 				formatter.parse("2011/10/15, 15:00"), tom, tomsCalendar, false,
 				true).save();
 
-		List<Event> events = wuschusCalendar.getAllEventsOnDay(wuschu,
-				formatter.parse("2011/10/15, 09:00"));
+		List<Event> events = wuschusCalendar.eventsAtDay(new Date());
 		assertEquals(1, events.size());
 
 	}

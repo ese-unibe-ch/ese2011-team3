@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.joda.time.DateTime;
-
 import models.Calendar;
 import models.User;
 
@@ -74,7 +72,7 @@ public class Calendars extends Main {
 		viewCalendar(calendar.id, null);
 	}
 
-	public static void saveEvent() {
+	public static void deleteEvent(Long eventId) {
 
 	}
 }

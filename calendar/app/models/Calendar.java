@@ -32,63 +32,65 @@ public class Calendar extends Model {
 		this.events = new ArrayList<Event>();
 	}
 
-    public List<DayContainer> getCalendarData(Date currentDate) {
-	DateTime date = new DateTime(currentDate);
+	public List<DayContainer> getCalendarData(Date currentDate) {
+		DateTime date = new DateTime(currentDate);
 
-	DateTime now = new DateTime();
-	DateTime firstDayOfMonth = date.withDayOfMonth(1);
-	DateTime runDay = firstDayOfMonth.minusDays(firstDayOfMonth.dayOfWeek()
-		.get());
+		DateTime now = new DateTime();
+		DateTime firstDayOfMonth = date.withDayOfMonth(1);
+		DateTime runDay = firstDayOfMonth.minusDays(firstDayOfMonth.dayOfWeek()
+				.get());
 
-	DayContainer[] days = new DayContainer[42];
+		DayContainer[] days = new DayContainer[42];
 
-	for (int i = 0; i < days.length; i++) {
-	    days[i] = new DayContainer();
-	    runDay = runDay.plusDays(1);
-	    days[i].date = runDay.toDate();
-	    DayContainer.DayContainerType type = DayContainer.DayContainerType.THISMONTH;
-	    if (runDay.getDayOfMonth() == date.getDayOfMonth()
-		    && runDay.getMonthOfYear() == date.getMonthOfYear()
-		    && runDay.getYear() == date.getYear()) {
-		type = DayContainer.DayContainerType.SELECTED;
-	    } else if (runDay.getDayOfMonth() == now.getDayOfMonth()
-		    && runDay.getMonthOfYear() == now.getMonthOfYear()
-		    && runDay.getYear() == now.getYear()) {
-		type = DayContainer.DayContainerType.TODAY;
-	    } else if (!runDay.monthOfYear().equals(date.monthOfYear())) {
-		type = DayContainer.DayContainerType.OTHERMONTH;
-	    }
-	    days[i].type = type;
-	    days[i].containsEvents = (this.eventsAtDay(runDay.toDate()).size() > 0);
+		for (int i = 0; i < days.length; i++) {
+			days[i] = new DayContainer();
+			runDay = runDay.plusDays(1);
+			days[i].date = runDay.toDate();
+			DayContainer.DayContainerType type = DayContainer.DayContainerType.THISMONTH;
+			if (runDay.getDayOfMonth() == date.getDayOfMonth()
+					&& runDay.getMonthOfYear() == date.getMonthOfYear()
+					&& runDay.getYear() == date.getYear()) {
+				type = DayContainer.DayContainerType.SELECTED;
+			} else if (runDay.getDayOfMonth() == now.getDayOfMonth()
+					&& runDay.getMonthOfYear() == now.getMonthOfYear()
+					&& runDay.getYear() == now.getYear()) {
+				type = DayContainer.DayContainerType.TODAY;
+			} else if (!runDay.monthOfYear().equals(date.monthOfYear())) {
+				type = DayContainer.DayContainerType.OTHERMONTH;
+			}
+			days[i].type = type;
+			days[i].containsEvents = (this.eventsAtDay(runDay.toDate()).size() > 0);
+		}
+		return (List<DayContainer>) Arrays.asList(days);
 	}
-	return (List<DayContainer>) Arrays.asList(days);
-    }
 
-    public List<Event> eventsAtDay(Date currentDate) {
-	Query eventsQuery = JPA.em()
-		.createQuery("SELECT e FROM Event e WHERE e.calendar.id = :id")
-		.setParameter("id", this.id);
-	List<Event> results = eventsQuery.getResultList();
-	List<Event> events = new ArrayList<Event>();
-	for (Event e : results) {
-	    if (e.happensOnDay(currentDate)) {
-		events.add(e);
-	    }
+	public List<Event> eventsAtDay(Date currentDate) {
+		Query eventsQuery = JPA
+				.em()
+				.createQuery(
+						"SELECT e FROM Event e JOIN e.calendars c WHERE c.id = :id")
+				.setParameter("id", this.id);
+		List<Event> results = eventsQuery.getResultList();
+		List<Event> events = new ArrayList<Event>();
+		for (Event e : results) {
+			if (e.happensOnDay(currentDate)) {
+				events.add(e);
+			}
+		}
+		return events;
 	}
-	return events;
-    }
 
-    public List<Event> getFollowingEvents() {
-	List<Event> followingEvents = new ArrayList<Event>();
-	for (Event ev : this.events) {
-	    /*
-	     * check if the owner of the calendar is equals to the event owner,
-	     * if not, then this event is followed by the calendar owner.
-	     */
-	    if (!ev.owner.equals(this.owner)) {
-		followingEvents.add(ev);
-	    }
+	public List<Event> getFollowingEvents() {
+		List<Event> followingEvents = new ArrayList<Event>();
+		for (Event ev : this.events) {
+			/*
+			 * check if the owner of the calendar is equals to the event owner,
+			 * if not, then this event is followed by the calendar owner.
+			 */
+			if (!ev.owner.equals(this.owner)) {
+				followingEvents.add(ev);
+			}
+		}
+		return followingEvents;
 	}
-	return followingEvents;
-    }
 }
