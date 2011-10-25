@@ -3,7 +3,13 @@ package controllers;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
+import org.joda.time.DateTime;
+
 import models.Calendar;
+import models.User;
+import play.db.jpa.JPA;
 import play.mvc.With;
 
 @With(Secure.class)
@@ -23,7 +29,7 @@ public class Calendars extends Main {
 				.createQuery("SELECT c FROM Calendar c WHERE c.id = :id")
 				.setParameter("id", calendarId);
 		Calendar calendar = (Calendar) calendarQuery.getSingleResult();
-     */
+     
 		if (currentDate == null) {
 			currentDate = new Date();
 		}

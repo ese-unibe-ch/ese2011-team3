@@ -1,0 +1,71 @@
+<<<<<<< HEAD
+#{form @updateEvent(event.id, calendar.id) , id:'updateForm', enctype:'multipart/form-data'}
+=======
+#{extends 'parentViews/home.html' /}
+
+#{form @updateEvent(event.id) , id:'updateForm', enctype:'multipart/form-data'}
+>>>>>>> origin/exp_gui
+<h1>Edit Event -  ${event.name}</h1>
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+<p>
+#{field 'name'}
+	<label>&{field.name}</label>
+	<input type="text" id="${field.id}" name="${field.name}" value="${event?.name}" class="${field.errorClass}">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+#{field 'startDate'}
+	<label>&{field.name}</label>
+	<input type="date" id="${field.id}" name="${field.name}"  value="${event?.start.format('yyyy-MM-dd')}" class="${field.errorClass}" placeholder="yyyy-MM-dd">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+#{field 'endDate'}
+	<label>&{field.name}</label>
+	<input type="date" id="${field.id}" name="${field.name}"  value="${event?.end.format('yyyy-MM-dd')}" class="${field.errorClass}" placeholder="yyyy-MM-dd"> 
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+#{field 'startTime'}
+	<label>&{field.name}</label>
+	<input type="text" id="${field.id}" name="${field.name}"  value="${event?.start.format('HH:mm')}" class="${field.errorClass}" placeholder="HH:mm">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+#{field 'endTime'}
+	<label>&{field.name}</label>
+	<input type="text" id="${field.id}" name="${field.name}"  value="${event?.end.format('HH:mm')}" class="${field.errorClass}" placeholder="HH:mm">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+
+<p>
+#{field 'isPublic'}
+	<label>&{field.name}</label>
+	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" #{if event?.isPublic} checked #{/if}></input>
+#{/}
+</p>
+<p>
+#{field 'isFollowable'}
+	<label>&{field.name} </label>
+	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" #{if event?.isFollowable} checked #{/if}></input>
+#{/}
+</p>
+<p>
+#{field 'note'}
+	<label>&{field.name}</label>
+	<textarea rows="6" cols="100" id="${field.id}" name="${field.name}" class="${field.errorClass}">${event?.note}</textarea>
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+<p>
+	<input type="submit" id="submit" name="Edit" value="Edit" />
+</p>
+#{/form}
+<a href="@{Calendars.showCalendar(user.nickname,calendar.id)}">Back </a>
