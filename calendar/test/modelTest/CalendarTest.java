@@ -72,8 +72,8 @@ public class CalendarTest extends UnitTest {
 	List<User> followers = event.getAllFollowers();
 
 	assertEquals(2, followers.size());
-	assert(joesCalendar.events.contains(event));
-	assert(nicsCalendar.events.contains(event));
+	assert (joesCalendar.events.contains(event));
+	assert (nicsCalendar.events.contains(event));
     }
 
     @Test
@@ -126,7 +126,7 @@ public class CalendarTest extends UnitTest {
 	User tom = new User("tom", "WTF", "secret", "tom@alt-f4.com").save();
 
 	Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
-	Calendar tomsCalendar = new Calendar("Home", wuschu).save();
+	Calendar tomsCalendar = new Calendar("Home", tom).save();
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
 
 	new Event("ESE sucks", "small note",
