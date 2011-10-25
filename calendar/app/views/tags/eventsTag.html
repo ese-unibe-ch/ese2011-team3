@@ -7,8 +7,8 @@
 		#{if event.isPublic == true}(public)#{/if}
 		#{else}(private)#{/else} 
 		#{if event.owner == _user && _owner == _user}
-			#{a @Events.editEvent(event.id)} Edit #{/a}  
-			#{a @Events.removeEvent(event.id)} | Remove #{/a} 
+			<a href="@{Events.editEvent(event.id)}"> Edit </a>  
+			<a href="@{Events.removeEvent(event.id)}"> | Remove </a> 
 		#{/if}
 		
 		*{show follow link}*
