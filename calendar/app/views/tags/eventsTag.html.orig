@@ -7,8 +7,13 @@
 		#{if event.isPublic == true}(public)#{/if}
 		#{else}(private)#{/else} 
 		#{if event.owner == _user && _owner == _user}
+<<<<<<< HEAD
+			#{a @Events.editEvent(event.id,  _calendar.id)} Edit #{/a}  
+			#{a @Events.removeEvent(event.id, _calendar.id)} | Remove #{/a} 
+=======
 			<a href="@{Events.editEvent(event.id)}"> Edit </a>  
 			<a href="@{Events.removeEvent(event.id)}"> | Remove </a> 
+>>>>>>> origin/exp_event
 		#{/if}
 		
 		*{show follow link}*
