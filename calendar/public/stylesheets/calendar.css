@@ -8,6 +8,7 @@
 
 #calendar_sidebar h1 {
 	font-size: 20px;
+	vertical-align: top;
 }
 
 #calendar_header {
@@ -69,4 +70,8 @@
 #calendar_footer {
 	text-align: center;
 	font-size: 14px;
+}
+
+#calendar_list {
+	width: 100%;
 }

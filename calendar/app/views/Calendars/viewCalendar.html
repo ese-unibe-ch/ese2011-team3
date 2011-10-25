@@ -37,9 +37,9 @@
 			</div>
 		</td>
 		<td id="calendar_content">
-			<table>
+			<table id="calendar_list">
 				#{list items:calendar.events, as:'event'}
-					*{calendar_event event:event, owner:calendar.owner, user:loginUser /}*
+					#{calendar_event event:event, owner:calendar.owner, user:loginUser /}
 				#{/list}
 			</table>
 		</td>
