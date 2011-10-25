@@ -18,19 +18,19 @@ import utilities.DayContainer;
 
 @Entity
 public class Calendar extends Model {
-    public String name;
+	public String name;
 
-    @ManyToOne
-    public User owner;
+	@ManyToOne
+	public User owner;
 
-    @ManyToMany(mappedBy = "calendars")
-    public List<Event> events;
+	@ManyToMany(mappedBy = "calendars")
+	public List<Event> events;
 
-    public Calendar(String name, User owner) {
-	this.name = name;
-	this.owner = owner;
-	this.events = new ArrayList<Event>();
-    }
+	public Calendar(String name, User owner) {
+		this.name = name;
+		this.owner = owner;
+		this.events = new ArrayList<Event>();
+	}
 
     public List<DayContainer> getCalendarData(Date currentDate) {
 	DateTime date = new DateTime(currentDate);
