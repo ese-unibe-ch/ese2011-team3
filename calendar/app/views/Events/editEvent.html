@@ -1,4 +1,4 @@
-#{form @updateEvent(event.id) , id:'updateForm', enctype:'multipart/form-data'}
+#{form @updateEvent(event.id, calendar.id) , id:'updateForm', enctype:'multipart/form-data'}
 <h1>Edit Event -  ${event.name}</h1>
 #{if flash.success}
     <p class="success">${flash.success}</p>
@@ -41,11 +41,16 @@
 
 <p>
 #{field 'isPublic'}
-	<label>is this event public?: </label>
+	<label>&{field.name}</label>
 	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" #{if event?.isPublic} checked #{/if}></input>
 #{/}
 </p>
-
+<p>
+#{field 'isFollowable'}
+	<label>&{field.name} </label>
+	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" #{if event?.isFollowable} checked #{/if}></input>
+#{/}
+</p>
 <p>
 #{field 'note'}
 	<label>&{field.name}</label>

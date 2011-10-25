@@ -116,7 +116,7 @@ public class CalendarTest extends UnitTest {
 		Calendar calendar = Calendar.find("byNameAndOwner", "Home", joe)
 				.first();
 
-		assertEquals(2, calendar.getFollowedEvents().size());
+		assertEquals(2, calendar.getFollowingEvents().size());
 	}
 
 	@Test
