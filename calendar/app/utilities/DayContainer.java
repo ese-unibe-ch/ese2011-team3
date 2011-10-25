@@ -1,11 +1,15 @@
 package utilities;
 
+import java.util.Date;
+
+import org.joda.time.DateTime;
+
 public class DayContainer {
 	public enum DayContainerType {
-		THISMONTH("normal"),
-		OTHERMONTH("other"),
-		TODAY("today"),
-		SELECTED("selected");
+		THISMONTH(""),
+		OTHERMONTH("day_other"),
+		TODAY("day_today"),
+		SELECTED("day_selected");
 
 		private String id;
 
@@ -18,13 +22,18 @@ public class DayContainer {
 		}
 	}
 
-	public int number;
+	public Date date;
 	public DayContainerType type;
 	public boolean containsEvents;
 
 	public DayContainer() {
-		this.number = 0;
+		this.date = new Date();
 		this.type = DayContainerType.THISMONTH;
 		this.containsEvents = false;
+	}
+
+	public int getNumber() {
+		DateTime d = new DateTime(this.date);
+		return d.getDayOfMonth();
 	}
 }

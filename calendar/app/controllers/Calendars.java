@@ -2,11 +2,13 @@ package controllers;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.persistence.Query;
 
 import models.Calendar;
+
+import org.joda.time.DateTime;
+
 import play.db.jpa.JPA;
 import play.mvc.With;
 
@@ -34,10 +36,20 @@ public class Calendars extends Main {
 		}
 
 		renderArgs.put("calendar", calendar);
+		renderArgs.put("calendarData", calendar.getCalendarData(currentDate));
 		renderArgs.put("currentDate", currentDate);
-		renderArgs.put("currentLocale", new Locale("en", "CH"));
 
 		render();
+	}
+
+	public static void viewNextMonth(Long calendarId, Date currentDate) {
+		viewCalendar(calendarId, new DateTime(currentDate).plusMonths(1)
+				.toDate());
+	}
+
+	public static void viewPrevMonth(Long calendarId, Date currentDate) {
+		viewCalendar(calendarId, new DateTime(currentDate).minusMonths(1)
+				.toDate());
 	}
 
 	public static void editCalendar() {

@@ -1,13 +1,47 @@
 #{extends 'Calendars/calendars.html' /}
-
-<h1>${calendar.owner.fullname}'s ${calendar.name}</h1>
-*{stylesheet for the calendar}*
 #{stylesheet 'calendar.css' /}
 
-#{calendarTag calendar:calendar, date:currentDate, locale:currentLocale, user:loginUser /}
-
-#{if calendar.owner == loginUser}
-	<a href="@{Calendars.addEvent(calendar.id, currentDate)}">Add Event</a>
-#{/if}
-
-#{eventsTag events:calendar.events, owner:calendar.owner, user:loginUser /}
+<table id="calendar_calendar">
+	<tr>
+		<td id="calendar_sidebar">
+			<h1>${calendar.name}</h1>
+			<div id="calendar_header">
+				%{ java.text.SimpleDateFormat f = new java.text.SimpleDateFormat("yyyy/MM/dd"); }%
+				<a href="@{Calendars.viewPrevMonth(calendar.id, currentDate)}">&laquo;</a> ${f.format(currentDate)} <a href="@{Calendars.viewNextMonth(calendar.id, currentDate)}">&raquo;</a>
+			</div>
+			<table id="calendar_grid">
+				<tr>
+					#{calendar_header /}
+				</tr>
+				<tr>
+				%{	
+					utilities.DayContainer cur;
+					for (int i = 0; i < calendarData.size(); i++) {
+						cur = calendarData.get(i);
+						if ((i % 7) == 0 && i != 0 && i != 42) {
+				}%
+				<tr>
+				%{
+						}
+				}%
+					#{calendar_day calendar:calendar, day:cur /}
+				%{
+					}
+				}%
+				</tr>
+			</table>
+			<div id="calendar_footer">
+				#{if calendar.owner == loginUser}
+					<a href="@{Calendars.addEvent(calendar.id, currentDate)}">Add Event</a>
+				#{/if}
+			</div>
+		</td>
+		<td id="calendar_content">
+			<table>
+				#{list items:calendar.events, as:'event'}
+					*{calendar_event event:event, owner:calendar.owner, user:loginUser /}*
+				#{/list}
+			</table>
+		</td>
+	</tr>
+</table>

@@ -9,9 +9,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Query;
 
 import org.joda.time.DateTime;
 
+import play.db.jpa.JPA;
 import play.db.jpa.Model;
 import utilities.DayContainer;
 
@@ -31,30 +33,49 @@ public class Calendar extends Model {
 		this.events = new ArrayList<Event>();
 	}
 
-	public List<DayContainer> getMonthData(Date currentDate) {
+	public List<DayContainer> getCalendarData(Date currentDate) {
 		DateTime date = new DateTime(currentDate);
 
 		DateTime now = new DateTime();
 		DateTime firstDayOfMonth = date.withDayOfMonth(1);
 		DateTime runDay = firstDayOfMonth.minusDays(firstDayOfMonth.dayOfWeek()
-				.get() - 1);
+				.get());
 
-		int dayOfMonth = 1;
 		DayContainer[] days = new DayContainer[42];
 
 		for (int i = 0; i < days.length; i++) {
+			days[i] = new DayContainer();
 			runDay = runDay.plusDays(1);
-			days[i].number = runDay.getDayOfMonth();
-			DayContainer.DayContainerType type;
-			if (days[i].number == date.getDayOfMonth()) {
+			days[i].date = runDay.toDate();
+			DayContainer.DayContainerType type = DayContainer.DayContainerType.THISMONTH;
+			if (runDay.getDayOfMonth() == date.getDayOfMonth()
+					&& runDay.getMonthOfYear() == date.getMonthOfYear()
+					&& runDay.getYear() == date.getYear()) {
 				type = DayContainer.DayContainerType.SELECTED;
-			} else if (days[i].number == now.getDayOfMonth()) {
+			} else if (runDay.getDayOfMonth() == now.getDayOfMonth()
+					&& runDay.getMonthOfYear() == now.getMonthOfYear()
+					&& runDay.getYear() == now.getYear()) {
 				type = DayContainer.DayContainerType.TODAY;
-			} else if (!runDay.monthOfYear().equals(now.monthOfYear())) {
+			} else if (!runDay.monthOfYear().equals(date.monthOfYear())) {
 				type = DayContainer.DayContainerType.OTHERMONTH;
 			}
+			days[i].type = type;
+			days[i].containsEvents = (this.eventsAtDay(runDay.toDate()).size() > 0);
 		}
-
 		return (List<DayContainer>) Arrays.asList(days);
+	}
+
+	public List<Event> eventsAtDay(Date currentDate) {
+		Query eventsQuery = JPA.em()
+				.createQuery("SELECT e FROM Event e WHERE e.calendar.id = :id")
+				.setParameter("id", this.id);
+		List<Event> results = eventsQuery.getResultList();
+		List<Event> events = new ArrayList<Event>();
+		for (Event e : results) {
+			if (e.happensOnDay(currentDate)) {
+				events.add(e);
+			}
+		}
+		return events;
 	}
 }
