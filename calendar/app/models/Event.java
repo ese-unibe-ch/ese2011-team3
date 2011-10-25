@@ -98,4 +98,13 @@ public class Event extends Model {
 	this.calendars.add(calendar);
 	calendar.events.add(this);
     }
+
+    public boolean isFollowedBy(User user) {
+	for (Calendar calendar : this.calendars) {
+	    if (calendar.owner.equals(user)) {
+		return true;
+	    }
+	}
+	return false;
+    }
 }

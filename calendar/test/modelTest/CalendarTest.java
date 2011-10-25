@@ -73,8 +73,8 @@ public class CalendarTest extends UnitTest {
 	List<User> followers = event.getAllFollowers();
 
 	assertEquals(2, followers.size());
-	assert(joesCalendar.events.contains(event));
-	assert(nicsCalendar.events.contains(event));
+	assert (joesCalendar.events.contains(event));
+	assert (nicsCalendar.events.contains(event));
     }
 
     @Test

@@ -6,13 +6,21 @@
 		<li>${ event.name }, start: ${ event.start.format('yyyy-MM-dd , HH:mm') }, end: ${ event.end.format('yyyy-MM-dd , HH:mm') } 
 		#{if event.isPublic == true}(public)#{/if}
 		#{else}(private)#{/else} 
-		#{if event.owner == _user}
+		#{if event.owner == _user && _owner == _user}
 			#{a @Events.editEvent(event.id)} Edit #{/a}  
 			#{a @Events.removeEvent(event.id)} | Remove #{/a} 
 		#{/if}
-		#{elseif event.isFollowable} 
+		#{if _owner != event.owner && event.isFollowable && !event.isFollowedBy(_user)} 
 			#{a @Events.selectCalendarToFollowEvent(event.id, _calendar.id)} Follow #{/a} 
-		#{/elseif}
+		#{/if}
+		
+		#{if _owner != event.owner && event.isFollowable && event.isFollowedBy(_user)} 
+			 following!
+		#{/if}
+		
+		#{if event.owner == _user && event.isFollowedBy(_owner) && _owner!=_user }
+			followed!
+		#{/if}
 		</li>
 	#{/list}
 	</ul>
