@@ -1,5 +1,6 @@
 #{extends 'Calendars/calendars.html' /}
 #{stylesheet 'calendar.css' /}
+#{stylesheet 'event.css' /}
 
 <table id="calendar_calendar">
 	<tr>
@@ -39,7 +40,7 @@
 		<td id="calendar_content">
 			<table id="calendar_list">
 				#{list items:calendar.eventsAtDay(currentDate), as:'event'}
-					#{calendar_event event:event, owner:calendar.owner, user:loginUser /}
+					<tr><td>#{calendar_event event:event, owner:calendar.owner, user:loginUser /}</td></tr>
 				#{/list}
 			</table>
 		</td>

@@ -60,7 +60,11 @@ public class Calendars extends Main {
 
 	}
 
-	public static void editEvent() {
+	public static void editEvent(Long eventId) {
+
+	}
+
+	public static void deleteEvent(Long eventId) {
 
 	}
 
