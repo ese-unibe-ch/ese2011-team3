@@ -69,5 +69,17 @@ public class Calendars extends Application {
 	Locale aLocale = new Locale("en", "CH");
 	render("Calendars/showCalendar.html", user, calendar, aDate, aLocale);
     }
+    
+    public static void newCalendar(){
+    	render();
+    }
+    public static void addCalendar(String calendarName){
+    	User user = User.find("byNickname",Security.connected()).first();
+    	Calendar calendar = new Calendar(calendarName, user).save();
+    	user.addCalendar(calendar);
+    	
+    	showCalendar(user.nickname, calendar.id);
+    }
 
+    
 }

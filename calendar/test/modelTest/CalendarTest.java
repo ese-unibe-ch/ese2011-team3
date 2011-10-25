@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import play.db.jpa.GenericModel.JPAQuery;
 import play.test.Fixtures;
 import play.test.UnitTest;
 
@@ -126,7 +127,7 @@ public class CalendarTest extends UnitTest {
 	User tom = new User("tom", "WTF", "secret", "tom@alt-f4.com").save();
 
 	Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
-	Calendar tomsCalendar = new Calendar("Home", wuschu).save();
+	Calendar tomsCalendar = new Calendar("Home", tom).save();
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
 
 	new Event("ESE sucks", "small note",
@@ -149,5 +150,27 @@ public class CalendarTest extends UnitTest {
 	assertEquals(1, events.size());
 
     }
+    @Test
+    public void testAddNewCalendar(){
+    	User tom = new User("tom", "WTF", "secret", "tom@alt-f4.com").save();
+    	Calendar tomsCalendar = new Calendar("Home", tom).save();
+    	tom.addCalendar(tomsCalendar);
+    	assertEquals(tom.calendars.size(),1);
+    	assertEquals(tomsCalendar, tom.calendars.get(0));
+    	assertEquals(tom.defaultCalendar, tomsCalendar);
+    }
+    @Test
+    public void testDefaultCalendar(){
+    	User tom = new User("tom", "WTF", "secret", "tom@alt-f4.com").save();
+    	Calendar tomsCalendar = new Calendar("Home", tom).save();
+    	tomsCalendar.save();
+    	tom.refresh();
+    	List<Calendar> calendars = Calendar.find("byOwner", tom).fetch();
+    	assertEquals(calendars.size(),1);
+    	assertEquals(tom.calendars.size(),1);
+    	assertEquals(Calendar.find("byName", "Home").first(), tomsCalendar);
+    	assertEquals(tom.defaultCalendar, tomsCalendar);
+    }
+
 
 }

@@ -9,6 +9,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import controllers.Calendars;
+
 import play.db.jpa.Model;
 
 @Entity
@@ -31,7 +33,7 @@ public class User extends Model implements Comparable<User> {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     public List<Calendar> calendars;
 
-    public Calendar defaultCalendar;
+    public Calendar defaultCalendar = null;
 
     public User(String nick, String name, String pass, String mail) {
 	this.nickname = nick;
@@ -52,4 +54,21 @@ public class User extends Model implements Comparable<User> {
 	int compare = nickname.compareTo(u.nickname);
 	return compare;
     }
+    //should be used to add calendars
+	public void addCalendar(Calendar calendar) {
+		if(this.defaultCalendar == null){
+			this.defaultCalendar = calendar;
+		}
+		this.calendars.add(calendar);
+	}
+	//TODO: set defaultCalendar correctly. why is the list calendars empty, that the JPA hands over?
+	public void setCalendars(List<Calendar> calendars){
+		this.calendars = calendars;
+		if(this.defaultCalendar == null && !calendars.isEmpty()){
+			this.defaultCalendar = calendars.get(0);
+		}
+	}
+	public List<Calendar> getCalendars(){
+		return this.calendars;
+	}
 }

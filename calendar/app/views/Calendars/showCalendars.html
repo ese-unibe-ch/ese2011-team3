@@ -2,11 +2,16 @@
 #{set title:'Home' /}
 
 <h1>${user.fullname}'s Calendars:</h1>
+
+#{if (user.defaultCalendar)}
+	<a href"@{Calendar.showCalendar(user.nickname, user.defaultCalendar.id)}"> default Calendar </a>
+#{/if}
 <ul>
 	#{list items:calendars, as:'calendar'}
 			<li>#{a @showCalendar(user.nickname, calendar.id)}${calendar.name}#{/a}</li>
 	#{/list}
 </ul>
+<a href="@{Calendars.newCalendar()}">New Calendar</a>
 <a href="@{Application.showOtherUsers(user.nickname)}">All other users</a>
 <a href="@{Application.showContacts(user.nickname)}">All my contacts</a>
 #{a @Profile.index()}Show my profile#{/a}
