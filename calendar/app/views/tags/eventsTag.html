@@ -10,16 +10,25 @@
 			#{a @Events.editEvent(event.id)} Edit #{/a}  
 			#{a @Events.removeEvent(event.id)} | Remove #{/a} 
 		#{/if}
+		
+		*{show follow link}*
 		#{if _user != event.owner && event.isFollowable && !event.isFollowedBy(_user)} 
-			#{a @Events.selectCalendarToFollowEvent(event.id, _calendar.id)} Follow #{/a} 
+			<a href="@{Events.selectCalendarToFollowEvent(event.id, _calendar.id)}"> Follow</a> 
 		#{/if}
 		
-		#{if _owner != event.owner && event.isFollowable && event.isFollowedBy(_user) && _user!=event.owner} 
-			 following!
+		*{show unfollow link}*
+		#{if _user != event.owner && event.isFollowable && event.isFollowedBy(_user)} 
+			<a href="@{Events.selectCalendarToFollowEvent(event.id, _calendar.id)}"> Unfollow</a> 
 		#{/if}
 		
-		#{if event.owner == _user && event.isFollowed()}
-			followed!
+		*{show a list of all followers for each event, for the currently logged in user}*
+		#{if event.owner == _user && event.isFollowed() && _owner == _user}
+			Is followed by: 
+			#{list items: event.getFollowers(), as: 'follower' }
+				${follower.nickname},
+			#{/list}
+			
+			
 		#{/if}
 		</li>
 	#{/list}
