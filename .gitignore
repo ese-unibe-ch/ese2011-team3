@@ -12,3 +12,5 @@ eclipse
 .metadata
 *.launch
 .settings/
+calendar/lib/*
+calendar/modules/*
