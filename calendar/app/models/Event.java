@@ -125,12 +125,11 @@ public class Event extends Model {
 	}
 
 	/**
-	 * returns a list of all followers of this event
+	 * returns a set of all followers of this event
 	 * 
-	 * @return a list of followers
+	 * @return a set of followers
 	 */
 	public Set<User> getFollowers() {
-		// List<User> followers = new ArrayList<User>();
 		Set<User> followers = new HashSet<User>();
 		for (Calendar calendar : this.calendars) {
 			if (!calendar.owner.equals(this.owner))
@@ -237,6 +236,7 @@ public class Event extends Model {
 	 * check if this event is unfollowable by a user
 	 * 
 	 * @param user a follower
+	 * @param calendar
 	 * @return true if this event is followed by a user
 	 */
 	public boolean isUnfollowableBy(User user, Calendar calendar) {
