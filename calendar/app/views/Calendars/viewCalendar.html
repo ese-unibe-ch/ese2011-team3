@@ -17,6 +17,9 @@
 					<tr>
 						<td class="event_note" colspan="2">Note: ${event.note}</td>
 					</tr>
+						<tr>
+						<td class="event_note" colspan="2">#{if event.owner == loginUser} Followers: #{list items:event.getFollowers(), as:'follower'} ${follower.nickname} ${follower_isLast ? '' : ',' } #{/list}#{/if} </td>
+					</tr>
 				</table>
 			</td>
 		</tr>
