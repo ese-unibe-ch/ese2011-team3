@@ -32,7 +32,7 @@ public class Calendars extends Main {
 		}
 
 		renderArgs.put("calendar", calendar);
-		renderArgs.put("calendarData", calendar.getCalendarData(currentDate));
+		renderArgs.put("calendarData", calendar.getCalendarData(getUser(), currentDate));
 		renderArgs.put("currentDate", currentDate);
 	}
 
@@ -69,6 +69,12 @@ public class Calendars extends Main {
 	public static void addEvent(Long calendarId, Date currentDate) {
 		putCalendarData(calendarId, currentDate);
 		renderArgs.put("actionName", "Add Event");
+		
+		Date now = new Date();
+		flash.put("startDate", new DateTime(currentDate).toString("yyyy-MM-dd"));
+		flash.put("endDate", new DateTime(currentDate).toString("yyyy-MM-dd"));
+		flash.put("startTime", new DateTime(now).plusHours(1).toString("HH:00"));
+		flash.put("endTime", new DateTime(now).plusHours(2).toString("HH:00"));
 
 		renderTemplate("Calendars/viewEvent.html");
 	}
@@ -89,6 +95,7 @@ public class Calendars extends Main {
 		flash.put("startTime", new DateTime(event.start).toString("HH:mm"));
 		flash.put("endTime", new DateTime(event.end).toString("HH:mm"));
 		flash.put("isPublic", event.isPublic);
+		flash.put("isFollowable", event.isFollowable);
 		flash.put("note", event.note);
 
 		renderTemplate("Calendars/viewEvent.html");

@@ -32,7 +32,7 @@ public class Calendar extends Model {
 		this.events = new ArrayList<Event>();
 	}
 
-	public List<DayContainer> getCalendarData(Date currentDate) {
+	public List<DayContainer> getCalendarData(User user, Date currentDate) {
 		DateTime date = new DateTime(currentDate);
 
 		DateTime now = new DateTime();
@@ -59,17 +59,18 @@ public class Calendar extends Model {
 				type = DayContainer.DayContainerType.OTHERMONTH;
 			}
 			days[i].type = type;
-			days[i].containsEvents = (this.eventsAtDay(runDay.toDate()).size() > 0);
+			days[i].containsEvents = (this.eventsAtDay(user, runDay.toDate()).size() > 0);
 		}
 		return (List<DayContainer>) Arrays.asList(days);
 	}
 
-	public List<Event> eventsAtDay(Date currentDate) {
+	public List<Event> eventsAtDay(User user, Date currentDate) {
 		Query eventsQuery = JPA
 				.em()
 				.createQuery(
-						"SELECT e FROM Event e JOIN e.calendars c WHERE c.id = :id")
-				.setParameter("id", this.id);
+						"SELECT e FROM Event e JOIN e.calendars c WHERE c.id = :id AND (e.isPublic = true OR c.owner.id = :user)")
+				.setParameter("id", this.id)
+				.setParameter("user", user.id);
 		List<Event> results = eventsQuery.getResultList();
 		List<Event> events = new ArrayList<Event>();
 		for (Event e : results) {
