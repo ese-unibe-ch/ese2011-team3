@@ -1,0 +1,37 @@
+#{extends 'Calendars/calendars.html' /}
+#{stylesheet 'calendar.css' /}
+
+<table id="calendar_calendar">
+	<tr>
+		<td id="calendar_sidebar">
+			<div id="calendar_header">
+				%{ java.text.SimpleDateFormat f = new java.text.SimpleDateFormat("yyyy/MM/dd"); }%
+				<a href="@{Calendars.viewPrevMonth(calendar.id, currentDate)}">&laquo;&laquo;</a> ${f.format(currentDate)} <a href="@{Calendars.viewNextMonth(calendar.id, currentDate)}">&raquo;&raquo;</a>
+			</div>
+			<table id="calendar_grid">
+				<tr>
+					#{calendar_header /}
+				</tr>
+				<tr>
+				%{	
+					utilities.DayContainer cur;
+					for (int i = 0; i < calendarData.size(); i++) {
+						cur = calendarData.get(i);
+						if ((i % 7) == 0 && i != 0 && i != 42) {
+				}%
+				<tr>
+				%{
+						}
+				}%
+					#{calendar_day calendar:calendar, day:cur /}
+				%{
+					}
+				}%
+				</tr>
+			</table>
+		</td>
+		<td id="calendar_content">
+			#{doLayout /}
+		</td>
+	</tr>
+</table>

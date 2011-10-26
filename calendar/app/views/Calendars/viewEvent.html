@@ -1,0 +1,82 @@
+#{extends 'Calendars/calendarGrid.html' /}
+#{stylesheet 'event.css' /}
+
+<h1>${actionName}</h1>
+<table id="event_form">
+	#{field 'name'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.name}" class="${field.errorClass}" />
+			</td>
+		</tr>
+	#{/field}
+	#{field 'startDate'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.startDate}" class="${field.errorClass}" />
+			</td>
+		</tr>
+	#{/field}
+	#{field 'startTime'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.startTime}" class="${field.errorClass}" />
+			</td>
+		</tr>
+	#{/field}
+	#{field 'endDate'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.endDate}" class="${field.errorClass}" />
+			</td>
+		</tr>
+	#{/field}
+	#{field 'endTime'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.endTime}" class="${field.errorClass}" />
+			</td>
+		</tr>
+	#{/field}
+	#{field 'isPublic'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="checkbox" id="${field.id}" name="${field.name}" value="${flash.isPublic}" class="${field.errorClass}" >
+			</td>
+		</tr>
+	#{/field}
+	#{field 'note'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<textarea id="${field.id}" name="${field.name}" value="${flash.note}" class="${field.errorClass}"></textarea>
+			</td>
+		</tr>
+	#{/field}
+	<tr>
+		<td colspan="2" id="event_buttons">
+			<input type="button" name="Cancel" value="Cancel" onclick="javascript:location.href='@{Calendars.viewCalendar(calendar.id, currentDate)}';"/>
+			<input type="submit" id="submit" name="OK" value="OK" />
+		</td>
+	</tr>
+</table>

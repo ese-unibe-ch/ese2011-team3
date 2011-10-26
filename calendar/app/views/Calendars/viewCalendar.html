@@ -1,48 +1,29 @@
-#{extends 'Calendars/calendars.html' /}
-#{stylesheet 'calendar.css' /}
+#{extends 'Calendars/calendarGrid.html' /}
 #{stylesheet 'event.css' /}
 
-<table id="calendar_calendar">
-	<tr>
-		<td id="calendar_sidebar">
-			<h1>${calendar.name}</h1>
-			<div id="calendar_header">
-				%{ java.text.SimpleDateFormat f = new java.text.SimpleDateFormat("yyyy/MM/dd"); }%
-				<a href="@{Calendars.viewPrevMonth(calendar.id, currentDate)}">&laquo;</a> ${f.format(currentDate)} <a href="@{Calendars.viewNextMonth(calendar.id, currentDate)}">&raquo;</a>
-			</div>
-			<table id="calendar_grid">
-				<tr>
-					#{calendar_header /}
-				</tr>
-				<tr>
-				%{	
-					utilities.DayContainer cur;
-					for (int i = 0; i < calendarData.size(); i++) {
-						cur = calendarData.get(i);
-						if ((i % 7) == 0 && i != 0 && i != 42) {
-				}%
-				<tr>
-				%{
-						}
-				}%
-					#{calendar_day calendar:calendar, day:cur /}
-				%{
-					}
-				}%
-				</tr>
-			</table>
-			<div id="calendar_footer">
-				#{if calendar.owner == loginUser}
-					<a href="@{Calendars.addEvent(calendar.id, currentDate)}">Add Event</a>
-				#{/if}
-			</div>
-		</td>
-		<td id="calendar_content">
-			<table id="calendar_list">
-				#{list items:calendar.eventsAtDay(currentDate), as:'event'}
-					<tr><td>#{calendar_event event:event, owner:calendar.owner, user:loginUser /}</td></tr>
-				#{/list}
-			</table>
-		</td>
-	</tr>
+<h1>${calendar.name}</h1>
+<table id="event_list">
+	#{list items:calendar.eventsAtDay(currentDate), as:'event'}
+		<tr>
+			<td>
+				<table id="event_event">
+					<tr>
+						<td class="event_title">${event.name} <a href="@{Calendars.editEvent(calendar.id, currentDate, event.id)}"><img src="/public/images/edit.jpeg" /></a> <a href="@{Calendars.deleteEvent(calendar.id, currentDate, event.id)}"><img src="/public/images/delete.jpeg" /></a></td>
+						<td class="event_properties">(#{if event.isPublic}public)#{/if}#{else}private)#{/else}</td>
+					</tr>
+					<tr>
+						<td class="event_date" colspan="2">${event.start.format('yyyy-MM-dd, HH:mm')} - ${event.end.format('yyyy-MM-dd, HH:mm')}</td>
+					</tr>
+					<tr>
+						<td class="event_note" colspan="2">Note: ${event.note}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	#{/list}
 </table>
+#{if calendar.owner == loginUser}
+	<div id="calendar_addevent">
+		<input type="button" onclick="javascript:location.href='@{Calendars.addEvent(calendar.id, currentDate)}'" name="Add Event" value="Add Event">
+	</div>
+#{/if}

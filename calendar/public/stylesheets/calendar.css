@@ -15,7 +15,12 @@
 
 #calendar_header {
 	text-align: center;
-	font-size: 12px;
+	font-size: 15px;
+	margin-top: 40px;
+}
+
+#calendar_header a {
+	margin: 10px;
 }
 
 #calendar_grid {
@@ -64,7 +69,7 @@
 	font-size: 14px;
 }
 
-#calendar_list {
-	width: 100%;
-	padding: 10px;
+#calendar_addevent {
+	text-align: right;
+	margin: 15px 15px 0px;
 }
