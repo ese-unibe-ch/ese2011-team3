@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import models.Calendar;
+import models.Event;
 import models.User;
 
 import org.joda.time.DateTime;
@@ -57,11 +58,16 @@ public class Calendars extends Main {
 	}
 
 	public static void addEvent(Long calendarId, Date currentDate) {
-
+		Calendar calendar = Calendar.findById(calendarId);
+		User user = calendar.owner;
+		render(calendar, user);
 	}
 
 	public static void editEvent(Long eventId) {
-		render();
+		Event event = Event.findById(eventId);
+		// Calendar calendar = Calendar.find("byId", calendarId).first();
+		User user = event.owner;
+		render(event, user);
 	}
 
 	public static void addCalendar(String calendarName) {

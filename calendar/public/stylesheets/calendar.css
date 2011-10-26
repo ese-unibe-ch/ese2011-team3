@@ -68,3 +68,8 @@
 	width: 100%;
 	padding: 10px;
 }
+
+#calendar_addEvent {
+	width: 100%;
+	vertical-align: top;
+}
