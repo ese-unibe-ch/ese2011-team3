@@ -63,10 +63,11 @@ public class Calendars extends Main {
 		putCalendarData(calendarId, currentDate);
 		renderArgs.put("actionName", "Add Event");
 		
+		Date now = new Date();
 		flash.put("startDate", new DateTime(currentDate).toString("yyyy-MM-dd"));
 		flash.put("endDate", new DateTime(currentDate).toString("yyyy-MM-dd"));
-		flash.put("startTime", new DateTime(currentDate).plusHours(1).toString("HH:00"));
-		flash.put("endTime", new DateTime(currentDate).plusHours(2).toString("HH:00"));
+		flash.put("startTime", new DateTime(now).plusHours(1).toString("HH:00"));
+		flash.put("endTime", new DateTime(now).plusHours(2).toString("HH:00"));
 
 		renderTemplate("Calendars/viewEvent.html");
 	}
