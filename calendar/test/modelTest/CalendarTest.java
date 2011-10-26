@@ -145,7 +145,7 @@ public class CalendarTest extends UnitTest {
 				formatter.parse("2011/10/15, 15:00"), tom, tomsCalendar, false,
 				true).save();
 
-		List<Event> events = wuschusCalendar.eventsAtDay(new Date());
+		List<Event> events = wuschusCalendar.eventsAtDay(wuschu, new Date());
 		assertEquals(1, events.size());
 
 	}

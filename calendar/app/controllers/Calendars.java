@@ -32,7 +32,8 @@ public class Calendars extends Main {
 		}
 
 		renderArgs.put("calendar", calendar);
-		renderArgs.put("calendarData", calendar.getCalendarData(getUser(), currentDate));
+		renderArgs.put("calendarData",
+				calendar.getCalendarData(getUser(), currentDate));
 		renderArgs.put("currentDate", currentDate);
 	}
 
@@ -69,7 +70,7 @@ public class Calendars extends Main {
 	public static void addEvent(Long calendarId, Date currentDate) {
 		putCalendarData(calendarId, currentDate);
 		renderArgs.put("actionName", "Add Event");
-		
+
 		Date now = new Date();
 		flash.put("startDate", new DateTime(currentDate).toString("yyyy-MM-dd"));
 		flash.put("endDate", new DateTime(currentDate).toString("yyyy-MM-dd"));
@@ -101,23 +102,19 @@ public class Calendars extends Main {
 		renderTemplate("Calendars/viewEvent.html");
 	}
 
-	public static void saveEvent(Long calendarId, Long eventId,
-			Date currentDate, @Required String name, @Required Date startDate,
-			@Required Date endDate, @Required String startTime,
-			@Required String endTime, @Required boolean isPublic,
-			@Required boolean isFollowable, String note) {
+	public static void saveEvent(Long calendarId, Date currentDate, Long id,
+			@Required String name, @Required Date startDate, String startTime,
+			@Required Date endDate, String endTime, boolean isPublic,
+			boolean isFollowable, String note) {
 
-		validation.required(name);
-		validation.required(startDate);
-		validation.required(endDate);
-		validation.required(isPublic);
-		validation.required(isFollowable);
 		validation.match(startTime, regexTime).message("Invalid!");
 		validation.match(endTime, regexTime).message("Invalid!");
 
 		if (validation.hasErrors()) {
-			params.flash();
-			validation.keep();
+			flash.keep();
+
+			Calendars.putCalendarData(calendarId, currentDate);
+			renderArgs.put("actionName", "Add Event");
 
 			renderTemplate("Calendars/viewEvent.html");
 		}
@@ -128,7 +125,7 @@ public class Calendars extends Main {
 		User owner = calendar.owner;
 
 		// new event
-		if (eventId == null) {
+		if (id == null) {
 			new Event(name, note, startDate, endDate, owner, calendar,
 					isPublic, isFollowable).save();
 
@@ -136,8 +133,8 @@ public class Calendars extends Main {
 		}
 
 		// edit event
-		if (eventId != null) {
-			Event event = Event.findById(eventId);
+		if (id != null) {
+			Event event = Event.findById(id);
 			event.name = name;
 			event.start = helperCreateDate(startDate, startTime, "HH:mm");
 			event.end = helperCreateDate(endDate, endTime, "HH:mm");
@@ -149,12 +146,28 @@ public class Calendars extends Main {
 			event.save();
 		}
 
-		viewCalendar(calendar.id, startDate);
+		viewCalendar(calendarId, startDate);
 	}
 
 	public static void deleteEvent(Long calendarId, Date currentDate,
 			Long eventId) {
-		putCalendarData(calendarId, currentDate);
+
+		Query deleteQuery = JPA.em()
+				.createQuery("SELECT e FROM Event e WHERE e.id = :id")
+				.setParameter("id", eventId);
+
+		Event event = (Event) deleteQuery.getSingleResult();
+		event.delete();
+
+		/*
+		 * Query calendarQuery = JPA.em()
+		 * .createQuery("SELECT e FROM Calendar e WHERE e.id = :id")
+		 * .setParameter("id", calendarId);
+		 * 
+		 * Calendar calendar = (Calendar) calendarQuery.getSingleResult();
+		 * calendar.save();
+		 */
+
 		viewCalendar(calendarId, currentDate);
 	}
 
