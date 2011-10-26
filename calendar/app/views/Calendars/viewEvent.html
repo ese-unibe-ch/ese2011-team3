@@ -63,7 +63,7 @@
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				<input type="checkbox" id="${field.id}" name="${field.name}" value="${flash.isPublic}" class="${field.errorClass}" >
+				<input type="checkbox" id="${field.id}" name="${field.name}" #{if isPublic} checked #{/if} class="${field.errorClass}" >
 			</td>
 		</tr>
 	#{/field}
@@ -73,7 +73,7 @@
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				<input type="checkbox" id="${field.id}" name="${field.name}" value="${flash.isFollowable}" class="${field.errorClass}" >
+				<input type="checkbox" id="${field.id}" name="${field.name}" #{if isFollowable} checked #{/if} class="${field.errorClass}" >
 			</td>
 		</tr>
 	#{/field}

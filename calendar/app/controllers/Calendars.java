@@ -95,8 +95,8 @@ public class Calendars extends Main {
 		flash.put("endDate", new DateTime(event.end).toString("yyyy-MM-dd"));
 		flash.put("startTime", new DateTime(event.start).toString("HH:mm"));
 		flash.put("endTime", new DateTime(event.end).toString("HH:mm"));
-		flash.put("isPublic", event.isPublic);
-		flash.put("isFollowable", event.isFollowable);
+		renderArgs.put("isPublic", event.isPublic);
+		renderArgs.put("isFollowable", event.isFollowable);
 		flash.put("note", event.note);
 
 		renderTemplate("Calendars/viewEvent.html");
@@ -126,8 +126,12 @@ public class Calendars extends Main {
 
 		// new event
 		if (id == null) {
-			new Event(name, note, startDate, endDate, owner, calendar,
-					isPublic, isFollowable).save();
+			Event event = new Event(name, note, startDate, endDate, owner,
+					calendar, isPublic, isFollowable).save();
+
+			event.setStart(startDate);
+			event.setEnd(endDate);
+			event.save();
 
 			calendar.save();
 		}
@@ -187,5 +191,32 @@ public class Calendars extends Main {
 		aDate = aDate.withTime(time.getHourOfDay(), time.getMinuteOfHour(),
 				time.getSecondOfMinute(), time.getMillisOfSecond());
 		return aDate.toDate();
+	}
+
+	public static void followEvent(Long ownCalendarId, Long originalCalendarId,
+			Long eventId) {
+
+		Event event = Event.find("byId", eventId).first();
+		Calendar calendar = Calendar.find("byId", ownCalendarId).first();
+
+		event.follow(calendar);
+		event.save();
+		calendar.save();
+
+		Date aDate = event.start;
+
+		Calendars.viewCalendar(originalCalendarId, aDate);
+	}
+
+	public static void unfollowEvent(Long calendarId, Long eventId) {
+		Calendar calendar = Calendar.find("byId", calendarId).first();
+		Event event = Event.find("byId", eventId).first();
+
+		event.unfollow(calendar);
+		event.save();
+		calendar.save();
+
+		Date aDate = event.start;
+		Calendars.viewCalendar(calendarId, aDate);
 	}
 }
