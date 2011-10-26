@@ -2,7 +2,9 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -127,8 +129,9 @@ public class Event extends Model {
 	 * 
 	 * @return a list of followers
 	 */
-	public List<User> getFollowers() {
-		List<User> followers = new ArrayList<User>();
+	public Set<User> getFollowers() {
+		// List<User> followers = new ArrayList<User>();
+		Set<User> followers = new HashSet<User>();
 		for (Calendar calendar : this.calendars) {
 			if (!calendar.owner.equals(this.owner))
 				followers.add(calendar.owner);
@@ -223,20 +226,11 @@ public class Event extends Model {
 	 * check if this event is followable by a user
 	 * 
 	 * @param user a follower
-	 * @return true if this event is followed by user
+	 * @return true if a user is not the owner of this event
 	 */
 	public boolean isFollowableBy(User user) {
-		// _user : loginUser = user
-		// event.owner = this.owner
-		// _user != event.owner && event.isFollowable &&
-		// !event.isFollowedBy(_user)
-		return !user.equals(this.owner) && this.isPublic
-				&& !this.isFollowedBy(user);
-		/*
-		 * if (!this.owner.equals(user) && this.isPublic) { for (Calendar
-		 * calendar : user.calendars) { return
-		 * !this.calendars.contains(calendar); } } return true;
-		 */
+		return !user.equals(this.owner) && this.isPublic;
+
 	}
 
 	/**
@@ -246,10 +240,7 @@ public class Event extends Model {
 	 * @return true if this event is followed by a user
 	 */
 	public boolean isUnfollowableBy(User user, Calendar calendar) {
-		// _user != event.owner && event.isFollowable &&
-		// event.isFollowedBy(_user)
 		return !user.equals(this.owner) && this.isPublic
-				&& this.isFollowedBy(user)
 				&& !calendar.owner.equals(this.owner);
 	}
 }

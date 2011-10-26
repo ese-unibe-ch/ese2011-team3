@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -200,11 +201,18 @@ public class Calendars extends Main {
 				.setParameter("id", eventId).getSingleResult();
 
 		List<Calendar> calendars = JPA.em()
-				.createQuery("SELECT e FROM Calendar e WHERE e.owner.id = :id")
+				.createQuery("SELECT c FROM Calendar c WHERE c.owner.id = :id")
 				.setParameter("id", getUser().id).getResultList();
 
+		List<Calendar> list = new ArrayList<Calendar>();
+		for (Calendar calendar : calendars) {
+			if (!calendar.events.contains(event)) {
+				list.add(calendar);
+			}
+		}
+
 		renderArgs.put("event", event);
-		renderArgs.put("calendars", calendars);
+		renderArgs.put("calendars", list);
 		renderTemplate("Calendars/chooseCalendar.html");
 	}
 
