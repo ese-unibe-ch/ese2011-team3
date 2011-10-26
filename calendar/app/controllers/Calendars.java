@@ -10,12 +10,18 @@ import models.Event;
 import models.User;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
+import play.data.validation.Required;
 import play.db.jpa.JPA;
 import play.mvc.With;
 
 @With(Secure.class)
 public class Calendars extends Main {
+	// regex for HH:mm
+	private static final String regexTime = "^([0-1][0-9]|[2][0-3]):([0-5][0-9])$";
+
 	private static void putCalendarData(Long calendarId, Date currentDate) {
 		Query calendarQuery = JPA.em()
 				.createQuery("SELECT c FROM Calendar c WHERE c.id = :id")
@@ -57,7 +63,8 @@ public class Calendars extends Main {
 				.toDate());
 	}
 
-	public static void editCalendar() {}
+	public static void editCalendar() {
+	}
 
 	public static void addEvent(Long calendarId, Date currentDate) {
 		putCalendarData(calendarId, currentDate);
@@ -87,11 +94,55 @@ public class Calendars extends Main {
 		renderTemplate("Calendars/viewEvent.html");
 	}
 
-	public static void saveEvent(Long calendarId, Date currentDate) {
-		// save logic
+	public static void saveEvent(Long calendarId, Long eventId,
+			Date currentDate, @Required String name, @Required Date startDate,
+			@Required Date endDate, @Required String startTime,
+			@Required String endTime, @Required boolean isPublic,
+			@Required boolean isFollowable, String note) {
 
-		// put start date of the event here!!
-		viewCalendar(calendarId, new Date());
+		validation.required(name);
+		validation.required(startDate);
+		validation.required(endDate);
+		validation.required(isPublic);
+		validation.required(isFollowable);
+		validation.match(startTime, regexTime).message("Invalid!");
+		validation.match(endTime, regexTime).message("Invalid!");
+
+		if (validation.hasErrors()) {
+			params.flash();
+			validation.keep();
+
+			renderTemplate("Calendars/viewEvent.html");
+		}
+
+		Calendar calendar = Calendar.findById(calendarId);
+		startDate = helperCreateDate(startDate, startTime, "HH:mm");
+		endDate = helperCreateDate(endDate, endTime, "HH:mm");
+		User owner = calendar.owner;
+
+		// new event
+		if (eventId == null) {
+			new Event(name, note, startDate, endDate, owner, calendar,
+					isPublic, isFollowable).save();
+
+			calendar.save();
+		}
+
+		// edit event
+		if (eventId != null) {
+			Event event = Event.findById(eventId);
+			event.name = name;
+			event.start = helperCreateDate(startDate, startTime, "HH:mm");
+			event.end = helperCreateDate(endDate, endTime, "HH:mm");
+			event.lowerBound = Event.makeLowerBound(startDate);
+			event.upperBound = Event.makeUpperBound(endDate);
+			event.note = note;
+			event.isPublic = isPublic;
+			event.isFollowable = isFollowable;
+			event.save();
+		}
+
+		viewCalendar(calendar.id, startDate);
 	}
 
 	public static void deleteEvent(Long calendarId, Date currentDate,
@@ -106,5 +157,15 @@ public class Calendars extends Main {
 		loginUser.addCalendar(calendar);
 
 		viewCalendar(calendar.id, null);
+	}
+
+	private static Date helperCreateDate(Date date, String timeString,
+			String pattern) {
+		DateTimeFormatter parser = DateTimeFormat.forPattern("HH:mm");
+		DateTime time = parser.parseDateTime(timeString);
+		DateTime aDate = new DateTime(date);
+		aDate = aDate.withTime(time.getHourOfDay(), time.getMinuteOfHour(),
+				time.getSecondOfMinute(), time.getMillisOfSecond());
+		return aDate.toDate();
 	}
 }
