@@ -142,8 +142,6 @@ public class Calendars extends Main {
 			event.name = name;
 			event.start = helperCreateDate(startDate, startTime, "HH:mm");
 			event.end = helperCreateDate(endDate, endTime, "HH:mm");
-			event.lowerBound = Event.makeLowerBound(startDate);
-			event.upperBound = Event.makeUpperBound(endDate);
 			event.note = note;
 			event.isPublic = isPublic;
 			event.isFollowable = isFollowable;
