@@ -26,7 +26,7 @@ public class Calendars extends Main {
 		}
 
 		renderArgs.put("calendar", calendar);
-		renderArgs.put("calendarData", calendar.getCalendarData(currentDate));
+		renderArgs.put("calendarData", calendar.getCalendarData(getUser(), currentDate));
 		renderArgs.put("currentDate", currentDate);
 	}
 

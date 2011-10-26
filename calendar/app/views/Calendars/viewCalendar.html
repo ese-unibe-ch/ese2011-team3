@@ -3,7 +3,7 @@
 
 <h1>${calendar.name}</h1>
 <table id="event_list">
-	#{list items:calendar.eventsAtDay(currentDate), as:'event'}
+	#{list items:calendar.eventsAtDay(loginUser, currentDate), as:'event'}
 		<tr>
 			<td>
 				<table id="event_event">
