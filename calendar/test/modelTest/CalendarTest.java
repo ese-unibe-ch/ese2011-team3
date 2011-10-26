@@ -59,7 +59,7 @@ public class CalendarTest extends UnitTest {
 		new Event("ESE sucks", "small note",
 				formatter.parse("2011/10/14, 09:00"),
 				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
-				false, true).save();
+				true).save();
 
 		Event followEvent = Event.find("byName", "ESE sucks").first();
 
@@ -93,16 +93,16 @@ public class CalendarTest extends UnitTest {
 		new Event("ESE sucks", "small note",
 				formatter.parse("2011/10/14, 09:00"),
 				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
-				false, true).save();
+				true).save();
 
 		new Event("ESE sucks again", "small note",
 				formatter.parse("2011/10/14, 09:00"),
 				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
-				false, true).save();
+				true).save();
 
 		new Event("ESE", "small note", formatter.parse("2011/10/14, 09:00"),
-				formatter.parse("2011/10/14, 15:00"), joe, joesCalendar, false,
-				true).save();
+				formatter.parse("2011/10/14, 15:00"), joe, joesCalendar, true)
+				.save();
 
 		Event event1 = Event.find("byName", "ESE sucks").first();
 		Event event2 = Event.find("byName", "ESE sucks").first();
@@ -132,17 +132,17 @@ public class CalendarTest extends UnitTest {
 		new Event("ESE sucks", "small note",
 				formatter.parse("2011/10/14, 09:00"),
 				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
-				false, true).save();
+				true).save();
 
 		new Event("ESE sucks again!", "small note",
 				formatter.parse("2011/10/15, 09:00"),
 				formatter.parse("2011/10/15, 15:00"), wuschu, wuschusCalendar,
-				false, true).save();
+				true).save();
 
 		new Event("ESE sucks again!", "small note",
 				formatter.parse("2011/10/15, 09:00"),
-				formatter.parse("2011/10/15, 15:00"), tom, tomsCalendar, false,
-				true).save();
+				formatter.parse("2011/10/15, 15:00"), tom, tomsCalendar, true)
+				.save();
 
 		List<Event> events = wuschusCalendar.eventsAtDay(wuschu,
 				formatter.parse("2011/10/14, 10:00"));

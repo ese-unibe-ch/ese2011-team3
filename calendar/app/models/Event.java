@@ -19,7 +19,6 @@ public class Event extends Model {
 	public Date start;
 	public Date end;
 	public boolean isPublic;
-	public boolean isFollowable;
 
 	@ManyToOne
 	public User owner;
@@ -65,10 +64,9 @@ public class Event extends Model {
 	 * @param isFollowable
 	 */
 	public Event(String name, String note, Date start, Date end, User owner,
-			Calendar calendar, boolean isPublic, boolean isFollowable) {
+			Calendar calendar, boolean isPublic) {
 		this(name, note, end, end, owner, calendar);
 		this.isPublic = isPublic;
-		this.isFollowable = isFollowable;
 	}
 
 	/**
@@ -186,5 +184,72 @@ public class Event extends Model {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * make this event followable. if followable is false, then all followers of
+	 * this event are removed.
+	 * 
+	 * @param isFollowale make this event followable
+	 */
+	public void setPublic(boolean isPublic) {
+
+		/*
+		 * check if state has changed from followable to not followable
+		 */
+		boolean switched = this.isPublic && !isPublic;
+
+		this.isPublic = isPublic;
+
+		/*
+		 * remove this event from all calendars of followers
+		 */
+		if (switched == true) {
+			List<Calendar> calendars = new ArrayList<Calendar>(this.calendars);
+			for (Calendar calendar : calendars) {
+				/*
+				 * if the calendar owner is not equals to the event owner, then
+				 * the calendar owner is a follower of this event.
+				 */
+				if (calendar.owner != this.owner) {
+					this.unfollow(calendar);
+					calendar.save();
+				}
+			}
+		}
+	}
+
+	/**
+	 * check if this event is followable by a user
+	 * 
+	 * @param user a follower
+	 * @return true if this event is followed by user
+	 */
+	public boolean isFollowableBy(User user) {
+		// _user : loginUser = user
+		// event.owner = this.owner
+		// _user != event.owner && event.isFollowable &&
+		// !event.isFollowedBy(_user)
+		return !user.equals(this.owner) && this.isPublic
+				&& !this.isFollowedBy(user);
+		/*
+		 * if (!this.owner.equals(user) && this.isPublic) { for (Calendar
+		 * calendar : user.calendars) { return
+		 * !this.calendars.contains(calendar); } } return true;
+		 */
+	}
+
+	/**
+	 * check if this event is unfollowable by a user
+	 * 
+	 * @param user a follower
+	 * @return true if this event is followed by a user
+	 */
+	public boolean isUnfollowableBy(User user, Calendar calendar) {
+		// _user != event.owner && event.isFollowable &&
+		// event.isFollowedBy(_user)
+		return !user.equals(this.owner) && this.isPublic
+				&& this.isFollowedBy(user)
+				&& !calendar.owner.equals(this.owner);
 	}
 }

@@ -8,8 +8,8 @@
 			<td>
 				<table id="event_event">
 					<tr>
-						<td class="event_title">${event.name} <a href="@{Calendars.editEvent(calendar.id, currentDate, event.id)}"><img src="/public/images/edit.jpeg" /></a> <a href="@{Calendars.deleteEvent(calendar.id, currentDate, event.id)}"><img src="/public/images/delete.jpeg" /></a></td>
-						<td class="event_properties">(#{if event.isPublic}public)#{/if}#{else}private)#{/else}</td>
+						<td class="event_title">${event.name} <a href="@{Calendars.editEvent(calendar.id, currentDate, event.id)}"><img src="/public/images/edit.jpeg" /></a> <a href="@{Calendars.deleteEvent(calendar.id, currentDate, event.id)}"><img src="/public/images/delete.jpeg" /></a> #{if event?.isFollowableBy(loginUser)}<a href="@{Calendars.copyEvent(calendar.id, currentDate, event.id)}"><img src="/public/images/follow.png" /></a>#{/if} #{if event?.isUnfollowableBy(loginUser, calendar)}<a href="@{Calendars.unfollowEvent(calendar.id, event.id)}">unfollow</a>#{/if}</td>
+						<td class="event_properties">(#{if event.isPublic}public)#{/if}#{else}private)#{/else} </td>
 					</tr>
 					<tr>
 						<td class="event_date" colspan="2">${event.start.format('yyyy-MM-dd, HH:mm')} - ${event.end.format('yyyy-MM-dd, HH:mm')}</td>

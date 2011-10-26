@@ -47,8 +47,8 @@ public class Events extends Controller {
 		endDate = helperCreateDate(endDate, endTime, "HH:mm");
 
 		User owner = calendar.owner;
-		new Event(name, note, startDate, endDate, owner, calendar, isPublic,
-				isFollowable).save();
+		new Event(name, note, startDate, endDate, owner, calendar, isPublic)
+				.save();
 
 		calendar.save();
 
@@ -90,7 +90,6 @@ public class Events extends Controller {
 		event.end = helperCreateDate(endDate, endTime, "HH:mm");
 		event.note = note;
 		event.isPublic = isPublic;
-		event.isFollowable = isFollowable;
 
 		/*
 		 * if an event is set to private or not followable, then all user which

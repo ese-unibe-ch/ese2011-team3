@@ -96,7 +96,7 @@ public class Calendars extends Main {
 		flash.put("startTime", new DateTime(event.start).toString("HH:mm"));
 		flash.put("endTime", new DateTime(event.end).toString("HH:mm"));
 		renderArgs.put("isPublic", event.isPublic);
-		renderArgs.put("isFollowable", event.isFollowable);
+		// renderArgs.put("isFollowable", event.isFollowable());
 		flash.put("note", event.note);
 
 		renderTemplate("Calendars/viewEvent.html");
@@ -105,7 +105,7 @@ public class Calendars extends Main {
 	public static void saveEvent(Long calendarId, Date currentDate, Long id,
 			@Required String name, @Required Date startDate, String startTime,
 			@Required Date endDate, String endTime, boolean isPublic,
-			boolean isFollowable, String note) {
+			String note) {
 
 		validation.match(startTime, regexTime).message("Invalid!");
 		validation.match(endTime, regexTime).message("Invalid!");
@@ -127,7 +127,7 @@ public class Calendars extends Main {
 		// new event
 		if (id == null) {
 			Event event = new Event(name, note, startDate, endDate, owner,
-					calendar, isPublic, isFollowable).save();
+					calendar, isPublic).save();
 
 			event.setStart(startDate);
 			event.setEnd(endDate);
@@ -138,14 +138,16 @@ public class Calendars extends Main {
 
 		// edit event
 		if (id != null) {
+
 			Event event = Event.findById(id);
+
 			event.name = name;
 			event.start = helperCreateDate(startDate, startTime, "HH:mm");
 			event.end = helperCreateDate(endDate, endTime, "HH:mm");
 			event.note = note;
-			event.isPublic = isPublic;
-			event.isFollowable = isFollowable;
+			event.setPublic(isPublic);
 			event.save();
+
 		}
 
 		viewCalendar(calendarId, startDate);
@@ -191,19 +193,32 @@ public class Calendars extends Main {
 		return aDate.toDate();
 	}
 
-	public static void followEvent(Long ownCalendarId, Long originalCalendarId,
-			Long eventId) {
+	public static void copyEvent(Long calendarId, Date currentDate, Long eventId) {
+		Calendars.putCalendarData(calendarId, currentDate);
+		Event event = (Event) JPA.em()
+				.createQuery("SELECT e FROM Event e WHERE e.id = :id")
+				.setParameter("id", eventId).getSingleResult();
+
+		List<Calendar> calendars = JPA.em()
+				.createQuery("SELECT e FROM Calendar e WHERE e.owner.id = :id")
+				.setParameter("id", getUser().id).getResultList();
+
+		renderArgs.put("event", event);
+		renderArgs.put("calendars", calendars);
+		renderTemplate("Calendars/chooseCalendar.html");
+	}
+
+	public static void followEvent(Long calendarId, Date currentDate,
+			Long followCalendarId, Long eventId) {
 
 		Event event = Event.find("byId", eventId).first();
-		Calendar calendar = Calendar.find("byId", ownCalendarId).first();
+		Calendar calendar = Calendar.find("byId", followCalendarId).first();
 
 		event.follow(calendar);
 		event.save();
 		calendar.save();
 
-		Date aDate = event.start;
-
-		Calendars.viewCalendar(originalCalendarId, aDate);
+		Calendars.viewCalendar(calendarId, currentDate);
 	}
 
 	public static void unfollowEvent(Long calendarId, Long eventId) {
