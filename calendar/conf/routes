@@ -3,14 +3,14 @@
 # ~~~~
 
 # Home page
-GET     /                                       							Calendars.index
-GET		/{currentDate}/{calendarId}/edit/{eventId}							Calendars.editEvent
-GET		/{currentDate}/{calendarId}/delete/{eventId}						Calendars.deleteEvent
-GET		/{currentDate}/{calendarId}/add										Calendars.addEvent
-GET		/{currentDate}/{calendarId}/nextMonth								Calendars.viewNextMonth
-GET		/{currentDate}/{calendarId}/prevMonth								Calendars.viewPrevMonth
-GET		/{currentDate}/{calendarId}											Calendars.viewCalendar
-GET		/{calendarId}														Calendars.viewCalendar
+GET     /                                       										Calendars.index
+GET		/calendars/{currentDate}/{calendarId}/edit/{eventId}							Calendars.editEvent
+GET		/calendars/{currentDate}/{calendarId}/delete/{eventId}							Calendars.deleteEvent
+POST	/calendars/{currentDate}/{calendarId}/save										Calendars.saveEvent
+GET		/calendars/{currentDate}/{calendarId}/add										Calendars.addEvent
+GET		/calendars/{currentDate}/{calendarId}/nextMonth									Calendars.viewNextMonth
+GET		/calendars/{currentDate}/{calendarId}/prevMonth									Calendars.viewPrevMonth
+GET		/calendars/{currentDate}/{calendarId}											Calendars.viewCalendar
 
 
 GET		/profile								Profile.index

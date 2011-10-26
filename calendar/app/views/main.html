@@ -23,7 +23,7 @@
     					<li #{if pageTitle == 'calendars'}class="title_selected"#{/if}><a href="#">calendars</a></li>
     					<li #{if pageTitle == 'contacts'}class="title_selected"#{/if}><a href="#">contacts</a></li>
     					<li #{if pageTitle == 'profile'}class="title_selected"#{/if}><a href="#">${loginUser.nickname}</a></li>
-    					<li><a href="#">logout</a></li>
+    					<li><a href="@{Secure.logout()}">logout</a></li>
     				</ul>
     			</td>
 	    	</tr>
