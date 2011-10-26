@@ -67,6 +67,16 @@
 			</td>
 		</tr>
 	#{/field}
+	#{field 'isFollowable'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="checkbox" id="${field.id}" name="${field.name}" value="${flash.isFollowable}" class="${field.errorClass}" >
+			</td>
+		</tr>
+	#{/field}
 	#{field 'note'}
 		<tr>
 			<td class="event_key">
