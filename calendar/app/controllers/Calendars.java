@@ -65,13 +65,11 @@ public class Calendars extends Main {
 	}
 
 	public static void viewNextMonth(Long calendarId, Date currentDate) {
-		putCalendarData(calendarId, currentDate);
 		viewCalendar(calendarId, new DateTime(currentDate).plusMonths(1)
 				.toDate());
 	}
 
 	public static void viewPrevMonth(Long calendarId, Date currentDate) {
-		putCalendarData(calendarId, currentDate);
 		viewCalendar(calendarId, new DateTime(currentDate).minusMonths(1)
 				.toDate());
 	}

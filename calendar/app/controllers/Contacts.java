@@ -8,9 +8,7 @@ import play.db.jpa.JPA;
 
 public class Contacts extends Main {
 	public static void index() {
-		List<User> myContacts = JPA.em()
-				.createQuery("SELECT k FROM User u JOIN u.contacts k")
-				.getResultList();
+		List<User> myContacts = getUser().contacts;
 
 		List<User> otherUsers = User.findAll();
 		for (User isContact : myContacts) {
