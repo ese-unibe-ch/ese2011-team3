@@ -3,18 +3,25 @@ package controllers;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import models.User;
 import play.db.jpa.JPA;
 
 public class Contacts extends Main {
 	public static void index() {
-		List<User> myContacts = getUser().contacts;
+		Query contactsQuery = JPA.em().createQuery(
+				"SELECT l FROM User u JOIN u.contacts l WHERE u.id = :id");
+		Query otherUsersQuery = JPA
+				.em()
+				.createQuery(
+						"SELECT k FROM User k WHERE k NOT IN (SELECT y FROM User x JOIN x.contacts y WHERE x.id = :id) AND k.id != :id");
 
-		List<User> otherUsers = User.findAll();
-		for (User isContact : myContacts) {
-			otherUsers.remove(isContact);
-		}
-		otherUsers.remove(getUser());
+		contactsQuery.setParameter("id", getUser().id);
+		otherUsersQuery.setParameter("id", getUser().id);
+
+		List<User> myContacts = contactsQuery.getResultList();
+		List<User> otherUsers = otherUsersQuery.getResultList();
 
 		renderArgs.put("contacts", myContacts);
 		renderArgs.put("users", otherUsers);
