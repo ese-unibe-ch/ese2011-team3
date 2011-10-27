@@ -17,10 +17,16 @@
 			</tr>
 		#{/list}
 	</table>
-	<div id="calendar_addevent">
-		<input type="button" onclick="javascript:location.href='@{Calendars.viewCalendar(calendar.id, currentDate)}'" name="Cancel" value="Cancel">
-	</div>
 #{/if}
 #{else}
-This event is followed by all your calendars!
+<table id="event_list">
+	<tr>
+		<td>
+			This event is followed by all your calendars!
+		</td>
+	</tr>
+</table>
 #{/else}
+<div id="calendar_addevent">
+	<input type="button" onclick="javascript:location.href='@{Calendars.viewCalendar(calendar.id, currentDate)}'" name="Cancel" value="Cancel">
+</div>
