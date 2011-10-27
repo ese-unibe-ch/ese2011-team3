@@ -20,8 +20,8 @@
     			<td id="title_titlename"><h1>#{get 'pageTitle' /}</h1></td>
     			<td id="title_titlemenu">
     				<ul>
-    					<li #{if pageTitle == 'calendars'}class="title_selected"#{/if}><a href="#">calendars</a></li>
-    					<li #{if pageTitle == 'contacts'}class="title_selected"#{/if}><a href="#">contacts</a></li>
+    					<li #{if pageTitle == 'calendars'}class="title_selected"#{/if}><a href="@{Calendars.index()}">calendars</a></li>
+    					<li #{if pageTitle == 'contacts'}class="title_selected"#{/if}><a href="@{Contacts.index()}">contacts</a></li>
     					<li #{if pageTitle == 'profile'}class="title_selected"#{/if}><a href="#">${loginUser.nickname}</a></li>
     					<li><a href="@{Secure.logout()}">logout</a></li>
     				</ul>

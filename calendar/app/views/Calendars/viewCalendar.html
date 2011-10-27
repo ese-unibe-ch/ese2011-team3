@@ -1,7 +1,7 @@
 #{extends 'Calendars/calendarGrid.html' /}
 #{stylesheet 'event.css' /}
 
-<h1>${calendar.name}</h1>
+<h1>${loginUser.nickname}: ${calendar.name} (view/edit access)</h1>
 <table id="event_list">
 	#{list items:calendar.eventsAtDay(loginUser, currentDate), as:'event'}
 		<tr>

@@ -25,7 +25,7 @@ public class User extends Model implements Comparable<User> {
 	public List<Event> events;
 
 	@ManyToMany
-	public List<User> following;
+	public List<User> contacts;
 
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	public List<Calendar> calendars;
@@ -37,7 +37,7 @@ public class User extends Model implements Comparable<User> {
 		this.fullname = name;
 		this.password = pass;
 		this.mail = mail;
-		this.following = new ArrayList<User>();
+		this.contacts = new ArrayList<User>();
 		this.events = new ArrayList<Event>();
 		this.calendars = new ArrayList<Calendar>();
 

@@ -36,9 +36,9 @@ public class UserTest extends UnitTest {
 		User userOne = User.find("byNickname", "wuschu").first();
 		User userTwo = User.find("byNickname", "polj").first();
 
-		userOne.following.add(userTwo);
+		userOne.contacts.add(userTwo);
 
-		Assert.assertTrue(userOne.following.contains(userTwo));
+		Assert.assertTrue(userOne.contacts.contains(userTwo));
 	}
 
 	@Test

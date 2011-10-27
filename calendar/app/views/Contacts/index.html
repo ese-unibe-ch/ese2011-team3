@@ -1,0 +1,39 @@
+#{extends 'main.html' /}
+#{set pageTitle:'contacts' /}
+#{stylesheet 'contacts.css' /}
+
+<td id="menu_menu">
+	<h1>my contacts</h1>
+</td>
+<td id="content_content">
+	<h1>Contacts</h1>
+	<table id="contacts_contacts">
+		#{list items:contacts, as:'contact'}
+			<tr>
+				<td id="contacts_name"><a href="@{Profile.viewProfile(contact.id)}">${contact.nickname}</a></td>
+				<td id="contacts_options"><a href="@{Contacts.remove(contact.id)}">remove from contacts</a></td>
+			</tr>
+			<tr>
+				<td>
+					<table id="contacts_calendars">
+						#{list items:contact.calendars, as:'cal'}
+							<tr>
+								<td><a href="@{Calendars.viewCalendar(cal.id, currentDate)}">${cal.name}</td>
+							</tr>
+						#{/list}
+					</table>
+				</td>
+			</tr>
+		#{/list}
+	</table>
+	<hr />
+	<table id="contacts_contacts">
+	<h1>Other Users</h1>
+		#{list items:users, as:'user'}
+			<tr>
+				<td id="contacts_name"><a href="@{Profile.viewProfile(user.id)}">${user.nickname}</a></td>
+				<td id="contacts_options"><a href="@{Contacts.add(user.id)}">add to contacts</a></td>
+			</tr>
+		#{/list}
+	</table>
+</td>
