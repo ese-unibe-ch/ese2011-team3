@@ -49,6 +49,9 @@ public class Calendars extends Main {
 	}
 
 	public static void viewCalendar(Long calendarId, Date currentDate) {
+		if (currentDate == null) {
+			currentDate = new Date();
+		}
 		putCalendarData(calendarId, currentDate);
 		Query calendarQuery = JPA.em()
 				.createQuery("SELECT c FROM Calendar c WHERE c.id = :id")

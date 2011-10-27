@@ -5,7 +5,7 @@
 	<h1>my calendars</h1>
    	<ul>
    		#{list items:loginUser.calendars, as:'calendar'}
-   			<li><a href="@{Calendars.viewCalendar(calendar.id)}">${calendar.name}</a></li>
+   			<li><a href="@{Calendars.viewCalendar(calendar.id, currentDate)}">${calendar.name}</a></li>
    		#{/list}
     </ul>
     <!-- <h1>upcoming</h1>
