@@ -1,0 +1,52 @@
+#{extends 'main.html' /}
+#{set pageTitle:'profile' /}
+#{stylesheet 'event.css' /}
+
+<td id="menu_menu">
+	<h1>my profile</h1>
+</td>
+<td id="content_content">
+<h1>${user.fullname}</h1>
+<table id="event_form">
+	#{field 'name'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				${user.fullname}
+			</td>
+		</tr>
+	#{/field}
+	#{field 'nickname'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				${user.nickname}
+			</td>
+		</tr>
+	#{/field}
+	#{field 'email'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				${user.mail}
+			</td>
+		</tr>
+	#{/field}
+	#{field 'description'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				...
+			</td>
+		</tr>
+	#{/field}
+</table>
+</td>

@@ -1,0 +1,10 @@
+<div id="menu">
+#{extends 'main.html' /}
+
+<h1>${user.fullname}'s Calendars:</h1>
+<ul>
+	#{list items:calendars, as:'calendar'}
+			<li><a href="@showCalendar(user.nickname, calendar.id)}">${calendar.name}</a></li>
+	#{/list}
+</ul>
+</div>

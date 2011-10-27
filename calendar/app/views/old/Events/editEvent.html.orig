@@ -1,4 +1,10 @@
+<<<<<<< HEAD
+#{form @updateEvent(event.id, calendar.id) , id:'updateForm', enctype:'multipart/form-data'}
+=======
+#{extends 'parentViews/home.html' /}
+
 #{form @updateEvent(event.id) , id:'updateForm', enctype:'multipart/form-data'}
+>>>>>>> origin/exp_gui
 <h1>Edit Event -  ${event.name}</h1>
 #{if flash.success}
     <p class="success">${flash.success}</p>
@@ -41,11 +47,16 @@
 
 <p>
 #{field 'isPublic'}
-	<label>is this event public?: </label>
+	<label>&{field.name}</label>
 	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" #{if event?.isPublic} checked #{/if}></input>
 #{/}
 </p>
-
+<p>
+#{field 'isFollowable'}
+	<label>&{field.name} </label>
+	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" #{if event?.isFollowable} checked #{/if}></input>
+#{/}
+</p>
 <p>
 #{field 'note'}
 	<label>&{field.name}</label>
@@ -57,4 +68,4 @@
 	<input type="submit" id="submit" name="Edit" value="Edit" />
 </p>
 #{/form}
-#{a @Calendars.showCalendar(user.nickname,calendar.id)}Back #{/a}
+<a href="@{Calendars.showCalendar(user.nickname,calendar.id)}">Back </a>

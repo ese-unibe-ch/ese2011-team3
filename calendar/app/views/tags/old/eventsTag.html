@@ -1,0 +1,40 @@
+*{ this tag lists all events of a calendar at a specific date }*
+<p>
+#{if _events.size() != 0}
+	<ul>
+	#{list items: _events, as: 'event' }
+		<li>${ event.name }, start: ${ event.start.format('yyyy-MM-dd , HH:mm') }, end: ${ event.end.format('yyyy-MM-dd , HH:mm') } 
+		#{if event.isPublic == true}(public)#{/if}
+		#{else}(private)#{/else} 
+		#{if event.owner == _user && _owner == _user}
+			<a href="@{Events.editEvent(event.id)}"> Edit </a>  
+			<a href="@{Events.removeEvent(event.id)}"> | Remove </a> 
+		#{/if}
+		
+		*{show follow link}*
+		#{if _user != event.owner && event.isFollowable && event.isPublic && !event.isFollowedBy(_user)} 
+			<a href="@{Events.selectCalendarToFollowEvent(event.id, _calendar.id)}"> Follow</a> 
+		#{/if}
+		
+		*{show unfollow link}*
+		#{if _user != event.owner && event.isFollowable && event.isFollowedBy(_user)} 
+			<a href="@{Events.unfollowEvent(_calendar.id,event.id)}"> Unfollow</a> 
+		#{/if}
+		
+		*{show a list of all followers for each event, for the currently logged in user}*
+		#{if event.owner == _user && event.isFollowed() && _owner == _user}
+			Is followed by: 
+			#{list items: event.getFollowers(), as: 'follower' }
+				${follower.nickname},
+			#{/list}
+			
+			
+		#{/if}
+		</li>
+	#{/list}
+	</ul>
+#{/if}
+#{else}
+	There are no events.
+#{/else}
+</p>

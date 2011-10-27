@@ -1,0 +1,8 @@
+*{ 
+This tag shows a logout link. it retrieves a user object of the currently logged in user.	
+	@param account a user object
+}*
+
+#{if _account}
+	#{a @Secure.logout()}Logout #{/a}
+#{/if}

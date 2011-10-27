@@ -3,38 +3,32 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
-GET		/user/{nickname}						Calendars.showCalendars
-GET		/user/{nickname}/calendar/{id}			Calendars.showCalendar
-GET		/user/{nickname}/calendar/{id}/date/{aDate}	Calendars.showDate
-GET		/users									Application.showUsers
-GET		/user/{nickname}/contacts				Application.showContacts
+GET     /                                       										Calendars.index
+GET		/calendars/{currentDate}/{calendarId}/follow/{eventId}							Calendars.copyEvent
+GET		/calendars/{currentDate}/{calendarId}/edit/{eventId}							Calendars.editEvent
+GET		/calendars/{currentDate}/{calendarId}/delete/{eventId}							Calendars.deleteEvent
+POST	/calendars/{currentDate}/{calendarId}/save										Calendars.saveEvent
+GET		/calendars/{currentDate}/{calendarId}/add										Calendars.addEvent
+GET		/calendars/{currentDate}/{calendarId}/nextMonth									Calendars.viewNextMonth
+GET		/calendars/{currentDate}/{calendarId}/prevMonth									Calendars.viewPrevMonth
+GET		/calendars/{currentDate}/{calendarId}											Calendars.viewCalendar
 
-GET		/profile								Profile.index
-GET		/profile/edit							Profile.edit
-POST	/profile/save							Profile.save
+GET		/contacts/																		Contacts.index
+GET		/contacts/choose																Contacts.choose
+GET		/contacts/add/{contactId}														Contacts.add
+GET		/contacts/remove/{contactId}													Contacts.remove
 
-GET 	/profile/contacts 						Contacts.index
-GET 	/profile/contacts/add 					Contacts.addContacts
-GET		/profile/contacts/add/{contactId}		Contacts.addContact
-GET	 	/profile/contacts/remove/{contactId} 	Contacts.removeContact
-
-
-POST    /events/{calendarId}/add				Events.createEvent  
-GET	    /events/{nickname}/index				Events.index 
-GET     /calendar/{calendarId}/addEvent			Events.addEvent
-GET     /events/{eventId}/edit					Events.editEvent
-POST    /events/{eventId}/update				Events.updateEvent
-GET     /events/{eventId}/remove				Events.removeEvent
+GET		/profile/																		Profile.index
+GET		/profile/{userId}																Profile.viewProfile
 
 # Ignore favicon requests
-GET     /favicon.ico                            404
+GET     /favicon.ico                            										404
 
 # Map static resources from the /app/public folder to the /public path
-GET     /public/                                staticDir:public
+GET     /public/                                										staticDir:public
 
 # Catch all
-*       /{controller}/{action}                  {controller}.{action}
+*       /{controller}/{action}                  										{controller}.{action}
 
 # Import Secure routes
-*      /                module:secure
+*      /                																module:secure

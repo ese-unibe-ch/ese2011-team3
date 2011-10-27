@@ -1,0 +1,32 @@
+#{extends 'Calendars/calendarGrid.html' /}
+#{stylesheet 'event.css' /}
+
+<h1>${calendar.name}</h1>
+#{if calendars.size()!=0}
+	<table id="event_list">
+		<tr>
+			<td>
+				In what calendar would you like to include the followed event?
+			</td>
+		</tr>
+		#{list items:calendars, as:'cal'}
+			<tr id="event_event">
+				<td>
+					<table id="event_event"><tr><td><a href="@{Calendars.followEvent(calendar.id, currentDate, cal.id, event.id)}">${cal.name}</a></td></tr></table>
+				</td>
+			</tr>
+		#{/list}
+	</table>
+#{/if}
+#{else}
+<table id="event_list">
+	<tr>
+		<td>
+			This event is followed by all your calendars!
+		</td>
+	</tr>
+</table>
+#{/else}
+<div id="calendar_addevent">
+	<input type="button" onclick="javascript:location.href='@{Calendars.viewCalendar(calendar.id, currentDate)}'" name="Cancel" value="Cancel">
+</div>

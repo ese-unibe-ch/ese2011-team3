@@ -1,0 +1,30 @@
+#{extends 'Calendars/calendarGrid.html' /}
+#{stylesheet 'event.css' /}
+
+<h1>${loginUser.nickname}: ${calendar.name} (view/edit access)</h1>
+<table id="event_list">
+	#{list items:calendar.eventsAtDay(loginUser, currentDate), as:'event'}
+		<tr>
+			<td>
+				<table id="event_event">
+					<tr>
+						<td class="event_title">${event.name} #{if event?.isFollowedBy(loginUser, calendar)} - (followed)#{/if}#{else} - (#{if event?.isPublic}public#{/if}#{else}private#{/else})#{/else}</td>
+						<td class="event_properties">#{if event?.owner.equals(loginUser)}<a href="@{Calendars.editEvent(calendar.id, currentDate, event.id)}">edit</a> | <a href="@{Calendars.deleteEvent(calendar.id, currentDate, event.id)}">delete</a>#{/if}#{else}<a href="@{Calendars.unfollowEvent(calendar.id, event.id)}">unfollow</a>#{/else}</td>
+					</tr>
+					<tr>
+						<td class="event_date" colspan="2">${event.start.format('yyyy-MM-dd, HH:mm')} - ${event.end.format('yyyy-MM-dd, HH:mm')}</td>
+					</tr>
+					<tr>
+						<td class="event_note" colspan="2"><b>Note:</b> ${event.note}</td>
+					</tr>
+						<tr>
+						<td class="event_note" colspan="2"><b>Followers:</b> #{list items:event.getFollowers(), as:'follower'} ${follower.nickname} #{if event.owner.equals(follower)}(owner)#{/if}${follower_isLast ? '' : ',' } #{/list}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	#{/list}
+</table>
+<div id="calendar_addevent">
+	<input type="button" onclick="javascript:location.href='@{Calendars.addEvent(calendar.id, currentDate)}'" name="Add Event" value="Add Event">
+</div>

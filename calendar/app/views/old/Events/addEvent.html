@@ -1,3 +1,5 @@
+#{extends 'parentViews/home.html' /}
+
 #{form @createEvent(calendar.id) , id:'updateForm', enctype:'multipart/form-data'}
 <h1>Add Event</h1>
 #{if flash.success}
@@ -40,11 +42,16 @@
 </p>
 <p>
 #{field 'isPublic'}
-	<label>is this event public?: </label>
+	<label>&{field.name} </label>
 	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" ></input>
 #{/}
 </p>
-
+<p>
+#{field 'isFollowable'}
+	<label>&{field.name} </label>
+	<input type="checkbox" id="${field.id}" name="${field.name}" class="${field.errorClass}" ></input>
+#{/}
+</p>
 <p>
 #{field 'note'}
 	<label>&{field.name}</label>
@@ -56,4 +63,4 @@
 	<input type="submit" id="submit" name="Add" value="Add" />
 </p>
 #{/form}
-#{a @Calendars.showCalendar(user.nickname,calendar.id)}Back #{/a}
+<a href="@{Calendars.showCalendar(user.nickname,calendar.id)}">Cancel</a>

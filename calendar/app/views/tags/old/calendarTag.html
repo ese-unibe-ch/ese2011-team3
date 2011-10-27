@@ -1,9 +1,9 @@
 <div>
 *{ this tag shows a simple calendar in a month view 
 	requiered parameters for this tag are:
-		@param aDate 		a specific date 
-		@param aLocale		a locale object to specify local date and time formatting
-		@param aCalendar	a calendar for obtaining a calendar.id to build an URL
+		@param date 		a specific date 
+		@param locale		a locale object to specify local date and time formatting
+		@param calendar		a calendar for obtaining a calendar.id to build an URL
 		@param user			a user for obtaining a nickname to build an URL
 }*
 %{
@@ -11,7 +11,7 @@
 	 * this code below, handles all the date arithmetic
 	 */
 	//transform aDate to a joda time date (aJodaDate)
-	org.joda.time.DateTime aJodaDate = new org.joda.time.DateTime(_aDate);	
+	org.joda.time.DateTime aJodaDate = new org.joda.time.DateTime(_date);	
 	Date nextMonth = aJodaDate.plusMonths(1).toDate();
 	Date prevMonth = aJodaDate.minusMonths(1).toDate();
 	
@@ -21,7 +21,7 @@
 	
 	//create an array of days of a week
 	for(int i = 0; i < daysOfWeek.length; i++){
-		daysOfWeek[i] = aJodaDate.withDayOfWeek(i+1).toString('E',_aLocale);
+		daysOfWeek[i] = aJodaDate.withDayOfWeek(i+1).toString('E',_locale);
 	}
 	
 	//get today as int
@@ -60,7 +60,7 @@
 	}
 }%
 
-<h2>#{a @showDate(_user.nickname,_calendar.id,prevMonth)}<|-#{/a} ${_aDate.format('yyyy-MM-dd')} #{a @showDate(_user.nickname,_calendar.id,nextMonth)}-|>#{/a}</h2>
+<h2><a href="@{Calendars.viewCalendar(_calendar.id, prevMonth)}">&laquo;</a> ${_date.format('yyyy-MM-dd')} <a href="@{Calendars.viewCalendar(_calendar.id, nextMonth)}">&raquo;</a></h2>
 
 <p>
 <div id="calendarheader">
@@ -79,16 +79,16 @@
 		#{/if}
 		
 		#{if day.format('yyyy-MM-dd').equals(new Date().format('yyyy-MM-dd'))}
-   			<div id="today" class="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+   			<div id="today" class="dayfield"><a href="@{Calendars.viewCalendar(_calendar.id, day)}">${day.format('d')}</a></div>
    		#{/if}
-   		#{elseif day.format('yyyy-MM-dd').equals(_aDate.format('yyyy-MM-dd'))}
-			<div id="selectedday" class="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+   		#{elseif day.format('yyyy-MM-dd').equals(_date.format('yyyy-MM-dd'))}
+			<div id="selectedday" class="dayfield"><a href="@{Calendars.viewCalendar(_calendar.id, day)}">${day.format('d')}</a></div>
 		#{/elseif}
-		#{elseif _aDate.format('yyyy-MM').equals(day.format('yyyy-MM'))}
-			<div class="dayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+		#{elseif _date.format('yyyy-MM').equals(day.format('yyyy-MM'))}
+			<div class="dayfield"><a href="@{Calendars.viewCalendar(_calendar.id, day)}">${day.format('d')}</a></div>
 		#{/elseif}
    		#{else}
-   		<div class="otherdayfield"> #{a @showDate(_user.nickname, _calendar.id, day)} ${day.format('d')} #{/a}</div>
+   		<div class="otherdayfield"><a href="@{Calendars.viewCalendar(_calendar.id, day)}">${day.format('d')}</a></div>
    		#{/else}
    		
    		#{if boldDays[i] }

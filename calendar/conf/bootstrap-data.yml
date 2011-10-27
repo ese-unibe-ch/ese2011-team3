@@ -1,13 +1,13 @@
 User(wuschu):
     nickname:  wuschu
     password:  secret
-    fullname:  Domi Jackson
+    fullname:  Wuschu Jackson
     mail:      domi@gmail.com
     
 User(lexy):
     nickname:  lexy
     password:  secret
-    fullname:  lex McColin
+    fullname:  Lex McColin
     mail:      lex@gmail.com
     
 User(king_julien):
@@ -30,6 +30,7 @@ Calendar(wuschu_home):
 Calendar(wuschu_work):
     name:  Work
     owner:  wuschu
+    events:  [wu_ev1,wu_ev2,wu_ev3,wu_ev4]
 
 Calendar(lexy_home):
     name:  Home
@@ -42,42 +43,83 @@ Calendar(lexy_work):
 Calendar(joe_sports):
     name:  sports
     owner: joe
+    events:  [joe_ev1]
 
 Calendar(joe_uni):
     name:  Uni
     owner: joe 
+    events:  [joe_ev2,joe_ev2,joe_ev3]
+    
+Calendar(king_julien_uni):
+    name:  Uni
+    owner: king_julien
+    events:  
+
+Calendar(king_julien_home):
+    name:  Home
+    owner: king_julien
+    events:  
     
 Event(joe_ev1):
     name: drinking
-    calendar: joe_sports
-    start: 2011-10-14 10:00
-    end:   2011-10-14 12:00
+    owner: joe
+    calendars: [joe_sports]
+    start: 2011-10-14 10:00:00
+    end:   2011-10-14 12:00:00
     lowerBound:  2011-10-14 00:00:00:000
     upperBound:  2011-10-14 23:59:59:999
     note:  Don't forget to buy beer.
     
 Event(joe_ev2):
-    name: ese exercise
-    calendar: joe_uni
-    start: 2011-10-15 10:00
-    end:   2011-10-15 12:00
+    name: ese exercise 1
+    owner: joe
+    calendars: [joe_uni]
+    start: 2011-10-15 10:00:00
+    end:   2011-10-15 12:00:00
+    lowerBound:  2011-10-15 00:00:00:000
+    upperBound:  2011-10-15 23:59:59:999
+    note: 
+    isPublic:  true
+    isFollowable:  true
+    
+Event(joe_ev3):
+    name: ese exercise 2
+    owner: joe
+    calendars: [joe_uni]
+    start: 2011-10-27 10:00:00
+    end:   2011-10-27 12:00:00
+    lowerBound:  2011-10-15 00:00:00:000
+    upperBound:  2011-10-15 23:59:59:999
+    note: 
+    isPublic:  true
+    isFollowable:  true
+    
+Event(joe_ev4):
+    name: ese exercise 3
+    owner: joe
+    calendars: [joe_uni]
+    start: 2011-10-20 10:00:00
+    end:   2011-10-20 12:00:00
     lowerBound:  2011-10-15 00:00:00:000
     upperBound:  2011-10-15 23:59:59:999
     note: 
     
 Event(wu_ev1):
     name: rechnungswesen
-    calendar: wuschu_work
-    start: 2011-10-15 10:00
-    end:   2011-10-15 12:00
+    owner: wuschu
+    calendars: [wuschu_work]
+    start: 2011-10-15 10:00:00
+    end:   2011-10-15 12:00:00
     lowerBound:  2011-10-15 00:00:00:000
     upperBound:  2011-10-15 23:59:59:999
     note:  tötet das rechnungswesen
     isPublic:  true
+    isFollowable:  true
     
 Event(wu_ev2):
     name: ese
-    calendar: wuschu_work
+    owner: wuschu
+    calendars: [wuschu_work]
     start: 2011-10-14 10:00:00
     end:   2011-10-14 12:00:00
     lowerBound:  2011-10-14 00:00:00:000
@@ -86,7 +128,8 @@ Event(wu_ev2):
       
 Event(wu_ev3):
     name: english
-    calendar: wuschu_work
+    owner: wuschu
+    calendar: [wuschu_work]
     start: 2011-10-13 10:00:00
     end:   2011-10-13 12:00:00
     lowerBound:  2011-10-13 00:00:00:000
@@ -95,7 +138,8 @@ Event(wu_ev3):
     
 Event(wu_ev4):
     name: long event
-    calendar: wuschu_work
+    owner: wuschu
+    calendars: [wuschu_work]
     start: 2011-10-12 10:00:00
     end:   2011-11-12 12:00:00
     lowerBound:  2011-10-12 00:00:00:000

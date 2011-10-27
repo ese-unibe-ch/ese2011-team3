@@ -1,0 +1,62 @@
+#event_list {
+	width: 100%;
+	padding: 10px;
+}
+
+#event_form {
+	width: 100%;
+	padding: 10px;
+}
+
+#event_form label {
+	font-size: 14px;
+}
+
+#event_form input, textarea {
+	width: 100%;
+}
+
+#event_form input[type=button], #event_form input[type=submit] {
+	width: 100px;
+}
+
+#event_form td {
+	padding: 5px 15px;
+}
+
+#event_event {
+	padding: 3px;
+	width: 100%;
+	border: 1px solid #9f9f9f;
+}
+
+.event_title {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.event_properties {
+	text-align: right;
+	font-size: 10px;
+}
+
+.event_date {
+	font-size: 10px;
+}
+
+.event_note {
+	font-size: 11px;
+}
+
+.event_key, .event_value {
+	vertical-align: center;
+}
+
+.event_key {
+	width: 100px;
+	text-align: right;
+}
+
+#event_buttons {
+	text-align: right;
+}

@@ -1,43 +1,51 @@
 package controllers;
 
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import models.User;
-import play.mvc.Controller;
-import play.mvc.With;
+import play.db.jpa.JPA;
 
-@With(Secure.class)
-public class Contacts extends Controller {
-
+public class Contacts extends Main {
 	public static void index() {
-		User user = User.find("byNickname", Security.connected()).first();
-		List<User> contacts = user.following;
-		render(contacts);
+		List<User> myContacts = JPA.em()
+				.createQuery("SELECT k FROM User u JOIN u.contacts k")
+				.getResultList();
+
+		List<User> otherUsers = User.findAll();
+		for (User isContact : myContacts) {
+			otherUsers.remove(isContact);
+		}
+		otherUsers.remove(getUser());
+
+		renderArgs.put("contacts", myContacts);
+		renderArgs.put("users", otherUsers);
+		renderArgs.put("currentDate", new Date());
+
+		render();
 	}
 
-	public static void addContact(Long contactId) {
-		User user = User.find("byNickname", Security.connected()).first();
-		User contact = User.findById(contactId);
-		user.following.add(contact);
+	public static void add(Long contactId) {
+		User contact = (User) JPA.em()
+				.createQuery("SELECT u FROM User u WHERE u.id = :id")
+				.setParameter("id", contactId).getSingleResult();
+		User user = getUser();
+
+		user.contacts.add(contact);
 		user.save();
+
 		index();
 	}
 
-	public static void addContacts() {
-		User user = User.find("byNickname", Security.connected()).first();
-		List<User> contacts = User.findAll();
-		contacts.removeAll(user.following);
-		contacts.remove(user);
-		Collections.sort(contacts);
-		render(contacts);
-	}
+	public static void remove(Long contactId) {
+		User contact = (User) JPA.em()
+				.createQuery("SELECT u FROM User u WHERE u.id = :id")
+				.setParameter("id", contactId).getSingleResult();
+		User user = getUser();
 
-	public static void removeContact(Long contactId) {
-		User user = User.find("byNickname", Security.connected()).first();
-		User contact = User.findById(contactId);
-		user.following.remove(contact);
+		user.contacts.remove(contact);
 		user.save();
+
 		index();
 	}
 }
