@@ -22,7 +22,7 @@
     				<ul>
     					<li #{if pageTitle == 'calendars'}class="title_selected"#{/if}><a href="@{Calendars.index()}">calendars</a></li>
     					<li #{if pageTitle == 'contacts'}class="title_selected"#{/if}><a href="@{Contacts.index()}">contacts</a></li>
-    					<li #{if pageTitle == 'profile'}class="title_selected"#{/if}><a href="#">${loginUser.nickname}</a></li>
+    					<li #{if pageTitle == 'profile'}class="title_selected"#{/if}><a href="@{Profile.index()}">${loginUser.nickname}</a></li>
     					<li><a href="@{Secure.logout()}">logout</a></li>
     				</ul>
     			</td>

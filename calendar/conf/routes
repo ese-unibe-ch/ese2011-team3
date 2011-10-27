@@ -18,6 +18,9 @@ GET		/contacts/choose																Contacts.choose
 GET		/contacts/add/{contactId}														Contacts.add
 GET		/contacts/remove/{contactId}													Contacts.remove
 
+GET		/profile/																		Profile.index
+GET		/profile/{userId}																Profile.viewProfile
+
 # Ignore favicon requests
 GET     /favicon.ico                            										404
 
