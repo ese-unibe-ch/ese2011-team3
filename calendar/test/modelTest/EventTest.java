@@ -66,7 +66,7 @@ public class EventTest extends UnitTest {
 		testEvent.follow(joesCalendar);
 		testEvent.save();
 
-		assertTrue(testEvent.isFollowedBy(joe));
+		assertTrue(testEvent.getFollowers().contains(joe));
 	}
 
 	@Test
@@ -91,7 +91,7 @@ public class EventTest extends UnitTest {
 		testEvent.follow(joesCalendar);
 		testEvent.save();
 
-		assertTrue(testEvent.isFollowed());
+		assertTrue(testEvent.getFollowers().size() > 0);
 	}
 
 	@Test

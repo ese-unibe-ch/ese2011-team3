@@ -167,7 +167,7 @@ public class Events extends Controller {
 		}
 		ArrayList<Event> followEvents = new ArrayList<Event>();
 		for (Event ev : events) {
-			if (ev.isFollowed()) {
+			if (ev.getFollowers().size() > 0) {
 				followEvents.add(ev);
 			}
 		}

@@ -1,0 +1,29 @@
+#{extends 'Calendars/calendarGrid.html' /}
+#{stylesheet 'event.css' /}
+
+<h1>${calendar.owner.nickname}: ${calendar.name} (view/follow access)</h1>
+<table id="event_list">
+	#{list items:calendar.eventsAtDay(loginUser, currentDate), as:'event'}
+		<tr>
+			<td>
+				<table id="event_event">
+					<tr>
+						<td class="event_title">${event.name}</td>
+						<td class="event_properties"><a href="@{Calendars.copyEvent(calendar.id, currentDate, event.id)}">follow</a></td>
+					</tr>
+					<tr>
+						<td class="event_date" colspan="2">${event.start.format('yyyy-MM-dd, HH:mm')} - ${event.end.format('yyyy-MM-dd, HH:mm')}</td>
+					</tr>
+					<tr>
+						<td class="event_note" colspan="2">Note: ${event.note}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	#{/list}
+</table>
+#{if calendar.owner == loginUser}
+	<div id="calendar_addevent">
+		<input type="button" onclick="javascript:location.href='@{Calendars.addEvent(calendar.id, currentDate)}'" name="Add Event" value="Add Event">
+	</div>
+#{/if}

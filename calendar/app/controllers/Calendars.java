@@ -50,7 +50,15 @@ public class Calendars extends Main {
 
 	public static void viewCalendar(Long calendarId, Date currentDate) {
 		putCalendarData(calendarId, currentDate);
-		render();
+		Query calendarQuery = JPA.em()
+				.createQuery("SELECT c FROM Calendar c WHERE c.id = :id")
+				.setParameter("id", calendarId);
+		Calendar calendar = (Calendar) calendarQuery.getSingleResult();
+		if (getUser().equals(calendar.owner)) {
+			renderTemplate("Calendars/viewCalendar.html");
+		} else {
+			renderTemplate("Calendars/viewStrangerCalendar.html");
+		}
 	}
 
 	public static void viewNextMonth(Long calendarId, Date currentDate) {
@@ -65,8 +73,7 @@ public class Calendars extends Main {
 				.toDate());
 	}
 
-	public static void editCalendar() {
-	}
+	public static void editCalendar() {}
 
 	public static void addEvent(Long calendarId, Date currentDate) {
 		putCalendarData(calendarId, currentDate);

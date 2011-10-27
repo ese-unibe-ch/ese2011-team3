@@ -3,21 +3,23 @@
 
 <h1>${calendar.name}</h1>
 #{if calendars.size()!=0}
-In what calendar should the event be put?
 	<table id="event_list">
+		<tr>
+			<td>
+				In what calendar would you like to include the followed event?
+			</td>
+		</tr>
 		#{list items:calendars, as:'cal'}
-			<tr>
+			<tr id="event_event">
 				<td>
-					<a href="@{Calendars.followEvent(calendar.id, currentDate, cal.id, event.id)}">${cal.name}</a>
+					<table id="event_event"><tr><td><a href="@{Calendars.followEvent(calendar.id, currentDate, cal.id, event.id)}">${cal.name}</a></td></tr></table>
 				</td>
 			</tr>
 		#{/list}
 	</table>
-	#{if calendar.owner == loginUser}
-		<div id="calendar_addevent">
-			<input type="button" onclick="javascript:location.href='@{Calendars.addEvent(calendar.id, currentDate)}'" name="Add Event" value="Add Event">
-		</div>
-	#{/if}
+	<div id="calendar_addevent">
+		<input type="button" onclick="javascript:location.href='@{Calendars.viewCalendar(calendar.id, currentDate)}'" name="Cancel" value="Cancel">
+	</div>
 #{/if}
 #{else}
 This event is followed by all your calendars!

@@ -3,6 +3,7 @@ package modelTest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
 
 import models.Calendar;
 import models.Event;
@@ -69,7 +70,7 @@ public class CalendarTest extends UnitTest {
 
 		Event event = Event.find("byName", "ESE sucks").first();
 
-		List<User> followers = event.getFollowers();
+		Set<User> followers = event.getFollowers();
 
 		assertEquals(2, followers.size());
 		assert (joesCalendar.events.contains(event));
