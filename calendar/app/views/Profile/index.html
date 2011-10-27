@@ -1,0 +1,47 @@
+#{extends 'Calendars/calendarGrid.html' /}
+
+
+<h1>${User.fullname}</h1>
+<table id="event_form">
+	#{/field}
+	#{field 'name'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				${User.fullname}
+			</td>
+		</tr>
+	#{/field}
+	#{field 'nickname'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				${User.nickname}
+			</td>
+		</tr>
+	#{/field}
+	#{field 'email'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				${User.mail}
+			</td>
+		</tr>
+	#{/field}
+	#{field 'description'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				...
+			</td>
+		</tr>
+	#{/field}
+</table>
