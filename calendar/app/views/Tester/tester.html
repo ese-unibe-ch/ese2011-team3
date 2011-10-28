@@ -14,6 +14,14 @@
         		font-size: 13px;
         	}
         	
+        	p {
+        		margin: 5px 0px;
+        	}
+        	
+        	pre {
+        		margin: 5px;
+        	}
+        	
         	h1 {
         		font-size: 19px;
         		margin-top: 20px;
@@ -33,12 +41,13 @@
         		border: 1px solid black;
         		border-spacing: 0px;
         		border-collapse: collapse;
+        		margin-left: 10px;
         	}
         	
         	td, th {
         		border: 1px solid black;
         		margin: 0px;
-        		padding: 1px 3px;
+        		padding: 3px;
         	}
         	
         	textarea#query {
@@ -53,7 +62,60 @@
     	<h2>Repetitive Events Tests</h2>
     	<p>They're found on the tests page: <a href="/@tests">&raquo; Tests</a></p>
     	<h2>JPSQL Query Executer</h2>
-    	<p>There's the standard bootstrap from 'ALT-F4' being loaded.<br />You can test JPSQL queries here. CAUTION! No query vaildation at all!</p>
+    	<p>The live database of the app running is being queried. So, alterations you make using the app are considered here!</p>
+    	<p><i>CAUTION! No query vaildation at all!</i></p>
+    	<p>Some example queries (replace parameters with colons [:] with actual id's from the database):</p>
+    	<table><tr>
+    			<td width="400px">
+    				All users (for e.g. all events just replace 'User' with 'Event'):
+    			</td>
+    			<td width="700px">
+    				SELECT u FROM User u
+    			</td>
+    		</tr>
+    		<tr>
+    			<td width="400px">
+    				All events that are in your (:userId) calendars:
+    			</td>
+    			<td width="700px">
+    				SELECT e FROM Event e JOIN e.calendars c WHERE c.owner.id = :userId
+    			</td>
+    		</tr>
+    		<tr>
+    			<td>
+    				All your (:userId) contacts:
+    			</td>
+    			<td>
+    				SELECT o FROM User u JOIN u.contacts o WHERE u.id = :userId
+    			</td>
+    		</tr>
+    		<tr>
+    			<td>
+    				All events you (:userId) follow from a contact (:contactId)
+    			</td>
+    			<td>
+    				SELECT e FROM Event e JOIN e.calendars c WHERE e.owner.id = :contactId AND c.owner.id = :userId
+    			</td>
+    		</tr>
+    		<tr>
+    			<td>
+    				All calendars that have events:
+    			</td>
+    			<td>
+    				SELECT c FROM Calendar c WHERE EXISTS (SELECT e FROM Event e JOIN e.calendars k WHERE k.id = c.id)
+    			</td>
+    		</tr>
+    		<tr>
+    			<td>
+    				All contacts where you (:userId) follow events from:
+    			</td>
+    			<td>
+    				SELECT o FROM User u JOIN u.contacts o WHERE u.id = :userId AND EXISTS (SELECT e FROM Event e JOIN e.calendars c WHERE c.owner.id = u.id AND e.owner.id = o.id)
+    			</td>
+    		</tr>
+    	</table>
+    	<p>You can see, the features of relational databases are available in JPA. That's really great!! Think of the database lecture and you're good!</p>
+    	<h3>Your query:</h3>
     	#{form @Tester.query()}
     	#{field 'query'}
     	<textarea id="${field.id}" name="${field.name}">${flash.query}</textarea>
