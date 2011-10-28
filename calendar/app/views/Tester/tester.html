@@ -113,6 +113,14 @@
     				SELECT o FROM User u JOIN u.contacts o WHERE u.id = :userId AND EXISTS (SELECT e FROM Event e JOIN e.calendars c WHERE c.owner.id = u.id AND e.owner.id = o.id)
     			</td>
     		</tr>
+    		<tr>
+    			<td>
+    				All users where you (:userId) follow events from:
+    			</td>
+    			<td>
+    				SELECT DISTINCT u FROM User u JOIN u.events e JOIN e.calendars c WHERE c.owner.id = 1 AND e.owner.id = u AND e.owner.id != c.owner.id
+    			</td>
+    		</tr>
     	</table>
     	<p>You can see, the features of relational databases are available in JPA. That's really great!! Think of the database lecture and you're good!</p>
     	<h3>Your query:</h3>
