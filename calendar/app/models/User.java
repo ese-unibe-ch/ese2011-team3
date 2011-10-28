@@ -11,6 +11,10 @@ import javax.persistence.OneToMany;
 
 import play.db.jpa.Model;
 
+/**
+ * @author Alt-F4
+ * 
+ */
 @Entity
 public class User extends Model implements Comparable<User> {
 	public String nickname;
@@ -32,6 +36,16 @@ public class User extends Model implements Comparable<User> {
 
 	public Calendar defaultCalendar = null;
 
+	/**
+	 * @param nick
+	 *            - give the nickname of the new user
+	 * @param name
+	 *            - give the full name of the new user
+	 * @param pass
+	 *            - the password of the new user
+	 * @param mail
+	 *            - the email-address of the new user
+	 */
 	public User(String nick, String name, String pass, String mail) {
 		this.nickname = nick;
 		this.fullname = name;
@@ -43,10 +57,19 @@ public class User extends Model implements Comparable<User> {
 
 	}
 
+	/**
+	 * @param nickname
+	 * @param password
+	 * @return the user which is logged in
+	 */
 	public static User connect(String nickname, String password) {
 		return User.find("byNicknameAndPassword", nickname, password).first();
 	}
 
+	/**
+	 * @return the calendar that should be displayed by default after loggin in
+	 *         on the page.
+	 */
 	public Calendar getDefaultCalendar() {
 		if (this.defaultCalendar != null) {
 			if (this.calendars.isEmpty()) {
@@ -59,12 +82,21 @@ public class User extends Model implements Comparable<User> {
 		return this.defaultCalendar;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo(User u) {
 		int compare = nickname.compareTo(u.nickname);
 		return compare;
 	}
 
 	// should be used to add calendars
+	/**
+	 * @param calendar
+	 *            - set it to default if it is the very first calendar.
+	 */
 	public void addCalendar(Calendar calendar) {
 		if (this.defaultCalendar == null) {
 			this.defaultCalendar = calendar;
@@ -81,6 +113,9 @@ public class User extends Model implements Comparable<User> {
 		}
 	}
 
+	/**
+	 * @return a list of all the calendars of a user.
+	 */
 	public List<Calendar> getCalendars() {
 		return this.calendars;
 	}
