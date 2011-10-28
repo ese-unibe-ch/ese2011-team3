@@ -118,7 +118,7 @@
     				All users where you (:userId) follow events from:
     			</td>
     			<td>
-    				SELECT DISTINCT u FROM User u JOIN u.events e JOIN e.calendars c WHERE c.owner.id = 1 AND e.owner.id = u AND e.owner.id != c.owner.id
+    				SELECT DISTINCT u FROM User u JOIN u.events e JOIN e.calendars c WHERE c.owner.id = :userId AND e.owner.id = u AND e.owner.id != c.owner.id
     			</td>
     		</tr>
     	</table>
