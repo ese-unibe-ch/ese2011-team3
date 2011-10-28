@@ -20,10 +20,10 @@ public class Tester extends Controller {
 			IllegalAccessException {
 		flash.put("query", query);
 
-		Query exeQuery = JPA.em().createQuery(query);
 		List<Object> exeResult = new ArrayList<Object>();
 		// Try to exe the query
 		try {
+			Query exeQuery = JPA.em().createQuery(query);
 			exeResult.addAll(exeQuery.getResultList());
 		} catch (Exception e) {
 			renderArgs.put("error", e.getMessage());
