@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta charset="${_response_encoding}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+        #{get 'moreStyles' /}
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+        <script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        #{get 'moreScripts' /}
+        <style type="text/css">
+        	p, th, td {
+        		font-size: 13px;
+        	}
+        	
+        	h1 {
+        		font-size: 19px;
+        		margin-top: 20px;
+        	}
+        	
+        	h2 {
+        		font-size: 17px;
+        		margin-top: 15px;
+        	}
+        	
+        	h3 {
+        		font-size: 15px;
+        		margin-top: 10px;
+        	}
+        	
+        	table {
+        		border: 1px solid black;
+        		border-spacing: 0px;
+        		border-collapse: collapse;
+        	}
+        	
+        	td, th {
+        		border: 1px solid black;
+        		margin: 0px;
+        		padding: 1px 3px;
+        	}
+        	
+        	textarea#query {
+        		display: block;
+        		width: 500px;
+        		height: 100px;
+        	}
+        </style>
+    </head>
+    <body>
+    	<h1>Calendar Functionality Testing Application</h1>
+    	<h2>Repetitive Events Tests</h2>
+    	<p>They're found on the tests page: <a href="/@tests">&raquo; Tests</a></p>
+    	<h2>JPSQL Query Executer</h2>
+    	<p>There's the standard bootstrap from 'ALT-F4' being loaded.<br />You can test JPSQL queries here. CAUTION! No query vaildation at all!</p>
+    	#{form @Tester.query()}
+    	#{field 'query'}
+    	<textarea id="${field.id}" name="${field.name}">${flash.query}</textarea>
+    	<input type="submit" name="query" value="execute query" />
+    	#{/field}
+    	#{/form}
+        #{doLayout /}
+    </body>
+</html>

@@ -1,0 +1,13 @@
+#{extends 'Tester/tester.html' /}
+#{set title:'Tester - Query' /}
+<h3>Your Query Result</h3>
+<p>Yay! There's results, here they are:</p>
+<table>
+	#{list items:results, as:'result'}
+	<tr>
+		#{list items:result, as:'field'}
+		<${result_isFirst ? 'th' : 'td'}>${field}</${result_isFirst ? 'th' : 'td'}>
+		#{/list}
+	</tr>
+	#{/list}
+</table>
