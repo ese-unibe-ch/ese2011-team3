@@ -5,68 +5,69 @@ import java.util.Date;
 import models.Event;
 
 public enum RepeatableType {
+	NONE(1) {
+		public boolean happensOnDay(Event event, Date aDay) {
+			// TODO
+			return false;
+		}
+	},
 
-    NONE(1) {
+	DAILY(2) {
+		public boolean happensOnDay(Event event, Date aDay) {
+			// TODO
+			return false;
+		}
+	},
 
-	public boolean happensOnDay(Event event, Date aDay) {
-	    // TODO
-	    return false;
+	WEEKLY(3) {
+		public boolean happensOnDay(Event event, Date aDay) {
+			// TODO
+			return false;
+		}
+	},
+
+	MONTHLY(4) {
+
+		public boolean happensOnDay(Event event, Date aDay) {
+			// TODO
+			return false;
+		}
+	},
+
+	YEARLY(5) {
+		public boolean happensOnDay(Event event, Date aDay) {
+			// TODO
+			return false;
+		}
+	};
+
+	private int id;
+
+	RepeatableType(int id) {
+		this.id = id;
 	}
-    },
 
-    DAILY(2) {
-
-	public boolean happensOnDay(Event event, Date aDay) {
-	    // TODO
-	    return false;
+	public int getId() {
+		return id;
 	}
-    },
-    WEEKLY(3) {
-	public boolean happensOnDay(Event event, Date aDay) {
-	    // TODO
-	    return false;
+
+	public static RepeatableType getType(int id) {
+		switch (id) {
+		case 1:
+			return RepeatableType.NONE;
+		case 2:
+			return RepeatableType.DAILY;
+		case 3:
+			return RepeatableType.WEEKLY;
+		case 4:
+			return RepeatableType.MONTHLY;
+		case 5:
+			return RepeatableType.YEARLY;
+		default:
+			return RepeatableType.NONE;
+		}
 	}
-    },
-    MONTHLY(4) {
 
-	public boolean happensOnDay(Event event, Date aDay) {
-	    // TODO
-	    return false;
-	}
-    },
-    YEARLY(5) {
-
-	public boolean happensOnDay(Event event, Date aDay) {
-	    // TODO
-	    return false;
-	}
-    };
-
-    private int id;
-
-    RepeatableType(int id) {
-	this.id = id;
-    }
-
-    public int getId() {
-	return id;
-    }
-
-    public RepeatableType getType(int id) {
-	switch (id) {
-	case 1:
-	    return RepeatableType.NONE;
-	case 2:
-	    return RepeatableType.DAILY;
-	case 3:
-	    return RepeatableType.MONTHLY;
-	case 4:
-	    return RepeatableType.YEARLY;
-	default:
-	    return RepeatableType.NONE;
-	}
-    }
-
-    public abstract boolean happensOnDay(Event event, Date aDay);
+	public abstract boolean happensOnDay(Event event, Date aDay);
 
 }
