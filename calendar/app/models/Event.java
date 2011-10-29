@@ -151,17 +151,11 @@ public class Event extends Model {
 		this.end = end;
 	}
 
-	/*
-	 * helper
-	 */
-	private static DateTime makeLowerBound(Date startDate) {
+	public static DateTime makeLowerBound(Date startDate) {
 		return new DateTime(startDate).withTime(0, 0, 0, 0);
 	}
 
-	/*
-	 * helper
-	 */
-	private static DateTime makeUpperBound(Date endDate) {
+	public static DateTime makeUpperBound(Date endDate) {
 		return new DateTime(endDate).withTime(23, 59, 59, 0);
 	}
 
@@ -173,16 +167,6 @@ public class Event extends Model {
 	 * @return <code>true</code> if this event happens on this day
 	 */
 	public boolean happensOnDay(Date aDay) {
-
-		/*
-		 * DateTime dayLowerBound = makeLowerBound(aDay); DateTime dayUpperBound
-		 * = makeUpperBound(aDay); DateTime eventStart = this.getLowerBound();
-		 * DateTime eventEnd = this.getUpperBound(); return
-		 * (dayLowerBound.isAfter(eventStart) || dayLowerBound
-		 * .equals(eventStart)) && (dayUpperBound.isBefore(eventEnd) ||
-		 * dayUpperBound .equals(eventEnd));
-		 */
-
 		return this.repeatableType.happensOnDay(this, aDay);
 
 	}
