@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -32,6 +34,7 @@ public class Event extends Model {
     public Date start;
     public Date end;
     public boolean isPublic;
+    @Enumerated(EnumType.STRING)
     public RepeatableType repeatbleType;
 
     /**
