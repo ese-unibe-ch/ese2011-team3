@@ -7,7 +7,7 @@ import models.Event;
 import org.joda.time.DateTime;
 
 public enum RepeatableType {
-	NONE(1) {
+	NONE(1, "no repetition") {
 		public boolean happensOnDay(Event event, Date aDay) {
 			DateTime dayLowerBound = Event.makeLowerBound(aDay);
 			DateTime dayUpperBound = Event.makeUpperBound(aDay);
@@ -20,7 +20,7 @@ public enum RepeatableType {
 		}
 	},
 
-	DAILY(2) {
+	DAILY(2, "repeats daily") {
 		public boolean happensOnDay(Event event, Date aDay) {
 			DateTime dayUpperBound = Event.makeUpperBound(aDay);
 			DateTime eventStart = event.getLowerBound();
@@ -28,7 +28,7 @@ public enum RepeatableType {
 		}
 	},
 
-	WEEKLY(3) {
+	WEEKLY(3, "repeats weekly") {
 		public boolean happensOnDay(Event event, Date aDay) {
 			DateTime dayLowerBound = Event.makeLowerBound(aDay);
 			DateTime dayUpperBound = Event.makeUpperBound(aDay);
@@ -41,7 +41,7 @@ public enum RepeatableType {
 		}
 	},
 
-	MONTHLY(4) {
+	MONTHLY(4, "repeats monthly") {
 
 		public boolean happensOnDay(Event event, Date aDay) {
 			DateTime dayLowerBound = Event.makeLowerBound(aDay);
@@ -56,27 +56,38 @@ public enum RepeatableType {
 		}
 	},
 
-	YEARLY(5) {
+	YEARLY(5, "repeats yearly") {
 		public boolean happensOnDay(Event event, Date aDay) {
 			DateTime dayLowerBound = Event.makeLowerBound(aDay);
 			DateTime dayUpperBound = Event.makeUpperBound(aDay);
 			DateTime eventStart = event.getLowerBound();
 			DateTime eventEnd = event.getUpperBound();
 			return eventStart.isBefore(dayUpperBound)
-					&& eventStart.getDayOfYear() <= dayLowerBound
-							.getDayOfYear()
-					&& eventEnd.getDayOfYear() >= dayUpperBound.getDayOfYear();
+					&& eventStart.getDayOfMonth() <= dayLowerBound
+							.getDayOfMonth()
+					&& eventEnd.getDayOfMonth() >= dayUpperBound
+							.getDayOfMonth()
+					&& eventStart.getMonthOfYear() <= dayLowerBound
+							.getMonthOfYear()
+					&& eventEnd.getMonthOfYear() >= dayUpperBound
+							.getMonthOfYear();
 		}
 	};
 
 	private int id;
+	private String description;
 
-	RepeatableType(int id) {
+	RepeatableType(int id, String desc) {
 		this.id = id;
+		this.description = desc;
 	}
 
 	public int getId() {
 		return id;
+	}
+
+	public String getDescription() {
+		return this.description;
 	}
 
 	public static RepeatableType getType(int id) {
