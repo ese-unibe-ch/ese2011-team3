@@ -30,244 +30,244 @@ import utilities.RepeatableType;
  */
 @Entity
 public class Event extends Model {
-    public String name;
-    public Date start;
-    public Date end;
-    public boolean isPublic;
-    @Enumerated(EnumType.STRING)
-    public RepeatableType repeatbleType;
+	public String name;
+	public Date start;
+	public Date end;
+	public boolean isPublic;
+	@Enumerated(EnumType.STRING)
+	public RepeatableType repeatableType;
 
-    /**
-     * the <user>user</code> who created the <code>event</code>. Only he is able
-     * to edit events.
-     * 
-     * @see User
-     */
-    @ManyToOne
-    public User owner;
+	/**
+	 * the <user>user</code> who created the <code>event</code>. Only he is able
+	 * to edit events.
+	 * 
+	 * @see User
+	 */
+	@ManyToOne
+	public User owner;
 
-    /**
-     * a note attached to the event.
-     */
-    @Lob
-    public String note;
+	/**
+	 * a note attached to the event.
+	 */
+	@Lob
+	public String note;
 
-    /**
-     * the calendars this event is in.
-     * 
-     * @see Calendar
-     */
-    @ManyToMany
-    public List<Calendar> calendars;
+	/**
+	 * the calendars this event is in.
+	 * 
+	 * @see Calendar
+	 */
+	@ManyToMany
+	public List<Calendar> calendars;
 
-    /**
-     * creates an event which is by default not public and therefore not
-     * followable.
-     * 
-     * @param name
-     *            the name of this event
-     * @param note
-     *            a note of this event
-     * @param start
-     *            the date the event begins.
-     * @param end
-     *            the date the event ends.
-     * @param owner
-     *            the user who creates this event
-     * @param calendar
-     *            the calendar which stores this event
-     */
-    public Event(String name, String note, Date start, Date end, User owner,
-	    Calendar calendar) {
-	this.name = name;
-	this.note = note;
-	this.start = start;
-	this.end = end;
-	this.owner = owner;
+	/**
+	 * creates an event which is by default not public and therefore not
+	 * followable.
+	 * 
+	 * @param name
+	 *            the name of this event
+	 * @param note
+	 *            a note of this event
+	 * @param start
+	 *            the date the event begins.
+	 * @param end
+	 *            the date the event ends.
+	 * @param owner
+	 *            the user who creates this event
+	 * @param calendar
+	 *            the calendar which stores this event
+	 */
+	public Event(String name, String note, Date start, Date end, User owner,
+			Calendar calendar) {
+		this.name = name;
+		this.note = note;
+		this.start = start;
+		this.end = end;
+		this.owner = owner;
 
-	this.calendars = new ArrayList<Calendar>();
-	this.calendars.add(calendar);
-    }
+		this.calendars = new ArrayList<Calendar>();
+		this.calendars.add(calendar);
+	}
 
-    /**
-     * creates an event.
-     * 
-     * @param name
-     *            the name of this event
-     * @param note
-     *            a note of this event
-     * @param start
-     *            the date the event begins.
-     * @param end
-     *            the date the event ends.
-     * @param owner
-     *            the user who creates this event
-     * @param calendar
-     *            the calendar which stores this event
-     * @param isPublic
-     *            the flag whether the event is public or private
-     */
-    public Event(String name, String note, Date start, Date end, User owner,
-	    Calendar calendar, boolean isPublic) {
-	this(name, note, end, end, owner, calendar);
-	this.isPublic = isPublic;
-    }
+	/**
+	 * creates an event.
+	 * 
+	 * @param name
+	 *            the name of this event
+	 * @param note
+	 *            a note of this event
+	 * @param start
+	 *            the date the event begins.
+	 * @param end
+	 *            the date the event ends.
+	 * @param owner
+	 *            the user who creates this event
+	 * @param calendar
+	 *            the calendar which stores this event
+	 * @param isPublic
+	 *            the flag whether the event is public or private
+	 */
+	public Event(String name, String note, Date start, Date end, User owner,
+			Calendar calendar, boolean isPublic) {
+		this(name, note, end, end, owner, calendar);
+		this.isPublic = isPublic;
+	}
 
-    /**
-     * returns the lower bound of this event.
-     * 
-     * @return a lower bound of this event.
-     */
-    public DateTime getLowerBound() {
-	return makeLowerBound(this.start);
-    }
+	/**
+	 * returns the lower bound of this event.
+	 * 
+	 * @return a lower bound of this event.
+	 */
+	public DateTime getLowerBound() {
+		return makeLowerBound(this.start);
+	}
 
-    /**
-     * returns the upper bound of this event.
-     * 
-     * @return a upper bound of this event.
-     */
-    public DateTime getUpperBound() {
-	return makeUpperBound(this.end);
-    }
+	/**
+	 * returns the upper bound of this event.
+	 * 
+	 * @return a upper bound of this event.
+	 */
+	public DateTime getUpperBound() {
+		return makeUpperBound(this.end);
+	}
 
-    /**
-     * sets the start date of the event
-     * 
-     * @param start
-     *            date when the event starts.
-     */
-    public void setStart(Date start) {
-	this.start = start;
-    }
+	/**
+	 * sets the start date of the event
+	 * 
+	 * @param start
+	 *            date when the event starts.
+	 */
+	public void setStart(Date start) {
+		this.start = start;
+	}
 
-    /**
-     * sets the end date of the event
-     * 
-     * @param end
-     *            date when the event ends.
-     */
-    public void setEnd(Date end) {
-	this.end = end;
-    }
-
-    /*
-     * helper
-     */
-    private static DateTime makeLowerBound(Date startDate) {
-	return new DateTime(startDate).withTime(0, 0, 0, 0);
-    }
-
-    /*
-     * helper
-     */
-    private static DateTime makeUpperBound(Date endDate) {
-	return new DateTime(endDate).withTime(23, 59, 59, 0);
-    }
-
-    /**
-     * checks if an event happens on a specific day
-     * 
-     * @param aDay
-     *            the day that gets checked
-     * @return <code>true</code> if this event happens on this day
-     */
-    public boolean happensOnDay(Date aDay) {
+	/**
+	 * sets the end date of the event
+	 * 
+	 * @param end
+	 *            date when the event ends.
+	 */
+	public void setEnd(Date end) {
+		this.end = end;
+	}
 
 	/*
-	 * DateTime dayLowerBound = makeLowerBound(aDay); DateTime dayUpperBound
-	 * = makeUpperBound(aDay); DateTime eventStart = this.getLowerBound();
-	 * DateTime eventEnd = this.getUpperBound(); return
-	 * (dayLowerBound.isAfter(eventStart) || dayLowerBound
-	 * .equals(eventStart)) && (dayUpperBound.isBefore(eventEnd) ||
-	 * dayUpperBound .equals(eventEnd));
+	 * helper
 	 */
-
-	return this.repeatbleType.happensOnDay(this, aDay);
-
-    }
-
-    /**
-     * makes this event public if true. if public is false, then all followers
-     * of this event are removed.
-     * 
-     * @param isPublic
-     *            if <code>true</code> make this event public and therefore
-     *            followable.
-     */
-    public void setPublic(boolean isPublic) {
+	private static DateTime makeLowerBound(Date startDate) {
+		return new DateTime(startDate).withTime(0, 0, 0, 0);
+	}
 
 	/*
-	 * check if state has changed from followable to not followable
+	 * helper
 	 */
-	boolean switched = this.isPublic && !isPublic;
+	private static DateTime makeUpperBound(Date endDate) {
+		return new DateTime(endDate).withTime(23, 59, 59, 0);
+	}
 
-	this.isPublic = isPublic;
-
-	/*
-	 * remove this event from all calendars of followers
+	/**
+	 * checks if an event happens on a specific day
+	 * 
+	 * @param aDay
+	 *            the day that gets checked
+	 * @return <code>true</code> if this event happens on this day
 	 */
-	if (switched == true) {
-	    List<Calendar> calendars = new ArrayList<Calendar>(this.calendars);
-	    for (Calendar calendar : calendars) {
+	public boolean happensOnDay(Date aDay) {
+
 		/*
-		 * if the calendar owner is not equals to the event owner, then
-		 * the calendar owner is a follower of this event.
+		 * DateTime dayLowerBound = makeLowerBound(aDay); DateTime dayUpperBound
+		 * = makeUpperBound(aDay); DateTime eventStart = this.getLowerBound();
+		 * DateTime eventEnd = this.getUpperBound(); return
+		 * (dayLowerBound.isAfter(eventStart) || dayLowerBound
+		 * .equals(eventStart)) && (dayUpperBound.isBefore(eventEnd) ||
+		 * dayUpperBound .equals(eventEnd));
 		 */
-		if (calendar.owner != this.owner) {
-		    this.unfollow(calendar);
-		    calendar.save();
+
+		return this.repeatableType.happensOnDay(this, aDay);
+
+	}
+
+	/**
+	 * makes this event public if true. if public is false, then all followers
+	 * of this event are removed.
+	 * 
+	 * @param isPublic
+	 *            if <code>true</code> make this event public and therefore
+	 *            followable.
+	 */
+	public void setPublic(boolean isPublic) {
+
+		/*
+		 * check if state has changed from followable to not followable
+		 */
+		boolean switched = this.isPublic && !isPublic;
+
+		this.isPublic = isPublic;
+
+		/*
+		 * remove this event from all calendars of followers
+		 */
+		if (switched == true) {
+			List<Calendar> calendars = new ArrayList<Calendar>(this.calendars);
+			for (Calendar calendar : calendars) {
+				/*
+				 * if the calendar owner is not equals to the event owner, then
+				 * the calendar owner is a follower of this event.
+				 */
+				if (calendar.owner != this.owner) {
+					this.unfollow(calendar);
+					calendar.save();
+				}
+			}
 		}
-	    }
 	}
-    }
 
-    /**
-     * returns a set of all followers of this event
-     * 
-     * @return a set of <code>user</code> that follows this event
-     */
-    public Set<User> getFollowers() {
-	Set<User> followers = new HashSet<User>();
-	for (Calendar calendar : this.calendars) {
-	    followers.add(calendar.owner);
+	/**
+	 * returns a set of all followers of this event
+	 * 
+	 * @return a set of <code>user</code> that follows this event
+	 */
+	public Set<User> getFollowers() {
+		Set<User> followers = new HashSet<User>();
+		for (Calendar calendar : this.calendars) {
+			followers.add(calendar.owner);
+		}
+		return followers;
 	}
-	return followers;
-    }
 
-    /**
-     * follow this event
-     * 
-     * @param calendar
-     *            the <code>calendar</code> the event gets added (followed) to.
-     * @see Calendar
-     */
-    public void follow(Calendar calendar) {
-	this.calendars.add(calendar);
-	calendar.events.add(this);
-    }
+	/**
+	 * follow this event
+	 * 
+	 * @param calendar
+	 *            the <code>calendar</code> the event gets added (followed) to.
+	 * @see Calendar
+	 */
+	public void follow(Calendar calendar) {
+		this.calendars.add(calendar);
+		calendar.events.add(this);
+	}
 
-    /**
-     * unfollow this event
-     * 
-     * @param calendar
-     *            the <code>calendar</code> the event gets removed (unfollowed)
-     *            from.
-     * @see Calendar
-     */
-    public void unfollow(Calendar calendar) {
-	this.calendars.remove(calendar);
-	calendar.events.remove(this);
-    }
+	/**
+	 * unfollow this event
+	 * 
+	 * @param calendar
+	 *            the <code>calendar</code> the event gets removed (unfollowed)
+	 *            from.
+	 * @see Calendar
+	 */
+	public void unfollow(Calendar calendar) {
+		this.calendars.remove(calendar);
+		calendar.events.remove(this);
+	}
 
-    /**
-     * checks if this event is followed by an user
-     * 
-     * @param user
-     * @return boolean
-     * 
-     */
-    public boolean isFollowedBy(User user, Calendar calendar) {
-	return (!this.owner.equals(user) && this.calendars.contains(calendar));
-    }
+	/**
+	 * checks if this event is followed by an user
+	 * 
+	 * @param user
+	 * @return boolean
+	 * 
+	 */
+	public boolean isFollowedBy(User user, Calendar calendar) {
+		return (!this.owner.equals(user) && this.calendars.contains(calendar));
+	}
 }

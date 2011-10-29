@@ -5,42 +5,40 @@ import java.util.Date;
 import models.Event;
 
 public enum RepeatableType {
+	DAILY {
+		public boolean happensOnDay(Event event, Date aDay) {
+			// TODO
+			return false;
+		}
+	},
 
-    DAILY {
+	WEEKLY {
+		public boolean happensOnDay(Event event, Date aDay) {
+			// TODO
+			return false;
+		}
+	},
 
-	public boolean happensOnDay(Event event, Date aDay) {
-	    // TODO
-	    return false;
-	}
-    },
-    WEEKLY {
-	public boolean happensOnDay(Event event, Date aDay) {
-	    // TODO
-	    return false;
-	}
-    },
-    MONTHLY {
+	MONTHLY {
+		public boolean happensOnDay(Event event, Date aDay) {
+			// TODO
+			return false;
+		}
+	},
 
-	public boolean happensOnDay(Event event, Date aDay) {
-	    // TODO
-	    return false;
-	}
-    },
-    YEARLY {
+	YEARLY {
+		public boolean happensOnDay(Event event, Date aDay) {
+			// TODO
+			return false;
+		}
+	},
 
-	public boolean happensOnDay(Event event, Date aDay) {
-	    // TODO
-	    return false;
-	}
-    },
+	NONE {
+		public boolean happensOnDay(Event event, Date aDay) {
+			return false;
+		}
+	};
 
-    NO_REPETITION {
-
-	public boolean happensOnDay(Event event, Date aDay) {
-	    return false;
-	}
-    };
-
-    public abstract boolean happensOnDay(Event event, Date aDay);
+	public abstract boolean happensOnDay(Event event, Date aDay);
 
 }
