@@ -167,7 +167,7 @@ public class Event extends Model {
 	 * @return <code>true</code> if this event happens on this day
 	 */
 	public boolean happensOnDay(Date aDay) {
-		return this.repeatableType.happensOnDay(this, aDay);
+		return this.getRepeatableType().happensOnDay(this, aDay);
 
 	}
 
