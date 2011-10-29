@@ -4,40 +4,68 @@ import java.util.Date;
 
 import models.Event;
 
+import org.joda.time.DateTime;
+
 public enum RepeatableType {
 	NONE(1) {
 		public boolean happensOnDay(Event event, Date aDay) {
-			// TODO
-			return false;
+			DateTime dayLowerBound = Event.makeLowerBound(aDay);
+			DateTime dayUpperBound = Event.makeUpperBound(aDay);
+			DateTime eventStart = event.getLowerBound();
+			DateTime eventEnd = event.getUpperBound();
+			return (dayLowerBound.isAfter(eventStart) || dayLowerBound
+					.equals(eventStart))
+					&& (dayUpperBound.isBefore(eventEnd) || dayUpperBound
+							.equals(eventEnd));
 		}
 	},
 
 	DAILY(2) {
 		public boolean happensOnDay(Event event, Date aDay) {
-			// TODO
-			return false;
+			DateTime dayUpperBound = Event.makeUpperBound(aDay);
+			DateTime eventStart = event.getLowerBound();
+			return eventStart.isBefore(dayUpperBound);
 		}
 	},
 
 	WEEKLY(3) {
 		public boolean happensOnDay(Event event, Date aDay) {
-			// TODO
-			return false;
+			DateTime dayLowerBound = Event.makeLowerBound(aDay);
+			DateTime dayUpperBound = Event.makeUpperBound(aDay);
+			DateTime eventStart = event.getLowerBound();
+			DateTime eventEnd = event.getUpperBound();
+			return eventStart.isBefore(dayUpperBound)
+					&& eventStart.getDayOfWeek() <= dayLowerBound
+							.getDayOfWeek()
+					&& eventEnd.getDayOfWeek() >= dayUpperBound.getDayOfWeek();
 		}
 	},
 
 	MONTHLY(4) {
 
 		public boolean happensOnDay(Event event, Date aDay) {
-			// TODO
-			return false;
+			DateTime dayLowerBound = Event.makeLowerBound(aDay);
+			DateTime dayUpperBound = Event.makeUpperBound(aDay);
+			DateTime eventStart = event.getLowerBound();
+			DateTime eventEnd = event.getUpperBound();
+			return eventStart.isBefore(dayUpperBound)
+					&& eventStart.getDayOfMonth() <= dayLowerBound
+							.getDayOfMonth()
+					&& eventEnd.getDayOfMonth() >= dayUpperBound
+							.getDayOfMonth();
 		}
 	},
 
 	YEARLY(5) {
 		public boolean happensOnDay(Event event, Date aDay) {
-			// TODO
-			return false;
+			DateTime dayLowerBound = Event.makeLowerBound(aDay);
+			DateTime dayUpperBound = Event.makeUpperBound(aDay);
+			DateTime eventStart = event.getLowerBound();
+			DateTime eventEnd = event.getUpperBound();
+			return eventStart.isBefore(dayUpperBound)
+					&& eventStart.getDayOfYear() <= dayLowerBound
+							.getDayOfYear()
+					&& eventEnd.getDayOfYear() >= dayUpperBound.getDayOfYear();
 		}
 	};
 

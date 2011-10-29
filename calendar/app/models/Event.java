@@ -127,6 +127,11 @@ public class Event extends Model {
 	this.isPublic = isPublic;
     }
 
+    public RepeatableType getRepeatableType() {
+	return this.repeatableType == null ? RepeatableType.NONE
+		: this.repeatableType;
+    }
+
     /**
      * returns the lower bound of this event.
      * 
@@ -145,37 +150,14 @@ public class Event extends Model {
 	return makeUpperBound(this.end);
     }
 
-    /**
-     * sets the start date of the event
-     * 
-     * @param start
-     *            date when the event starts.
-     */
-    public void setStart(Date start) {
-	this.start = start;
-    }
-
-    /**
-     * sets the end date of the event
-     * 
-     * @param end
-     *            date when the event ends.
-     */
-    public void setEnd(Date end) {
-	this.end = end;
-    }
-
     /*
      * helper
      */
-    private static DateTime makeLowerBound(Date startDate) {
+    public static DateTime makeLowerBound(Date startDate) {
 	return new DateTime(startDate).withTime(0, 0, 0, 0);
     }
 
-    /*
-     * helper
-     */
-    private static DateTime makeUpperBound(Date endDate) {
+    public static DateTime makeUpperBound(Date endDate) {
 	return new DateTime(endDate).withTime(23, 59, 59, 0);
     }
 
@@ -198,7 +180,6 @@ public class Event extends Model {
 	 */
 
 	return this.repeatableType.happensOnDay(this, aDay);
-
     }
 
     /**
