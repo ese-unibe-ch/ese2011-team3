@@ -1,7 +1,7 @@
 #{extends 'Calendars/calendarGrid.html' /}
 #{stylesheet 'event.css' /}
 
-<h1>${calendar.name}</h1>
+<h1>${calendar.owner.nickname}: ${calendar.name} (view/follow access)</h1>
 #{if calendars.size()!=0}
 	<table id="event_list">
 		<tr>

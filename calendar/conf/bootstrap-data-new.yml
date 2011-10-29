@@ -1,0 +1,154 @@
+User(wuschu):
+    nickname:  wuschu
+    password:  secret
+    fullname:  Dominik Feller
+    mail:      domi@gmail.com
+    
+User(lexruee):
+    nickname:  lexruee
+    password:  secret
+    fullname:  Lex McColin
+    mail:      lex@gmail.com
+    
+User(polj):
+    nickname:  poljpocket
+    password:  secret
+    fullname:  Julien Peterson
+    mail:      king@gmail.com
+    
+User(nick11):
+    nickname:  nick11
+    password:  secret
+    fullname:  Niklas
+    mail:      nick11@gmail.com
+
+User(tschwander):
+    nickname:  tschwander
+    password:  secret
+    fullname:  Tom Schwander
+    mail:      tschwander@gmail.com
+    
+    
+Calendar(polj_uni):
+    name:  Uni
+    owner:  polj
+
+Calendar(polj_home):
+    name:  Home
+    owner:  polj
+
+Calendar(wuschu_uni):
+    name:  Uni
+    owner:  wuschu
+
+Calendar(lexruee_uni):
+    name:  Uni
+    owner:  lexruee
+
+Calendar(nick11_uni):
+    name:  Uni
+    owner:  nick11
+
+Calendar(tschwander_uni):
+    name:  Uni
+    owner:  tschwander
+
+
+Event(polj_home_1):
+    name: BBOJ
+    owner: polj
+    calendars: [polj_home]
+    start: 2011-10-31 19:30:00
+    end:   2011-10-31 21:30:00
+    isPublic: false
+    note: Neu in Wichtrach, Probelokal MGWichtrach
+
+Event(polj_home_2):
+    name: MGB
+    owner: polj
+    calendars: [polj_home]
+    start: 2011-10-28 20:15:00
+    end:   2011-10-28 22:00:00
+    isPublic: false
+    note: Probelokal Reidenbach, Boltigen
+
+Event(polj_home_3):
+    name: Zivilschutz Ausbildung Chef Lage
+    owner: polj
+    calendars: [polj_home]
+    start: 2011-10-31 10:30:00
+    end:   2011-11-04 15:00:00
+    isPublic: true
+    note: Ausbildungszentrum Schwarzenburg, BE
+
+Event(polj_home_4):
+    name: Vordirigieren BBOJ
+    owner: polj
+    calendars: [polj_home]
+    start: 2011-11-06 17:00:00
+    end:   2011-11-06 19:00:00
+    isPublic: false
+    note: In Wichtrach
+
+Event(polj_home_5):
+    name: WK ZSO
+    owner: polj
+    calendars: [polj_home]
+    start: 2011-11-07 08:00:00
+    end:   2011-11-09 17:00:00
+    isPublic: true
+    note: Einrueckungsort hinter Praxis Hammer (Kapo ZS), Zweisimmen
+
+Event(polj_uni_1):
+    name: Diskrete Mathematik und Logik
+    owner: polj
+    calendars: [polj_uni]
+    start: 2011-10-24 13:00:00
+    end:   2011-10-24 16:00:00
+    isPublic: true
+    note: Computer Science Semester 3 Lecture
+
+Event(polj_uni_2):
+    name: Computernetze
+    owner: polj
+    calendars: [polj_uni]
+    start: 2011-10-25 10:00:00
+    end:   2011-10-25 13:00:00
+    isPublic: true
+    note: Computer Science Semester 3 Lecture
+
+Event(polj_uni_3):
+    name: Human Computer Interaction
+    owner: polj
+    calendars: [polj_uni]
+    start: 2011-10-25 14:00:00
+    end:   2011-10-25 17:00:00
+    isPublic: true
+    note: Computer Science Semester 5 Lecture
+
+Event(polj_uni_4):
+    name: ESE Coach Meeting
+    owner: polj
+    calendars: [polj_uni, lexruee_uni, wuschu_uni, nick11_uni, tschwander_uni]
+    start: 2011-10-26 12:00:00
+    end:   2011-10-26 13:00:00
+    isPublic: true
+    note: Calendar App 'Alt-F4'
+
+Event(polj_uni_5):
+    name: Einfuehrung in Software Engineering
+    owner: polj
+    calendars: [polj_uni, lexruee_uni, wuschu_uni, nick11_uni, tschwander_uni]
+    start: 2011-10-26 13:00:00 GMT+2
+    end:   2011-10-26 16:00:00 GMT+2
+    isPublic: true
+    note: Computer Science Semester 3 Lecture
+
+Event(polj_uni_6):
+    name: ESE Customer Meeting
+    owner: polj
+    calendars: [polj_uni, lexruee_uni, wuschu_uni, nick11_uni, tschwander_uni]
+    start: 2011-10-27 14:00:00
+    end:   2011-10-27 15:30:00
+    isPublic: true
+    note: Calendar App 'Alt-F4'
