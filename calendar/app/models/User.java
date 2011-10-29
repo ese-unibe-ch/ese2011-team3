@@ -12,8 +12,13 @@ import javax.persistence.OneToMany;
 import play.db.jpa.Model;
 
 /**
- * @author Alt-F4
+ * The User class is used to create
+ * {@link #User(String, String, String, String)} and handle users. It is located
+ * in the models folder of the calendar application. A user knows about his
+ * calendars {@link Calendar} and events {@link Event}. Every user has a
+ * specific nickname and a password to login to the calendar application.
  * 
+ * @author Alt-F4
  */
 @Entity
 public class User extends Model implements Comparable<User> {
@@ -34,6 +39,9 @@ public class User extends Model implements Comparable<User> {
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	public List<Calendar> calendars;
 
+	/**
+	 * Before no new calendar is created there is no default calendar.
+	 */
 	public Calendar defaultCalendar = null;
 
 	/**
@@ -58,16 +66,31 @@ public class User extends Model implements Comparable<User> {
 	}
 
 	/**
+	 * this method is used to authenticate a user who tries to log in on the
+	 * application. The user is granted access to the application if the
+	 * name/pwd combination is right and existing. otherwise the user is
+	 * rejected and logging in fails.
+	 * 
 	 * @param nickname
+	 *            the nickname of the given name/pwd combination
 	 * @param password
-	 * @return the user which is logged in
+	 *            the password of the given name/pwd combination
+	 * @return 'null' if no match is found, otherwise the User object with the
+	 *         matching name/pwd combination
 	 */
 	public static User connect(String nickname, String password) {
 		return User.find("byNicknameAndPassword", nickname, password).first();
 	}
 
 	/**
-	 * @return the calendar that should be displayed by default after loggin in
+	 * returns the default calendar of a specific user. If
+	 * {@link User.defaultCalendar} is null and the user has no calendars yet,
+	 * then a new calendar with the fullname of the user is created and set as
+	 * default calendar. if no default calendar is set but the user has
+	 * calendars, the first calendar in the user's calendar list is chosen to be
+	 * the default calendar.
+	 * 
+	 * @return the calendar that should be displayed by default after logging in
 	 *         on the page.
 	 */
 	public Calendar getDefaultCalendar() {
@@ -94,6 +117,8 @@ public class User extends Model implements Comparable<User> {
 
 	// should be used to add calendars
 	/**
+	 * Add a calendar to the user's list of calendars.
+	 * 
 	 * @param calendar
 	 *            - set it to default if it is the very first calendar.
 	 */
@@ -103,6 +128,13 @@ public class User extends Model implements Comparable<User> {
 		}
 		this.calendars.add(calendar);
 	}
+
+	/**
+	 * set the default calendar if there already exist calendars but no default
+	 * calendar is specified yet.
+	 * 
+	 * @param calendars
+	 */
 
 	// TODO: set defaultCalendar correctly. why is the list calendars empty,
 	// that the JPA hands over?
@@ -114,6 +146,8 @@ public class User extends Model implements Comparable<User> {
 	}
 
 	/**
+	 * returns a list of all the calendars of a user.
+	 * 
 	 * @return a list of all the calendars of a user.
 	 */
 	public List<Calendar> getCalendars() {

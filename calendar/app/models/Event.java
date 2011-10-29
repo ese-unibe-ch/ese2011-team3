@@ -15,6 +15,15 @@ import org.joda.time.DateTime;
 
 import play.db.jpa.Model;
 
+/**
+ * Event is an entry in one or more {@link Calendar} that happens 
+ * over a period of time and can be repeated every day, week, month or year. It can 
+ * be public or not. If the <code>event</code> is not public, only the <code>owner</code> ({@link User})
+ * can see the <code>event</code>. If it's public, all users can see it and can follow it, which 
+ * means that they can add the <code>event</code> to their calendar, but can't edit or delete it.  
+ * 
+ * @author Alt-F4
+ */
 @Entity
 public class Event extends Model {
 	public String name;
@@ -22,30 +31,35 @@ public class Event extends Model {
 	public Date end;
 	public boolean isPublic;
 
+	/**
+	 * the <user>user</code> who created the <code>event</code>. Only he is able to edit events.
+	 * @see User
+	 */
 	@ManyToOne
 	public User owner;
 
+	/**
+	 * a note attached to the event.
+	 */
 	@Lob
 	public String note;
 
+	/**
+	 * the calendars this event is in. 
+	 * @see Calendar
+	 */
 	@ManyToMany
 	public List<Calendar> calendars;
 
 	/**
-	 * creates an event which is by default not followable and not public
+	 * creates an event which is by default not public and therefore not followable.
 	 * 
-	 * @param name
-	 *            name of this event
-	 * @param note
-	 *            note of this event
-	 * @param start
-	 *            starting date
-	 * @param end
-	 *            ending date
-	 * @param owner
-	 *            a user who owns this event
-	 * @param calendar
-	 *            a calendar which stores this event
+	 * @param name          the name of this event
+	 * @param note 			a note of this event
+	 * @param start			the date the event begins.
+	 * @param end          	the date the event ends.
+	 * @param owner        	the user who creates this event
+	 * @param calendar     	the calendar which stores this event
 	 */
 	public Event(String name, String note, Date start, Date end, User owner,
 			Calendar calendar) {
@@ -60,22 +74,15 @@ public class Event extends Model {
 	}
 
 	/**
-	 * creates an event
+	 * creates an event.
 	 * 
-	 * @param name
-	 *            name of this event
-	 * @param note
-	 *            note of this event
-	 * @param start
-	 *            starting date
-	 * @param end
-	 *            ending date
-	 * @param owner
-	 *            a user who owns this event
-	 * @param calendar
-	 *            a calendar which stores this event
-	 * @param isPublic
-	 * @param isFollowable
+	 * @param name         	the name of this event
+	 * @param note         	a note of this event
+	 * @param start        	the date the event begins.
+	 * @param end          	the date the event ends.
+	 * @param owner        	the user who creates this event
+	 * @param calendar     	the calendar which stores this event
+	 * @param isPublic	   	the flag whether the event is public or private
 	 */
 	public Event(String name, String note, Date start, Date end, User owner,
 			Calendar calendar, boolean isPublic) {
@@ -84,23 +91,37 @@ public class Event extends Model {
 	}
 
 	/**
-	 * @return a lower bound of this event
+	 * returns the lower bound of this event.
+	 * 
+	 * @return 			a lower bound of this event.
 	 */
 	public DateTime getLowerBound() {
 		return makeLowerBound(this.start);
 	}
 
 	/**
-	 * @return a upper bound of this event
+	 * returns the upper bound of this event.
+	 * 
+	 * @return 			a upper bound of this event.
 	 */
 	public DateTime getUpperBound() {
 		return makeUpperBound(this.end);
 	}
 
+	/**
+	 * sets the start date of the event
+	 * 
+	 * @param start		date when the event starts.
+	 */
 	public void setStart(Date start) {
 		this.start = start;
 	}
 
+	/**
+	 * sets the end date of the event
+	 * 
+	 * @param end		date when the event ends.
+	 */
 	public void setEnd(Date end) {
 		this.end = end;
 	}
@@ -122,9 +143,8 @@ public class Event extends Model {
 	/**
 	 * checks if an event happens on a specific day
 	 * 
-	 * @param aDay
-	 *            a day
-	 * @return true if this event happens on this day
+	 * @param aDay         the day that gets checked
+	 * @return 			   <code>true</code> if this event happens on this day
 	 */
 	public boolean happensOnDay(Date aDay) {
 		DateTime dayLowerBound = makeLowerBound(aDay);
@@ -138,11 +158,10 @@ public class Event extends Model {
 	}
 
 	/**
-	 * make this event followable. if followable is false, then all followers of
+	 * makes this event public if true. if public is false, then all followers of
 	 * this event are removed.
 	 * 
-	 * @param isFollowale
-	 *            make this event followable
+	 * @param isPublic      if <code>true</code> make this event public and therefore followable.
 	 */
 	public void setPublic(boolean isPublic) {
 
@@ -174,7 +193,7 @@ public class Event extends Model {
 	/**
 	 * returns a set of all followers of this event
 	 * 
-	 * @return a set of followers
+	 * @return				 a set of <code>user</code> that follows this event
 	 */
 	public Set<User> getFollowers() {
 		Set<User> followers = new HashSet<User>();
@@ -187,7 +206,8 @@ public class Event extends Model {
 	/**
 	 * follow this event
 	 * 
-	 * @param calendar
+	 * @param calendar		the <code>calendar</code> the event gets added (followed) to.
+	 * @see Calendar
 	 */
 	public void follow(Calendar calendar) {
 		this.calendars.add(calendar);
@@ -197,7 +217,8 @@ public class Event extends Model {
 	/**
 	 * unfollow this event
 	 * 
-	 * @param calendar
+	 * @param calendar		the <code>calendar</code> the event gets removed (unfollowed) from.
+	 * @see Calendar
 	 */
 	public void unfollow(Calendar calendar) {
 		this.calendars.remove(calendar);
@@ -205,7 +226,7 @@ public class Event extends Model {
 	}
 
 	/**
-	 * check if this event is followed an user
+	 * checks if this event is followed by an user
 	 * 
 	 * @param user
 	 * @return boolean
