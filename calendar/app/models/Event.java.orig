@@ -30,12 +30,21 @@ import utilities.RepeatableType;
  */
 @Entity
 public class Event extends Model {
+<<<<<<< HEAD
+    public String name;
+    public Date start;
+    public Date end;
+    public boolean isPublic;
+    @Enumerated(EnumType.STRING)
+    public RepeatableType repeatableType;
+=======
 	public String name;
 	public Date start;
 	public Date end;
 	public boolean isPublic;
 	@Enumerated(EnumType.STRING)
 	public RepeatableType repeatableType;
+>>>>>>> origin/exp_rep_local
 
 	/**
 	 * the <user>user</code> who created the <code>event</code>. Only he is able
@@ -46,11 +55,39 @@ public class Event extends Model {
 	@ManyToOne
 	public User owner;
 
+<<<<<<< HEAD
+    /**
+     * creates an event which is by default not public and therefore not
+     * followable.
+     * 
+     * @param name
+     *            the name of this event
+     * @param note
+     *            a note of this event
+     * @param start
+     *            the date the event begins.
+     * @param end
+     *            the date the event ends.
+     * @param owner
+     *            the user who creates this event
+     * @param calendar
+     *            the calendar which stores this event
+     */
+    public Event(String name, String note, Date start, Date end, User owner,
+	    Calendar calendar) {
+	this.name = name;
+	this.note = note;
+	this.start = start;
+	this.end = end;
+	this.owner = owner;
+	this.repeatableType = RepeatableType.NONE;
+=======
 	/**
 	 * a note attached to the event.
 	 */
 	@Lob
 	public String note;
+>>>>>>> origin/exp_rep_local
 
 	/**
 	 * the calendars this event is in.
@@ -85,9 +122,47 @@ public class Event extends Model {
 		this.end = end;
 		this.owner = owner;
 
+<<<<<<< HEAD
+    /**
+     * creates an event.
+     * 
+     * @param name
+     *            the name of this event
+     * @param note
+     *            a note of this event
+     * @param start
+     *            the date the event begins.
+     * @param end
+     *            the date the event ends.
+     * @param owner
+     *            the user who creates this event
+     * @param calendar
+     *            the calendar which stores this event
+     * @param isPublic
+     *            the flag whether the event is public or private
+     * @param repeatableType
+     *            the type of this event
+     * 
+     */
+    public Event(String name, String note, Date start, Date end, User owner,
+	    Calendar calendar, boolean isPublic, RepeatableType repeatableType) {
+	this(name, note, end, end, owner, calendar, isPublic);
+	this.repeatableType = repeatableType;
+    }
+
+    /**
+     * returns the lower bound of this event.
+     * 
+     * @return a lower bound of this event.
+     */
+    public DateTime getLowerBound() {
+	return makeLowerBound(this.start);
+    }
+=======
 		this.calendars = new ArrayList<Calendar>();
 		this.calendars.add(calendar);
 	}
+>>>>>>> origin/exp_rep_local
 
 	/**
 	 * creates an event.
@@ -165,6 +240,9 @@ public class Event extends Model {
 		return new DateTime(endDate).withTime(23, 59, 59, 0);
 	}
 
+<<<<<<< HEAD
+	return this.repeatableType.happensOnDay(this, aDay);
+=======
 	/**
 	 * checks if an event happens on a specific day
 	 * 
@@ -173,6 +251,7 @@ public class Event extends Model {
 	 * @return <code>true</code> if this event happens on this day
 	 */
 	public boolean happensOnDay(Date aDay) {
+>>>>>>> origin/exp_rep_local
 
 		/*
 		 * DateTime dayLowerBound = makeLowerBound(aDay); DateTime dayUpperBound

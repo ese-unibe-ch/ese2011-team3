@@ -57,13 +57,29 @@
 			</td>
 		</tr>
 	#{/field}
+	#{field 'repeatableType'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<select type="text" id="${field.id}" name="${field.name}" class="${field.errorClass}">
+					<option value="1" #{if flash?.repeatableType == 1}selected#{/if}>None</option>
+					<option value="2" #{if flash?.repeatableType == 2}selected#{/if}>Daily</option>
+					<option value="3" #{if flash?.repeatableType == 3}selected#{/if}>Weekly</option>
+					<option value="4" #{if flash?.repeatableType == 4}selected#{/if}>Monthly</option>
+					<option value="5" #{if flash?.repeatableType == 5}selected#{/if}>Yearly</option>
+				</select>
+			</td>
+		</tr>
+	#{/field}
 	#{field 'isPublic'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				<input type="checkbox" id="${field.id}" name="${field.name}" #{if isPublic} checked #{/if} class="${field.errorClass}" >
+				<input type="checkbox" id="${field.id}" name="${field.name}" #{if isPublic} checked #{/if} class="${field.errorClass}" />
 			</td>
 		</tr>
 	#{/field}
