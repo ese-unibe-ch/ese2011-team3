@@ -35,7 +35,7 @@ public class Event extends Model {
     public Date end;
     public boolean isPublic;
     @Enumerated(EnumType.STRING)
-    public RepeatableType repeatbleType;
+    public RepeatableType repeatableType;
 
     /**
      * the <user>user</code> who created the <code>event</code>. Only he is able
@@ -84,6 +84,7 @@ public class Event extends Model {
 	this.start = start;
 	this.end = end;
 	this.owner = owner;
+	this.repeatableType = RepeatableType.NONE;
 
 	this.calendars = new ArrayList<Calendar>();
 	this.calendars.add(calendar);
@@ -111,6 +112,33 @@ public class Event extends Model {
 	    Calendar calendar, boolean isPublic) {
 	this(name, note, end, end, owner, calendar);
 	this.isPublic = isPublic;
+    }
+
+    /**
+     * creates an event.
+     * 
+     * @param name
+     *            the name of this event
+     * @param note
+     *            a note of this event
+     * @param start
+     *            the date the event begins.
+     * @param end
+     *            the date the event ends.
+     * @param owner
+     *            the user who creates this event
+     * @param calendar
+     *            the calendar which stores this event
+     * @param isPublic
+     *            the flag whether the event is public or private
+     * @param repeatableType
+     *            the type of this event
+     * 
+     */
+    public Event(String name, String note, Date start, Date end, User owner,
+	    Calendar calendar, boolean isPublic, RepeatableType repeatableType) {
+	this(name, note, end, end, owner, calendar, isPublic);
+	this.repeatableType = repeatableType;
     }
 
     /**
@@ -183,7 +211,7 @@ public class Event extends Model {
 	 * dayUpperBound .equals(eventEnd));
 	 */
 
-	return this.repeatbleType.happensOnDay(this, aDay);
+	return this.repeatableType.happensOnDay(this, aDay);
 
     }
 
