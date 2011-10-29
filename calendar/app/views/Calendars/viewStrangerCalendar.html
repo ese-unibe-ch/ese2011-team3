@@ -8,8 +8,8 @@
 			<td>
 				<table id="event_event">
 					<tr>
-						<td class="event_title">${event.name}</td>
-						<td class="event_properties"><a href="@{Calendars.copyEvent(calendar.id, currentDate, event.id)}">follow</a></td>
+						<td class="event_title">${event.name} #{if event?.isFollowedBy(calendar.owner, calendar)} - (followed#{if event.owner.equals(loginUser)} from you#{/if})#{/if}</td>
+						<td class="event_properties">#{ifnot event?.owner.equals(loginUser)}<a href="@{Calendars.copyEvent(calendar.id, currentDate, event.id)}">follow</a>#{/ifnot}</td>
 					</tr>
 					<tr>
 						<td class="event_date" colspan="2">${event.start.format('yyyy-MM-dd, HH:mm')} - ${event.end.format('yyyy-MM-dd, HH:mm')}</td>
