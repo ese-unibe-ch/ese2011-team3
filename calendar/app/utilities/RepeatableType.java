@@ -52,7 +52,7 @@ public enum RepeatableType {
 	return id;
     }
 
-    public RepeatableType getType(int id) {
+    public static RepeatableType getType(int id) {
 	switch (id) {
 	case 1:
 	    return RepeatableType.NONE;
