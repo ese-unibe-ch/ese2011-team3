@@ -17,6 +17,7 @@ import org.joda.time.format.DateTimeFormatter;
 import play.data.validation.Required;
 import play.db.jpa.JPA;
 import play.mvc.With;
+import utilities.RepeatableType;
 
 @With(Secure.class)
 public class Calendars extends Main {
@@ -104,8 +105,8 @@ public class Calendars extends Main {
 		flash.put("endDate", new DateTime(event.end).toString("yyyy-MM-dd"));
 		flash.put("startTime", new DateTime(event.start).toString("HH:mm"));
 		flash.put("endTime", new DateTime(event.end).toString("HH:mm"));
+		renderArgs.put("repeatableType", event.repeatableType.getId());
 		renderArgs.put("isPublic", event.isPublic);
-		// renderArgs.put("isFollowable", event.isFollowable());
 		flash.put("note", event.note);
 
 		renderTemplate("Calendars/viewEvent.html");
@@ -113,8 +114,8 @@ public class Calendars extends Main {
 
 	public static void saveEvent(Long calendarId, Date currentDate, Long id,
 			@Required String name, @Required Date startDate, String startTime,
-			@Required Date endDate, String endTime, boolean isPublic,
-			String note) {
+			@Required Date endDate, String endTime, int repeatableType,
+			boolean isPublic, String note) {
 
 		validation.match(startTime, regexTime).message("Invalid!");
 		validation.match(endTime, regexTime).message("Invalid!");
@@ -138,6 +139,9 @@ public class Calendars extends Main {
 			Event event = new Event(name, note, startDate, endDate, owner,
 					calendar, isPublic).save();
 
+			// TODO add repeatableType to constructor.
+			event.repeatableType = RepeatableType.getType(repeatableType);
+
 			event.setStart(startDate);
 			event.setEnd(endDate);
 			event.save();
@@ -154,6 +158,9 @@ public class Calendars extends Main {
 			event.start = helperCreateDate(startDate, startTime, "HH:mm");
 			event.end = helperCreateDate(endDate, endTime, "HH:mm");
 			event.note = note;
+
+			// TODO add repeatableType to constructor.
+			event.repeatableType = RepeatableType.getType(repeatableType);
 			event.setPublic(isPublic);
 			event.save();
 

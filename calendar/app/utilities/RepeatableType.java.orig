@@ -51,6 +51,20 @@ public enum RepeatableType {
 		return id;
 	}
 
+<<<<<<< HEAD
+    public static RepeatableType getType(int id) {
+	switch (id) {
+	case 1:
+	    return RepeatableType.NONE;
+	case 2:
+	    return RepeatableType.DAILY;
+	case 3:
+	    return RepeatableType.MONTHLY;
+	case 4:
+	    return RepeatableType.YEARLY;
+	default:
+	    return RepeatableType.NONE;
+=======
 	public static RepeatableType getType(int id) {
 		switch (id) {
 		case 1:
@@ -66,6 +80,7 @@ public enum RepeatableType {
 		default:
 			return RepeatableType.NONE;
 		}
+>>>>>>> origin/working
 	}
 
 	public abstract boolean happensOnDay(Event event, Date aDay);
