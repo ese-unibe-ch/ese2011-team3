@@ -1,6 +1,12 @@
 #{extends 'Calendars/calendarGrid.html' /}
 #{stylesheet 'event.css' /}
-
+#{ifErrors}
+<ul>
+#{errors}
+    <li>${error}</li>
+#{/errors}
+</ul>
+#{/ifErrors}
 #{form @Calendars.saveEvent(calendar.id, currentDate)}
 <h1>${actionName}</h1>
 <table id="event_form">
