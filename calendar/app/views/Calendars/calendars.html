@@ -4,8 +4,9 @@
 <td id="menu_menu">
 	<h1>my calendars</h1>
    	<ul>
+   		<li><a href="@{Calendars.viewGlobalCalendar(currentDate)}">All events</a></li>
    		#{list items:loginUser.calendars, as:'calendar'}
-   			<li><a href="@{Calendars.viewCalendar(calendar.id, currentDate)}">${calendar.name}</a></li>
+   			<li><a href="@{Calendars.viewCalendar(calendar.id, currentDate)}">${calendar.name}</a> <a href="@{Calendars.addEvent(calendar.id, currentDate)}"><img src="/public/images/add.png" /></a></li>
    		#{/list}
     </ul>
     <!-- <h1>upcoming</h1>

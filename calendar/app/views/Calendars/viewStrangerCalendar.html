@@ -22,8 +22,3 @@
 		</tr>
 	#{/list}
 </table>
-#{if calendar.owner == loginUser}
-	<div id="calendar_addevent">
-		<input type="button" onclick="javascript:location.href='@{Calendars.addEvent(calendar.id, currentDate)}'" name="Add Event" value="Add Event">
-	</div>
-#{/if}

@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import models.Calendar;
 import models.Event;
+import models.GlobalCalendar;
 import models.User;
 
 import org.joda.time.DateTime;
@@ -39,6 +40,17 @@ public class Calendars extends Main {
 	renderArgs.put("currentDate", currentDate);
     }
 
+    private static void putGlobalCalendarData(Calendar calendar,
+	    Date currentDate) {
+	if (currentDate == null) {
+	    currentDate = new Date();
+	}
+	renderArgs.put("calendar", calendar);
+	renderArgs.put("calendarData",
+		calendar.getCalendarData(getUser(), currentDate));
+	renderArgs.put("currentDate", currentDate);
+    }
+
     public static void index() {
 	Query calendarQuery = JPA.em()
 		.createQuery("SELECT c FROM Calendar c WHERE c.owner.id = :id")
@@ -49,10 +61,21 @@ public class Calendars extends Main {
 	viewCalendar(calendarList.get(0).getId(), new Date());
     }
 
+    public static void viewGlobalCalendar(Date currentDate) {
+	Calendar calendar = new GlobalCalendar("global", getUser());
+	putGlobalCalendarData(calendar, currentDate);
+	renderTemplate("Calendars/viewStrangerCalendar.html");
+    }
+
     public static void viewCalendar(Long calendarId, Date currentDate) {
+	if (calendarId == 0) {
+	    viewGlobalCalendar(currentDate);
+	}
+
 	if (currentDate == null) {
 	    currentDate = new Date();
 	}
+
 	putCalendarData(calendarId, currentDate);
 	Query calendarQuery = JPA.em()
 		.createQuery("SELECT c FROM Calendar c WHERE c.id = :id")
