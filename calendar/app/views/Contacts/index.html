@@ -8,6 +8,12 @@
 <td id="content_content">
 	<h1>Contacts</h1>
 	<table id="contacts_contacts">
+		#{form @Contacts.index()}
+			<td id="contacts_search">
+				<input type="text" name="contactSearch" value="${contactSearch}"  /> 
+				<input type="submit" value="Filter" />
+			</td>
+		#{/form}
 		#{list items:contacts, as:'contact'}
 			<tr>
 				<td id="contacts_name"><a href="@{Profile.viewProfile(contact.id)}">${contact.nickname}</a></td>
@@ -29,6 +35,13 @@
 	<hr />
 	<table id="contacts_contacts">
 	<h1>Other Users</h1>
+		#{form @Contacts.index()}
+			<td id="contacts_search">
+				<input type="hidden" name="contactSearch" value="${contactSearch}" />
+				<input type="text" name="userSearch" value="${userSearch}"  /> 
+				<input type="submit" value="Search" />
+			</td>
+		#{/form}
 		#{list items:users, as:'user'}
 			<tr>
 				<td id="contacts_name"><a href="@{Profile.viewProfile(user.id)}">${user.nickname}</a></td>
