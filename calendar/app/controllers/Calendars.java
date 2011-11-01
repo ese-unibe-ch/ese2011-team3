@@ -140,15 +140,19 @@ public class Calendars extends Main {
 	}
 
 	public static void saveEvent(Long calendarId, Date currentDate, Long id,
-			@Required String name, @Required Date startDate, String startTime,
-			@Required Date endDate, String endTime, int repeatableType,
-			boolean isPublic, String note) {
+			@Required String name, @Required Date startDate,
+			@Required String startTime, @Required Date endDate,
+			@Required String endTime, int repeatableType, boolean isPublic,
+			String note) {
 
 		validation.match(startTime, regexTime).message("Invalid!");
 		validation.match(endTime, regexTime).message("Invalid!");
-		startDate = helperCreateDate(startDate, startTime, "HH:mm");
-		endDate = helperCreateDate(endDate, endTime, "HH:mm");
-		validation.future(endDate, startDate);
+
+		if (!validation.hasErrors()) {
+			startDate = helperCreateDate(startDate, startTime, "HH:mm");
+			endDate = helperCreateDate(endDate, endTime, "HH:mm");
+			validation.future(endDate, startDate);
+		}
 
 		if (validation.hasErrors()) {
 			flash.keep();
