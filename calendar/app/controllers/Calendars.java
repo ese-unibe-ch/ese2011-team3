@@ -120,6 +120,9 @@ public class Calendars extends Main {
 
 	validation.match(startTime, regexTime).message("Invalid!");
 	validation.match(endTime, regexTime).message("Invalid!");
+	startDate = helperCreateDate(startDate, startTime, "HH:mm");
+	endDate = helperCreateDate(endDate, endTime, "HH:mm");
+	validation.future(endDate, startDate);
 
 	if (validation.hasErrors()) {
 	    flash.keep();
@@ -131,8 +134,6 @@ public class Calendars extends Main {
 	}
 
 	Calendar calendar = Calendar.findById(calendarId);
-	startDate = helperCreateDate(startDate, startTime, "HH:mm");
-	endDate = helperCreateDate(endDate, endTime, "HH:mm");
 	User owner = calendar.owner;
 
 	// new event
