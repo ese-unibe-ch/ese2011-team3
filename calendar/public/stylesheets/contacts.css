@@ -2,6 +2,10 @@
 	margin: 20px 10px;
 }
 
+#contacts_search {
+	padding: 5px;
+}
+
 #contacts_name {
 	padding: 5px;
 	width: 200px;
