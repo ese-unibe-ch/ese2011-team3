@@ -12,7 +12,7 @@
 						<td class="event_properties">#{if event?.owner.equals(loginUser)}<a href="@{Calendars.editEvent(calendar.id, currentDate, event.id)}">edit</a> | <a href="@{Calendars.deleteEvent(calendar.id, currentDate, event.id)}">delete</a>#{/if}#{else}<a href="@{Calendars.unfollowEvent(calendar.id, event.id)}">unfollow</a>#{/else}</td>
 					</tr>
 					<tr>
-						<td class="event_date" colspan="2">${event.start.format('yyyy-MM-dd, HH:mm')} - ${event.end.format('yyyy-MM-dd, HH:mm')}, ${event?.getRepeatableType().getDescription()}</td>
+						<td class="event_date" colspan="2">${event.start.format('HH:mm')} - ${event.end.format('HH:mm')}, ${event?.getRepeatableType().getDescription()}</td>
 					</tr>
 					<tr>
 						<td class="event_note" colspan="2"><b>Note:</b> ${event.note}</td>
