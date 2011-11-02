@@ -5,12 +5,12 @@ import java.text.SimpleDateFormat;
 
 import models.Calendar;
 import models.Event;
-import models.GlobalCalendar;
 import models.User;
 
 import org.junit.Test;
 
 import play.test.UnitTest;
+import utilities.GlobalCalendar;
 import utilities.RepeatableType;
 
 public class GlobalCalendarTest extends UnitTest {

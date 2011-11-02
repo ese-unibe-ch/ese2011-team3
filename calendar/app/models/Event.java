@@ -273,7 +273,7 @@ public class Event extends Model {
     }
 
     /**
-     * returns a set of all followers of this event
+     * returns a set of all followers of this event (including the owner )
      * 
      * @return a set of <code>user</code> that follows this event
      */
