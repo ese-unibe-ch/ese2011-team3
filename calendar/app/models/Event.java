@@ -144,7 +144,7 @@ public class Event extends Model {
      */
     public Event(String name, String note, Date start, Date end, User owner,
 	    Calendar calendar, boolean isPublic) {
-	this(name, note, end, end, owner, calendar);
+	this(name, note, start, end, owner, calendar);
 	this.isPublic = isPublic;
     }
 
@@ -170,7 +170,7 @@ public class Event extends Model {
      */
     public Event(String name, String note, Date start, Date end, User owner,
 	    Calendar calendar, boolean isPublic, RepeatableType repeatableType) {
-	this(name, note, end, end, owner, calendar, isPublic);
+	this(name, note, start, end, owner, calendar, isPublic);
 	this.repeatableType = repeatableType;
     }
 
