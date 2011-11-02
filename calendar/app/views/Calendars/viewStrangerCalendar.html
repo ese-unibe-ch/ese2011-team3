@@ -12,7 +12,7 @@
 						<td class="event_properties">#{ifnot event?.owner.equals(loginUser)}<a href="@{Calendars.copyEvent(calendar.id, currentDate, event.id)}">follow</a>#{/ifnot}</td>
 					</tr>
 					<tr>
-						<td class="event_date" colspan="2">${event.start.format('HH:mm')} - ${event.end.format('HH:mm')}</td>
+						<td class="event_date" colspan="2">${event.adaptDate(currentDate)}, ${event?.getRepeatableType().getDescription()}</td>
 					</tr>
 					<tr>
 						<td class="event_note" colspan="2">Note: ${event.note}</td>
