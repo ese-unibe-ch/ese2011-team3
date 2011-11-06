@@ -20,6 +20,8 @@ import org.joda.time.DateTime;
 import play.db.jpa.Model;
 import utilities.RepeatableType;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Event is an entry in one or more {@link Calendar} that happens over a period
  * of time and can be repeated every day, week, month or year. It can be public
@@ -32,8 +34,11 @@ import utilities.RepeatableType;
  */
 @Entity
 public class Event extends Model {
+    @Expose
     public String name;
+    @Expose
     public Date start;
+    @Expose
     public Date end;
     public boolean isPublic;
     @Enumerated(EnumType.STRING)
@@ -66,18 +71,12 @@ public class Event extends Model {
      * creates an event which is by default of type RepeatableType.NONE and is
      * not public and therefore not followable.
      * 
-     * @param name
-     *            the name of this event
-     * @param note
-     *            a note of this event
-     * @param start
-     *            the date the event begins.
-     * @param end
-     *            the date the event ends.
-     * @param owner
-     *            the user who creates this event
-     * @param calendar
-     *            the calendar which stores this event
+     * @param name the name of this event
+     * @param note a note of this event
+     * @param start the date the event begins.
+     * @param end the date the event ends.
+     * @param owner the user who creates this event
+     * @param calendar the calendar which stores this event
      */
     public Event(String name, String note, Date start, Date end, User owner,
 	    Calendar calendar) {
@@ -96,20 +95,13 @@ public class Event extends Model {
      * creates an event which is by default of type RepeatableType.NONE and is
      * not public and therefore not followable.
      * 
-     * @param name
-     *            the name of this event
-     * @param note
-     *            a note of this event
-     * @param start
-     *            the date the event begins.
-     * @param end
-     *            the date the event ends.
-     * @param owner
-     *            the user who creates this event
-     * @param calendar
-     *            the calendar which stores this event
-     * @param repetableType
-     *            the repeatable type of this event
+     * @param name the name of this event
+     * @param note a note of this event
+     * @param start the date the event begins.
+     * @param end the date the event ends.
+     * @param owner the user who creates this event
+     * @param calendar the calendar which stores this event
+     * @param repetableType the repeatable type of this event
      */
     public Event(String name, String note, Date start, Date end, User owner,
 	    Calendar calendar, RepeatableType repeatableType) {
@@ -127,20 +119,13 @@ public class Event extends Model {
     /**
      * creates an event.
      * 
-     * @param name
-     *            the name of this event
-     * @param note
-     *            a note of this event
-     * @param start
-     *            the date the event begins.
-     * @param end
-     *            the date the event ends.
-     * @param owner
-     *            the user who creates this event
-     * @param calendar
-     *            the calendar which stores this event
-     * @param isPublic
-     *            the flag whether the event is public or private
+     * @param name the name of this event
+     * @param note a note of this event
+     * @param start the date the event begins.
+     * @param end the date the event ends.
+     * @param owner the user who creates this event
+     * @param calendar the calendar which stores this event
+     * @param isPublic the flag whether the event is public or private
      */
     public Event(String name, String note, Date start, Date end, User owner,
 	    Calendar calendar, boolean isPublic) {
@@ -151,22 +136,14 @@ public class Event extends Model {
     /**
      * creates an event.
      * 
-     * @param name
-     *            the name of this event
-     * @param note
-     *            a note of this event
-     * @param start
-     *            the date the event begins.
-     * @param end
-     *            the date the event ends.
-     * @param owner
-     *            the user who creates this event
-     * @param calendar
-     *            the calendar which stores this event
-     * @param isPublic
-     *            the flag whether the event is public or private
-     * @param repeatableType
-     *            the repeatable type of this event
+     * @param name the name of this event
+     * @param note a note of this event
+     * @param start the date the event begins.
+     * @param end the date the event ends.
+     * @param owner the user who creates this event
+     * @param calendar the calendar which stores this event
+     * @param isPublic the flag whether the event is public or private
+     * @param repeatableType the repeatable type of this event
      */
     public Event(String name, String note, Date start, Date end, User owner,
 	    Calendar calendar, boolean isPublic, RepeatableType repeatableType) {
@@ -229,8 +206,7 @@ public class Event extends Model {
     /**
      * checks if an event happens on a specific day
      * 
-     * @param aDay
-     *            the day that gets checked
+     * @param aDay the day that gets checked
      * @return <code>true</code> if this event happens on this day
      */
     public boolean happensOnDay(Date aDay) {
@@ -241,8 +217,7 @@ public class Event extends Model {
      * makes this event public if true. if public is false, then all followers
      * of this event are removed.
      * 
-     * @param isPublic
-     *            if <code>true</code> make this event public and therefore
+     * @param isPublic if <code>true</code> make this event public and therefore
      *            followable.
      */
     public void setPublic(boolean isPublic) {
@@ -288,8 +263,8 @@ public class Event extends Model {
     /**
      * follow this event
      * 
-     * @param calendar
-     *            the <code>calendar</code> the event gets added (followed) to.
+     * @param calendar the <code>calendar</code> the event gets added (followed)
+     *            to.
      * @see Calendar
      */
     public void follow(Calendar calendar) {
@@ -300,9 +275,8 @@ public class Event extends Model {
     /**
      * unfollow this event
      * 
-     * @param calendar
-     *            the <code>calendar</code> the event gets removed (unfollowed)
-     *            from.
+     * @param calendar the <code>calendar</code> the event gets removed
+     *            (unfollowed) from.
      * @see Calendar
      */
     public void unfollow(Calendar calendar) {

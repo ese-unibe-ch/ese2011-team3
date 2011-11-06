@@ -1,5 +1,6 @@
 package utilities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,13 +37,14 @@ public class CalendarHelper {
 		|| (evStart.isBefore(start) && evEnd.isAfter(end));
     }
 
-    public static boolean overlaps(List<Event> events, Date start, Date end) {
+    public static List<Event> overlaps(List<Event> events, Date start, Date end) {
+	List<Event> overlappingEvents = new ArrayList<Event>();
 	for (Event ev : events) {
 	    if (isOverlapping(ev, start, end)) {
-		return true;
+		overlappingEvents.add(ev);
 	    }
 	}
-	return false;
+	return overlappingEvents;
     }
 
 }

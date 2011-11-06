@@ -50,7 +50,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date start = formatter.parse("2011/10/14, 08:00");
 	Date end = formatter.parse("2011/10/14, 13:00");
 
-	assertTrue(CalendarHelper.overlaps(events, start, end));
+	assertTrue(CalendarHelper.overlaps(events, start, end).size() > 0);
     }
 
     /*

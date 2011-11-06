@@ -17,8 +17,12 @@ import org.joda.time.format.DateTimeFormatter;
 import play.data.validation.Required;
 import play.db.jpa.JPA;
 import play.mvc.With;
+import utilities.CalendarHelper;
 import utilities.GlobalCalendar;
 import utilities.RepeatableType;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @With(Secure.class)
 public class Calendars extends Main {
@@ -202,15 +206,6 @@ public class Calendars extends Main {
 	Event event = (Event) deleteQuery.getSingleResult();
 	event.delete();
 
-	/*
-	 * Query calendarQuery = JPA.em()
-	 * .createQuery("SELECT e FROM Calendar e WHERE e.id = :id")
-	 * .setParameter("id", calendarId);
-	 * 
-	 * Calendar calendar = (Calendar) calendarQuery.getSingleResult();
-	 * calendar.save();
-	 */
-
 	viewCalendar(calendarId, currentDate);
     }
 
@@ -277,5 +272,28 @@ public class Calendars extends Main {
 
 	Date aDate = event.start;
 	Calendars.viewCalendar(calendarId, aDate);
+    }
+
+    public static void overlappingEvents(@Required String startDate,
+	    @Required String endDate) {
+	String format = "yyyy-MM-dd-HH-mm";
+	DateTimeFormatter formatter = DateTimeFormat.forPattern(format);
+	// parse dates
+	Date start = formatter.parseDateTime(startDate).toDate();
+
+	Date end = formatter.parseDateTime(endDate).toDate();
+
+	// get events
+	User user = getUser();
+	List<Event> events = Event.find("byOwner", user).fetch();
+
+	// check of overlapping events
+	final List<Event> overlappingEvents = CalendarHelper.overlaps(events,
+		start, end);
+
+	Gson gson = new GsonBuilder().setPrettyPrinting()
+		.excludeFieldsWithoutExposeAnnotation().create();
+
+	renderJSON(gson.toJson(overlappingEvents));
     }
 }
