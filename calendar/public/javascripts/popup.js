@@ -46,6 +46,7 @@ var popupStatus = false;
 		centerPopup();
 
 		$('#saveForm').submit(function() { 
+			getData();
 			showPopup();
 			return false;
 	
