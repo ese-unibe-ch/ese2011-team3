@@ -276,7 +276,7 @@ public class Calendars extends Main {
 
     public static void overlappingEvents(@Required String startDate,
 	    @Required String endDate) {
-	String format = "yyyy-MM-dd-HH-mm";
+	String format = "yyyy-MM-dd-HH:mm";
 	DateTimeFormatter formatter = DateTimeFormat.forPattern(format);
 	// parse dates
 	Date start = formatter.parseDateTime(startDate).toDate();

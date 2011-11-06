@@ -1,0 +1,40 @@
+body {
+	height: 100%;
+}
+
+#popup {  
+	display: none;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background: #000000;
+	z-index: 1;
+}
+
+#popup_content {
+	display: none;  
+	position: fixed;  
+	height: 150px;  
+	width: 300px;  
+	background: #FFFFFF;  
+	border: 2px solid #cecece;  
+	z-index: 2;
+}
+	
+#question {
+	margin-bottom: 35%;
+}
+
+#yes {
+	border: solid black 1px;
+	width: 100px;
+	float: left;
+}
+
+#no {
+	border: solid black 1px;
+	width: 100px;
+	float: right;
+}

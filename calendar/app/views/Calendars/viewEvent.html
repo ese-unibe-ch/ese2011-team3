@@ -1,5 +1,7 @@
 #{extends 'Calendars/calendarGrid.html' /}
 #{stylesheet 'event.css' /}
+#{stylesheet 'popup.css' /}
+#{script 'popup.js' /}
 #{ifErrors}
 <ul>
 #{errors}
@@ -7,7 +9,7 @@
 #{/errors}
 </ul>
 #{/ifErrors}
-#{form @Calendars.saveEvent(calendar.id, currentDate)}
+#{form @Calendars.saveEvent(calendar.id, currentDate), id:'saveForm'}
 <h1>${actionName}</h1>
 <table id="event_form">
 	#{field 'id'}
@@ -107,3 +109,10 @@
 	</tr>
 </table>
 #{/form}
+<div id="popup">
+	<div id="popup_content">
+		<div id="question">Question?</div>
+		<input type="submit" id="yes" value="Yes!">
+		<input type="submit" id="no" value="No!">
+	</div>
+</div>
