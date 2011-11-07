@@ -16,6 +16,7 @@ import org.junit.Test;
 import play.test.Fixtures;
 import play.test.UnitTest;
 import utilities.CalendarHelper;
+import utilities.CalendarHelper.OverlappingObject;
 
 public class TestCalendarHelper extends UnitTest {
     private SimpleDateFormat formatter = new SimpleDateFormat(
@@ -47,10 +48,23 @@ public class TestCalendarHelper extends UnitTest {
     @Test
     public void testOverlapping() throws ParseException {
 	List<Event> events = Event.findAll();
-	Date start = formatter.parse("2011/10/14, 08:00");
-	Date end = formatter.parse("2011/10/14, 13:00");
+	Date start = formatter.parse("2011/10/14, 15:30");
+	Date end = formatter.parse("2011/10/14, 16:00");
 
-	assertTrue(CalendarHelper.overlaps(events, start, end).size() > 0);
+	OverlappingObject noneOverlapping = CalendarHelper.overlaps(events,
+		start, end);
+
+	assertEquals(0, noneOverlapping.getEvents().size());
+	assertFalse(noneOverlapping.isOverlapping());
+
+	Date overlappingStart = formatter.parse("2011/10/14, 08:00");
+	Date overlappingEnd = formatter.parse("2011/10/14, 10:00");
+
+	OverlappingObject overlapping = CalendarHelper.overlaps(events,
+		overlappingStart, overlappingEnd);
+
+	assertEquals(2, overlapping.getEvents().size());
+	assertTrue(overlapping.isOverlapping());
     }
 
     /*
