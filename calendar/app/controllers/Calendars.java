@@ -297,7 +297,8 @@ public class Calendars extends Main {
 		end);
 
 	Gson gson = new GsonBuilder().setPrettyPrinting()
-		.excludeFieldsWithoutExposeAnnotation().create();
+		.excludeFieldsWithoutExposeAnnotation()
+		.setDateFormat("yyyy-MM-dd HH:mm").create();
 
 	renderJSON(gson.toJson(overlapping));
     }
