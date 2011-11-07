@@ -81,6 +81,7 @@ public class Calendars extends Main {
 	}
 
 	putCalendarData(calendarId, currentDate);
+	// what about followed events?
 	Query calendarQuery = JPA.em()
 		.createQuery("SELECT c FROM Calendar c WHERE c.id = :id")
 		.setParameter("id", calendarId);

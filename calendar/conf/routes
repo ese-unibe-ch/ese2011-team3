@@ -12,8 +12,9 @@ GET		/calendars/{currentDate}/{calendarId}/add										Calendars.addEvent
 GET		/calendars/{currentDate}/{calendarId}/nextMonth									Calendars.viewNextMonth
 GET		/calendars/{currentDate}/{calendarId}/prevMonth									Calendars.viewPrevMonth
 GET		/calendars/{currentDate}/{calendarId}											Calendars.viewCalendar
-GET		/calendars/{currentDate}														Calendars.viewGlobalCalendar
-GET		/calendars/overlaps/{startDate}/{endDate}												Calendars.overlappingEvents
+GET		/calendars/overlaps/{startDate}/{endDate}										Calendars.overlappingEvents
+
+GET		/calendar/{currentDate}															Calendars.viewGlobalCalendar
 
 GET		/contacts/																		Contacts.index
 GET		/contacts/choose																Contacts.choose
