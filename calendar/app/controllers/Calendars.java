@@ -19,6 +19,7 @@ import play.db.jpa.JPA;
 import play.mvc.With;
 import utilities.CalendarHelper;
 import utilities.GlobalCalendar;
+import utilities.OverlappingObject;
 import utilities.RepeatableType;
 
 import com.google.gson.Gson;
@@ -283,17 +284,23 @@ public class Calendars extends Main {
 
 	Date end = formatter.parseDateTime(endDate).toDate();
 
-	// get events
+	// get all events of this user
 	User user = getUser();
-	List<Event> events = Event.find("byOwner", user).fetch();
+	List<Event> events = JPA
+		.em()
+		.createQuery(
+			"SELECT e FROM Event e JOIN e.calendars c WHERE c.owner.id = :uid")
+		.setParameter("uid", user.id).getResultList();
 
 	// check of overlapping events
-	final List<Event> overlappingEvents = CalendarHelper.overlaps(events,
-		start, end);
+	List<Event> overlappingEvents = CalendarHelper.overlaps(events, start,
+		end);
+
+	OverlappingObject obj = new OverlappingObject(overlappingEvents);
 
 	Gson gson = new GsonBuilder().setPrettyPrinting()
 		.excludeFieldsWithoutExposeAnnotation().create();
 
-	renderJSON(gson.toJson(overlappingEvents));
+	renderJSON(gson.toJson(obj));
     }
 }
