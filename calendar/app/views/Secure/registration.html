@@ -1,11 +1,40 @@
+#{ifErrors }
+<ul>
+#{errors}
+    <li>${error}</li>
+#{/errors}
+</ul>
+#{/ifErrors}
+
 #{form @Security.registerUser() , enctype:'multipart/form-data'}
 <table>
-	<tr><td>Name: </td><td><input id="fullname" type="text" name="fullname" /></td></tr>
-	<tr><td>Nickname: </td><td><input id="nickname" type="text" name="nickname" /><td></td>
+	<tr><td>Name: </td><td>
+	#{field 'fullname'}
+	<input id="${field.id}" type="text" name="${field.name}" value="${flash.fullname}"/>
+	#{/field}
+	</td></tr>
+	<tr><td>Nickname: </td><td>
+	#{field 'nickname'}
+	<input id="${field.id}" type="text" name="${field.name}" value="${flash.nickname}" />
+	#{/field}
+	<td></td>
 	
-	<tr><td>e-Mail: </td><td><input id="mail" type="text" name="mail" /><td></td>
-	<tr><td>Password: </td><td><input type="password" name="password" /><td></td>
-	<tr><td>Repeat password: </td><td><input type="password" name="confirmPassword" /><td></td>
+	<tr><td>e-Mail: </td><td>
+	#{field 'mail'}
+	<input type="text" id="${field.id}" name="${field.name}" value="${flash.mail}"/>
+	#{/field}
+	<td></td>
+	<tr><td>Password: </td>
+	
+	<td>
+	#{field 'password'}<input type="password" id="${field.id}" name="${field.name}" />
+	#{/field}
+	<td></td>
+	<tr><td>Repeat password: </td><td>
+	#{field 'confirmPassword'}
+	<input type="password" id="${field.id}" name="${field.name}" />
+	#{/field}
+	<td></td>
 
 	<tr><td colspan="2"><input type="submit" id="submit" name="register" value="Register User"></td></tr>
 </table>
