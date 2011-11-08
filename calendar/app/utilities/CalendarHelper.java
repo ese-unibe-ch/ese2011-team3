@@ -8,6 +8,8 @@ import models.Event;
 
 import org.joda.time.DateTime;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * The CalendarHelper class is used to check if an event or a list of events is
  * overlapping a specific time interval which is given by a start and an end
@@ -16,6 +18,25 @@ import org.joda.time.DateTime;
  * @author Alt-F4
  */
 public class CalendarHelper {
+    public static class OverlappingObject {
+	@Expose
+	private boolean isOverlapping;
+	@Expose
+	private List<Event> events;
+
+	public OverlappingObject(List<Event> events) {
+	    this.events = events;
+	    this.isOverlapping = events.size() != 0;
+	}
+
+	public boolean isOverlapping() {
+	    return isOverlapping;
+	}
+
+	public List<Event> getEvents() {
+	    return this.events;
+	}
+    }
 
     /**
      * 
@@ -37,14 +58,15 @@ public class CalendarHelper {
 		|| (evStart.isBefore(start) && evEnd.isAfter(end));
     }
 
-    public static List<Event> overlaps(List<Event> events, Date start, Date end) {
+    public static OverlappingObject overlaps(List<Event> events, Date start,
+	    Date end) {
 	List<Event> overlappingEvents = new ArrayList<Event>();
 	for (Event ev : events) {
 	    if (isOverlapping(ev, start, end)) {
 		overlappingEvents.add(ev);
 	    }
 	}
-	return overlappingEvents;
+	return new OverlappingObject(overlappingEvents);
     }
 
 }
