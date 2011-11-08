@@ -1,0 +1,11 @@
+#{form @authenticate()}
+    <label>Login</label>
+    <input type="text" name="username" maxlength="80"/>
+
+    <label>Password</label>
+    <input type="password" name="password" maxlength="80"/>
+
+    <input type="submit" class="rounded" value="Log in bitch" />
+    
+    <a href="@{Security.registration()}">register a new user...</a>
+#{/form}

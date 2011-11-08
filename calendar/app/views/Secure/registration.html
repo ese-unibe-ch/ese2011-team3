@@ -1,0 +1,12 @@
+#{form @Security.registerUser() , enctype:'multipart/form-data'}
+<table>
+	<tr><td>Name: </td><td><input id="fullname" type="text" name="fullname" /></td></tr>
+	<tr><td>Nickname: </td><td><input id="nickname" type="text" name="nickname" /><td></td>
+	
+	<tr><td>e-Mail: </td><td><input id="mail" type="text" name="mail" /><td></td>
+	<tr><td>Password: </td><td><input type="password" name="password" /><td></td>
+	<tr><td>Repeat password: </td><td><input type="password" name="confirmPassword" /><td></td>
+
+	<tr><td colspan="2"><input type="submit" id="submit" name="register" value="Register User"></td></tr>
+</table>
+#{/form}
