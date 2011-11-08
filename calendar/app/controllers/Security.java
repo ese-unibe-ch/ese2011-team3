@@ -15,15 +15,15 @@ public class Security extends Secure.Security {
     	return (User.connect(nickname, password) != null);
     }
 
-    public static void registerUser(@Required String fullname,
-	    @Required String nickname, @Required String mail,
-	    @Required String password, @Required String confirmPassword) {
+    public static void registerUser(@Required(message="Name is required") String fullname,
+	    @Required(message="Nickname is required") String nickname, @Required(message="e-Mail is required") String mail,
+	    @Required(message="Password is required") String password, @Required(message="Confirm password") String confirmPassword) {
     	
-	    validation.email(mail);
-	    validation.equals(password, confirmPassword);
+	    validation.email(mail).message("Invalid e-Mail address");
+	    validation.equals(confirmPassword, password).message("Password confirmation failed");
 	    
 	    if(!isUniqueNickname(nickname)){
-	       	validation.addError("nickname",nickname+" is already taken");
+	       	validation.addError("nickname","Nickname '"+nickname+"' is already taken");
 	    }
 	    
 	    if (validation.hasErrors()){
