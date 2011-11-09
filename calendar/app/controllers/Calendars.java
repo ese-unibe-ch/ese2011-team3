@@ -103,9 +103,6 @@ public class Calendars extends Main {
 		.toDate());
     }
 
-    public static void editCalendar() {
-    }
-
     public static void addEvent(Long calendarId, Date currentDate) {
 	putCalendarData(calendarId, currentDate);
 	renderArgs.put("actionName", "Add Event");
@@ -209,6 +206,9 @@ public class Calendars extends Main {
 
 	viewCalendar(calendarId, currentDate);
     }
+    public static void createNewCalendar(){
+    	renderTemplate("Calendars/newCalendar.html");
+    }
 
     public static void addCalendar(String calendarName) {
 	User loginUser = getUser();
@@ -217,7 +217,7 @@ public class Calendars extends Main {
 
 	viewCalendar(calendar.id, null);
     }
-
+  
     private static Date helperCreateDate(Date date, String timeString,
 	    String pattern) {
 	DateTimeFormatter parser = DateTimeFormat.forPattern("HH:mm");
@@ -301,6 +301,47 @@ public class Calendars extends Main {
 		.setDateFormat("yyyy-MM-dd HH:mm").create();
 
 	renderJSON(gson.toJson(overlapping));
+<<<<<<< HEAD
     }
 
+    public static void editCalendar(Long calendarId){
+    	Calendar calendar = (Calendar) JPA
+    			.em()
+    			.createQuery(
+    				"SELECT c FROM Calendar c WHERE c.id = :calendarId")
+    			.setParameter("calendarId", calendarId).getSingleResult();
+    	
+    	renderArgs.put("calendar", calendar);
+    	renderTemplate("Calendars/editCalendar.html");
+    }
+    public static void updateCalendar(Long calendarId, String calendarName){
+    	Calendar calendar = (Calendar) JPA
+    			.em()
+    			.createQuery(
+    				"SELECT c FROM Calendar c WHERE c.id = :calendarId")
+    			.setParameter("calendarId", calendarId).getSingleResult();
+    	calendar.name = calendarName;
+    	calendar.save();
+    	Calendars.index();
+    }
+    public static void deleteCalendar(Long calendarId){
+    	Calendar calendar = (Calendar) JPA
+    			.em()
+    			.createQuery(
+    				"SELECT c FROM Calendar c WHERE c.id = :calendarId")
+    			.setParameter("calendarId", calendarId).getSingleResult();
+    	
+    	if(getUser().calendars.size() == 1){
+    		User loginUser = getUser();
+    		Calendar newCalendar = new Calendar("defaultCalendar", loginUser).save();
+    		loginUser.addCalendar(newCalendar);
+    	}
+    	for (Event event :calendar.events){
+    		event.delete();
+    	}
+    	calendar.save();
+    	calendar.delete();
+    	Calendars.index();
+    }
+    
 }

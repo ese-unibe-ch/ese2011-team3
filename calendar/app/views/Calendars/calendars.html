@@ -6,8 +6,17 @@
    	<ul>
    		<li><a href="@{Calendars.viewGlobalCalendar(currentDate)}">All events</a></li>
    		#{list items:loginUser.calendars, as:'calendar'}
-   			<li><a href="@{Calendars.viewCalendar(calendar.id, currentDate)}">${calendar.name}</a> <a href="@{Calendars.addEvent(calendar.id, currentDate)}"><img src="/public/images/add.png" /></a></li>
+   			<li>
+   				<a href="@{Calendars.viewCalendar(calendar.id, currentDate)}">${calendar.name}</a>
+   				<a href="@{Calendars.addEvent(calendar.id, currentDate)}"><img src="/public/images/add.png" /></a>
+   				<br/>
+   				<a href="@{Calendars.editCalendar(calendar.id)}">edit</a>
+   				<a href="@{Calendars.deleteCalendar(calendar.id)}">delete</a>
+   			</li>
    		#{/list}
+    </ul>
+    <ul>
+    <a href="@{Calendars.createNewCalendar()}">new calendar</a>
     </ul>
     <!-- <h1>upcoming</h1>
    	<ul>
