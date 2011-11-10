@@ -26,5 +26,16 @@
 	#{/list}
 </table>
 <div id="calendar_addevent">
-	<input type="button" onclick="javascript:location.href='@{Calendars.addEvent(calendar.id, currentDate)}'" name="Add Event" value="Add Event">
+	<input type="button" onclick="#{showPopup name:'add_event' /}" name="Add Event" value="Add Event">
 </div>
+
+#{popup name:'add_event', width:500, height: 300}
+	<p>This is a test popup</p>
+	<p><a href="#{showPopup name:'add_event_confirm' /}">save</a></p>
+	<p><a href="#{hidePopup name:'add_event' /}">close</a></p>
+#{/popup}
+
+#{popup name:'add_event_confirm', width: 200, height: 150}
+	<p>Saved successfully!</p>
+	<p><a href="#{hidePopup name:'add_event_confirm' /}">close this one</a></p>
+#{/popup}

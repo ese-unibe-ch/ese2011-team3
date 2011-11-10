@@ -2,7 +2,7 @@ body {
 	height: 100%;
 }
 
-#popup {  
+#popup_background {  
 	display: none;
 	position: fixed;
 	height: 100%;
@@ -14,12 +14,16 @@ body {
 }
 
 #popup_content {
-	display: none;  
+	-moz-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+	-moz-border-radius: 5px;
+	background: -moz-linear-gradient(top,  #ccccdd,  #ffffff);
+	border: 1px solid #000000;
+	padding: 10px;
+	display: none;
 	position: fixed;  
-	height: 150px;  
-	width: 300px;  
-	background: #FFFFFF;  
-	border: 2px solid #cecece;  
+/*	height: 150px;  
+	width: 300px; */
+	background-color: #FFFFFF;
 	z-index: 2;
 }
 	
