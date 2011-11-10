@@ -1,5 +1,23 @@
 #{extends 'main.html' /}
 #{set pageTitle:'calendars' /}
+#{script 'ajaxAction.js' /}
+
+<script type="text/javascript">
+	var newCalendarAction = new AjaxAction(#{jsAction @Calendars.createNewCalendar() /}, 'html');
+	
+	$(document).ready(function() {
+		$('#newCalendar_perform').click(function() {
+			newCalendarAction.perform(
+				{},
+				function(data) {
+					$('#newCalendar_content').html(data);
+					showPopup('newCalendar');
+				}
+			);
+			return false;
+		});
+	});
+</script>
 
 <td id="menu_menu">
 	<h1>my calendars</h1>
@@ -16,7 +34,7 @@
    		#{/list}
     </ul>
     <ul>
-    <a href="@{Calendars.createNewCalendar()}">new calendar</a>
+    <a href="" id="newCalendar_perform">new calendar</a>
     </ul>
     <!-- <h1>upcoming</h1>
    	<ul>
@@ -30,3 +48,12 @@
 <td id="content_content">
 	#{doLayout /}
 </td>
+
+#{popup name:'newCalendar'}
+	<h1>New Calendar</h1>
+	<div id="newCalendar_content"></div>
+	<div id="buttons">
+		<input type="button" value="Cancel" onclick="#{hidePopup name:'newCalendar' /}" />
+		<input type="button" value="Save" onclick="javascript: hidePopup('newCalendar'); document.forms['saveCalendar'].submit();" />
+	</div>
+#{/popup}

@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                                       										Calendars.index
+GET		/captcha																		Main.captcha
 POST	/registerUser																	Security.registerUser
 GET		/calendars/{currentDate}/{calendarId}/follow/{eventId}							Calendars.copyEvent
 GET		/calendars/{currentDate}/{calendarId}/edit/{eventId}							Calendars.editEvent

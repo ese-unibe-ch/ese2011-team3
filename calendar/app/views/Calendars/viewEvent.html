@@ -2,21 +2,19 @@
 #{stylesheet 'event.css' /}
 #{stylesheet 'popup.css' /}
 #{script 'popup.js' /}
+#{script 'ajaxAction.js' /}
 
 <script type="text/javascript">
-$(document).ready(function() {
-	$('#viewEvent_submit').click(function() {
-		var ajaxAction = #{jsAction @Calendars.overlappingEvents(':startDate', ':endDate') /}
-		$.ajax(
-			{
-				url: ajaxAction(
-					{
-						'startDate': $('#event_form #startDate').val() + '-' + $('#event_form #startTime').val(),
-						'endDate': $('#event_form #endDate').val() + '-' + $('#event_form #endTime').val()
-					}
-				),
-				dataType: 'json',
-				success: function(data) {
+	var overlappingAction = new AjaxAction(#{jsAction @Calendars.overlappingEvents(':startDate', ':endDate') /}, 'json');
+	
+	$(document).ready(function() {
+		$('#viewEvent_submit').click(function() {
+			overlappingAction.perform(
+				{
+					'startDate': $('#saveForm #startDate').val() + '-' + $('#saveForm #startTime').val(),
+					'endDate': $('#saveForm #endDate').val() + '-' + $('#saveForm #endTime').val()
+				},
+				function(data) {
 					if (data.isOverlapping == true) {
 						showPopup('overlapping');
 					}
@@ -24,10 +22,9 @@ $(document).ready(function() {
 						document.forms["saveForm"].submit();
 					}
 				}
-			}
-		);
+			);
+		});
 	});
-});
 </script>
 
 #{ifErrors}

@@ -229,8 +229,7 @@ public class Calendars extends Main {
 		return aDate.toDate();
 	}
 
-	public static void copyEvent(Long calendarId, Date currentDate, Long eventId) {
-		Calendars.putCalendarData(calendarId, currentDate);
+	public static void copyEvent(Long eventId) {
 		Event event = (Event) JPA.em()
 				.createQuery("SELECT e FROM Event e WHERE e.id = :id")
 				.setParameter("id", eventId).getSingleResult();
@@ -251,17 +250,13 @@ public class Calendars extends Main {
 		renderTemplate("Calendars/chooseCalendar.html");
 	}
 
-	public static void followEvent(Long calendarId, Date currentDate,
-			Long followCalendarId, Long eventId) {
-
+	public static void followEvent(Long followCalendarId, Long eventId) {
 		Event event = Event.find("byId", eventId).first();
 		Calendar calendar = Calendar.find("byId", followCalendarId).first();
 
 		event.follow(calendar);
 		event.save();
 		calendar.save();
-
-		Calendars.viewCalendar(calendarId, currentDate);
 	}
 
 	public static void unfollowEvent(Long calendarId, Long eventId) {
