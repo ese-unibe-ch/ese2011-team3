@@ -8,10 +8,17 @@
 <td id="content_content">
 <table id="event_form">
 	<tr>
-		<td><h1>${user.fullname}</h1><td>
-		<td class="event_key">#{if user?.equals(loginUser)}<a href="@{Profile.editProfile(user.id)}">edit profile</a>#{/if}
+		<td><h1>edit profile</h1><td>
 	</tr>
 </table>
+#{ifErrors}
+<ul>
+#{errors}
+    <li>${error}</li>
+#{/errors}
+</ul>
+#{/ifErrors}
+#{form @Profile.saveProfile(user.id)}
 <table id="event_form">
 	#{field 'name'}
 		<tr>
@@ -19,7 +26,7 @@
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.fullname}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.name}" class="${field.errorClass}" />
 			</td>
 		</tr>
 	#{/field}
@@ -39,133 +46,129 @@
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.mail}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.email}" class="${field.errorClass}" />
 			</td>
 		</tr>
 	#{/field}
-	#{field 'birthday'}#{if user.birthday != null}
+	#{field 'birthday'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.getBirthdayToString()}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.birthday}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
-	#{field 'telNumber'}#{if user.telNumber != null && user.telNumber!=''}
+	#{field 'telNumber'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.telNumber}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.telNumber}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
-	#{field 'description'}#{if user.profile !=null && user.profile !=''}
+	#{field 'description'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
-			<td class="event_note" colspan="2">
-				${user.profile}
+			<td class="event_value">
+				<textarea id="${field.id}" name="${field.name}" class="${field.errorClass}">${flash.description}</textarea>
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
 	
- 	<td class="event_key" ><label><HR ALIGN=LEFT WIDTH=100%> Office:</label></td>
- 	
-	#{field 'officeNumber'}#{if user.officeNumber != null && user.officeNumber !=''}
+	<td class="event_key" ><label><HR ALIGN=LEFT WIDTH=100%> Office:</label></td>
+	
+	#{field 'officeNumber'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.officeNumber}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.officeNumber}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
-	#{field 'monday'}#{if user.getOfficeTime(0) != null && user.getOfficeTime(0)!=''}
+	#{field 'monday'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.getOfficeTime(0)}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.monday}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
-	#{field 'tuesday'}#{if user.getOfficeTime(1) != null && user.getOfficeTime(1)!=''}
+	#{field 'tuesday'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.getOfficeTime(1)}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.tuesday}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
-	#{field 'wednesday'}#{if user.getOfficeTime(2) != null && user.getOfficeTime(2)!=''}
+	#{field 'wednesday'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.getOfficeTime(2)}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.wednesday}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}	
-	#{field 'thursday'}#{if user.getOfficeTime(3) != null && user.getOfficeTime(3)!=''}
+	#{field 'thursday'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.getOfficeTime(3)}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.thursday}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
-	#{field 'friday'}#{if user.getOfficeTime(4) != null && user.getOfficeTime(4)!=''}
+	#{field 'friday'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.getOfficeTime(4)}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.friday}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
-	#{field 'saturday'}#{if user.getOfficeTime(5) != null && user.getOfficeTime(5)!=''}
+	#{field 'saturday'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.getOfficeTime(5)}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.saturday}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
-	#{field 'sunday'}#{if user.getOfficeTime(6) != null && user.getOfficeTime(6)!=''}
+	#{field 'sunday'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-				${user.getOfficeTime(6)}
+				<input type="text" id="${field.id}" name="${field.name}" value="${flash.sunday}" class="${field.errorClass}" />
 			</td>
 		</tr>
-		#{/if}
 	#{/field}
+	<tr>
+		<td colspan="2" id="event_buttons">
+			<input type="button" name="Cancel" value="Cancel" onclick="javascript:location.href='@{Profile.viewProfile(user.id)}';"/>
+			<input type="submit" id="submit" name="OK" value="OK" />
+		</td>
+	</tr>
 </table>
+#{/form}
 </td>
