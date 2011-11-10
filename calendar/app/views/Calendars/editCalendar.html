@@ -1,0 +1,19 @@
+#{extends 'Calendars/calendars.html' /}
+#{set title:'create new Calendar' /}
+
+#{form @updateCalendar(calendar.id) }
+<h1>Edit Calendar</h1>
+
+<p>
+#{field 'calendarName'}
+	<label>&{field.name}</label>
+	<input type="text" id="${field.id}" name="${field.name}" value="${calendar.name}" class="${field.errorClass}">
+	<span class="error">${field.error}</span>
+#{/}
+</p>
+
+<p>
+	<input type="submit" id="submit" name="Edit" value="Edit" />
+</p>
+#{/form}
+

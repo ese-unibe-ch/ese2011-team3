@@ -4,7 +4,6 @@
 
 # Home page
 GET     /                                       										Calendars.index
-GET		/captcha																		Main.captcha
 POST	/registerUser																	Security.registerUser
 GET		/calendars/{currentDate}/{calendarId}/follow/{eventId}							Calendars.copyEvent
 GET		/calendars/{currentDate}/{calendarId}/edit/{eventId}							Calendars.editEvent
@@ -14,12 +13,14 @@ GET		/calendars/{currentDate}/{calendarId}/add										Calendars.addEvent
 GET		/calendars/{currentDate}/{calendarId}/nextMonth									Calendars.viewNextMonth
 GET		/calendars/{currentDate}/{calendarId}/prevMonth									Calendars.viewPrevMonth
 GET		/calendars/{currentDate}/{calendarId}											Calendars.viewCalendar
+<<<<<<< HEAD
+GET		/calendar/{currentDate}															Calendars.viewGlobalCalendar
+GET		/calendars/overlaps/{startDate}/{endDate}										Calendars.overlappingEvents
+=======
 GET		/calendars/overlaps/{startDate}/{endDate}										Calendars.overlappingEvents
 
 GET		/calendar/{currentDate}															Calendars.viewGlobalCalendar
-GET		/calendars/overlaps/{startDate}/{endDate}										Calendars.overlappingEvents
-
-GET		/calendar/{currentDate}															Calendars.viewGlobalCalendar
+>>>>>>> integration
 
 GET		/contacts/																		Contacts.index
 GET		/contacts/choose																Contacts.choose
@@ -27,7 +28,6 @@ GET		/contacts/add/{contactId}														Contacts.add
 GET		/contacts/remove/{contactId}													Contacts.remove
 
 GET		/profile/																		Profile.index
-GET 	/editProfile/{userId}															Profile.editProfile
 GET		/profile/{userId}																Profile.viewProfile
 
 GET		/tester																			Tester.index

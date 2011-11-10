@@ -1,5 +1,32 @@
 #{extends 'Calendars/calendarGrid.html' /}
 #{stylesheet 'event.css' /}
+#{stylesheet 'popup.css' /}
+#{script 'popup.js' /}
+#{script 'ajaxAction.js' /}
+
+<script type="text/javascript">
+	var overlappingAction = new AjaxAction(#{jsAction @Calendars.overlappingEvents(':startDate', ':endDate') /}, 'json');
+	
+	$(document).ready(function() {
+		$('#viewEvent_submit').click(function() {
+			overlappingAction.perform(
+				{
+					'startDate': $('#saveForm #startDate').val() + '-' + $('#saveForm #startTime').val(),
+					'endDate': $('#saveForm #endDate').val() + '-' + $('#saveForm #endTime').val()
+				},
+				function(data) {
+					if (data.isOverlapping == true) {
+						showPopup('overlapping');
+					}
+					else {
+						document.forms["saveForm"].submit();
+					}
+				}
+			);
+		});
+	});
+</script>
+
 #{ifErrors}
 <ul>
 #{errors}
@@ -7,7 +34,7 @@
 #{/errors}
 </ul>
 #{/ifErrors}
-#{form @Calendars.saveEvent(calendar.id, currentDate)}
+#{form @Calendars.saveEvent(calendar.id, currentDate), id:'saveForm', name:'saveForm'}
 <h1>${actionName}</h1>
 <table id="event_form">
 	#{field 'id'}
@@ -102,8 +129,25 @@
 	<tr>
 		<td colspan="2" id="event_buttons">
 			<input type="button" name="Cancel" value="Cancel" onclick="javascript:location.href='@{Calendars.viewCalendar(calendar.id, currentDate)}';"/>
-			<input type="submit" id="submit" name="OK" value="OK" />
+			<input type="button" id="viewEvent_submit" name="OK" value="OK" />
 		</td>
 	</tr>
 </table>
 #{/form}
+<div id="popup">
+	<div id="popup_content">
+		<div id="question">Question?</div>
+		<input type="submit" id="yes" value="Yes!">
+		<input type="submit" id="no" value="No!">
+	</div>
+</div>
+
+#{popup name:'overlapping'}
+	<h1>Event overlapping</h1>
+	<p>This event is concurring with some other events in your calendar!</p>
+	<p>Do you really want to save this event?</p>
+	<div id="buttons">
+		<input type="button" value="No" onclick="#{hidePopup name:'overlapping' /}" />
+		<input type="button" value="Yes" onclick="javascript: hidePopup('overlapping'); document.forms['saveForm'].submit();" />
+	</div>
+#{/popup}

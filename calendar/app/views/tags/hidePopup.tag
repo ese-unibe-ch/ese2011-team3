@@ -1,0 +1,1 @@
+javascript:hidePopup('${_name}')

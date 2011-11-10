@@ -1,7 +1,15 @@
-#{extends 'Calendars/calendarGrid.html' /}
-#{stylesheet 'event.css' /}
+<script type="text/javascript">
+	var followAction = new AjaxAction(#{jsAction @Calendars.followEvent(':calendarId', ':eventId') /}, 'html');
+	
+	function follow(cal, event) {
+		hidePopup('chooseCalendar'); 
+		followAction.perform({'calendarId': cal, 'eventId': event}, function(data) {
+			showPopup('follow_success');
+		});
+	}
+</script>
 
-<h1>${calendar.owner.nickname}: ${calendar.name} (view/follow access)</h1>
+<h1>Follow event</h1>
 #{if calendars.size()!=0}
 	<table id="event_list">
 		<tr>
@@ -12,7 +20,7 @@
 		#{list items:calendars, as:'cal'}
 			<tr id="event_event">
 				<td>
-					<table id="event_event"><tr><td><a href="@{Calendars.followEvent(calendar.id, currentDate, cal.id, event.id)}">${cal.name}</a></td></tr></table>
+					<table id="event_event"><tr><td><a href="javascript:follow(${cal.id}, ${event.id})">${cal.name}</a></td></tr></table>
 				</td>
 			</tr>
 		#{/list}
@@ -27,6 +35,3 @@
 	</tr>
 </table>
 #{/else}
-<div id="calendar_addevent">
-	<input type="button" onclick="javascript:location.href='@{Calendars.viewCalendar(calendar.id, currentDate)}'" name="Cancel" value="Cancel">
-</div>

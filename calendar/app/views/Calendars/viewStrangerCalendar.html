@@ -1,5 +1,25 @@
 #{extends 'Calendars/calendarGrid.html' /}
 #{stylesheet 'event.css' /}
+#{script 'ajaxAction.js' /}
+
+<script type="text/javascript">
+	var copyEventAction = new AjaxAction(#{jsAction @Calendars.copyEvent(':eventId') /}, 'html');
+	
+	$(document).ready(function() {
+		$('#copyEvent_perform').click(function() {
+			copyEventAction.perform(
+				{
+					'eventId': $('#copyEvent_perform').attr('name')
+				},
+				function(data) {
+					$('#chooseCalendar_content').html(data);
+					showPopup('chooseCalendar');
+				}
+			);
+			return false;
+		});
+	});
+</script>
 
 <h1>${calendar.owner.nickname}: ${calendar.name} (view/follow access)</h1>
 <table id="event_list">
@@ -9,7 +29,7 @@
 				<table id="event_event">
 					<tr>
 						<td class="event_title">${event.name} #{if event?.isFollowedBy(calendar.owner, calendar)} - (followed#{if event.owner.equals(loginUser)} from you#{/if})#{/if}</td>
-						<td class="event_properties">#{ifnot event?.owner.equals(loginUser)}<a href="@{Calendars.copyEvent(calendar.id, currentDate, event.id)}">follow</a>#{/ifnot}</td>
+						<td class="event_properties">#{ifnot event?.owner.equals(loginUser)}<a href="" id="copyEvent_perform" name="${event.id}">follow</a>#{/ifnot}</td>
 					</tr>
 					<tr>
 						<td class="event_date" colspan="2">${event.adaptDate(currentDate)}, ${event?.getRepeatableType().getDescription()}</td>
@@ -22,3 +42,18 @@
 		</tr>
 	#{/list}
 </table>
+
+#{popup name:'chooseCalendar'}
+	<div id="chooseCalendar_content"></div>
+	<div id="buttons">
+		<input type="button" value="Cancel" onclick="#{hidePopup name:'chooseCalendar' /}" />
+	</div>
+#{/popup}
+
+#{popup name:'follow_success'}
+	<h1>Event followed!</h1>
+	<p>The event was followed successfully</p>
+	<div id="buttons">
+		<input type="button" value="OK" onclick="#{hidePopup name:'follow_success' /}" />
+		</div>
+#{/popup}
