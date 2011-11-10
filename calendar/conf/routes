@@ -23,6 +23,7 @@ GET		/contacts/add/{contactId}														Contacts.add
 GET		/contacts/remove/{contactId}													Contacts.remove
 
 GET		/profile/																		Profile.index
+GET 	/editProfile/{userId}															Profile.editProfile
 GET		/profile/{userId}																Profile.viewProfile
 
 GET		/tester																			Tester.index

@@ -1,6 +1,8 @@
 package models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -29,6 +31,10 @@ public class User extends Model implements Comparable<User> {
     public String fullname;
     public String password;
     public String mail;
+    public Date birthday;
+    public String telNumber;
+    public String officeNumber;
+    public String[] officeTimes;
 
     @Lob
     public String profile;
@@ -61,7 +67,6 @@ public class User extends Model implements Comparable<User> {
 	this.contacts = new ArrayList<User>();
 	this.events = new ArrayList<Event>();
 	this.calendars = new ArrayList<Calendar>();
-
     }
 
     /**
@@ -148,5 +153,25 @@ public class User extends Model implements Comparable<User> {
      */
     public List<Calendar> getCalendars() {
 	return this.calendars;
+    }
+    
+    public String getBirthdayToString(){
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		if (birthday!=null)
+			return fmt.format(birthday);
+		return "";
+    }
+    public String getOfficeTime(int i){
+    	if (this.officeTimes==null)
+    		this.officeTimes = new String[7];
+    	if (this.officeTimes[i]!=null)
+    		return this.officeTimes[i];
+    	return "";
+    }
+    
+    public void setOfficeTime(int i, String str){
+    	if (this.officeTimes==null)
+    		this.officeTimes = new String[7];
+    	this.officeTimes[i] = str; 
     }
 }
