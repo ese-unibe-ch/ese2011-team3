@@ -3,7 +3,7 @@
 #{script 'ajaxAction.js' /}
 
 <script type="text/javascript">
-	var copyEventAction = new AjaxAction(#{jsAction @Calendars.copyEvent(':eventId') /}, 'html');
+	var copyEventAction = new AjaxAction(#{jsAction @Events.copyEvent(':eventId') /}, 'html');
 	
 	$(document).ready(function() {
 		$('#copyEvent_perform').click(function() {

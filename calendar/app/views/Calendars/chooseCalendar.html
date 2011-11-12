@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	var followAction = new AjaxAction(#{jsAction @Calendars.followEvent(':calendarId', ':eventId') /}, 'html');
+	var followAction = new AjaxAction(#{jsAction @Events.followEvent(':calendarId', ':eventId') /}, 'html');
 	
 	function follow(cal, event) {
 		hidePopup('chooseCalendar'); 

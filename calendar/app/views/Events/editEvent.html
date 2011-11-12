@@ -34,8 +34,8 @@
 #{/errors}
 </ul>
 #{/ifErrors}
-#{form @Calendars.saveEvent(calendar.id, currentDate), id:'saveForm', name:'saveForm'}
-<h1>${actionName}</h1>
+#{form @Events.updateEvent(calendar.id, currentDate), id:'saveForm', name:'saveForm'}
+<h1>Edit Event</h1>
 <table id="event_form">
 	#{field 'id'}
 	<input type="hidden" id="${field.id}" name="${field.name}" value="${flash.id}" />

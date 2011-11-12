@@ -9,7 +9,7 @@
 				<table id="event_event">
 					<tr>
 						<td class="event_title">${event.name} #{if event?.isFollowedBy(loginUser, calendar)} - (followed)#{/if}#{else} - (#{if event?.isPublic}public#{/if}#{else}private#{/else})#{/else}</td>
-						<td class="event_properties">#{if event?.owner.equals(loginUser)}<a href="@{Calendars.editEvent(calendar.id, currentDate, event.id)}">edit</a> | <a href="@{Calendars.deleteEvent(calendar.id, currentDate, event.id)}">delete</a>#{/if}#{else}<a href="@{Calendars.unfollowEvent(calendar.id, event.id)}">unfollow</a>#{/else}</td>
+						<td class="event_properties">#{if event?.owner.equals(loginUser)}<a href="@{Events.editEvent(calendar.id, currentDate, event.id)}">edit</a> | <a href="@{Events.deleteEvent(calendar.id, currentDate, event.id)}">delete</a>#{/if}#{else}<a href="@{Events.unfollowEvent(calendar.id, event.id)}">unfollow</a>#{/else}</td>
 					</tr>
 					<tr>
 						<td class="event_date" colspan="2">${event.adaptDate(currentDate)}, ${event?.getRepeatableType().getDescription()}</td>
@@ -26,5 +26,5 @@
 	#{/list}
 </table>
 <div id="calendar_addevent">
-	<input type="button" onclick="javascript:location.href='@{Calendars.addEvent(calendar.id, currentDate)}';" name="Add Event" value="Add Event">
+	<input type="button" onclick="javascript:location.href='@{Events.addEvent(calendar.id, currentDate)}';" name="Add Event" value="Add Event">
 </div>
