@@ -294,4 +294,20 @@ public class Event extends Model {
     public boolean isFollowedBy(User user, Calendar calendar) {
 	return (!this.owner.equals(user) && this.calendars.contains(calendar));
     }
+
+    public boolean isOverlapping(Date startDate, Date endDate) {
+	DateTime evStart = new DateTime(this.start);
+	DateTime evEnd = new DateTime(this.end);
+
+	DateTime start = new DateTime(startDate);
+	DateTime end = new DateTime(endDate);
+
+	return ((start.isBefore(evStart) || start.equals(evStart)) && (end
+		.isAfter(evEnd) || end.equals(evEnd)))
+		|| ((start.isBefore(evStart) || start.equals(evStart)) && end
+			.isAfter(evStart))
+		|| (start.isBefore(evEnd) && (end.isAfter(evEnd) || end
+			.equals(evEnd)))
+		|| (evStart.isBefore(start) && evEnd.isAfter(end));
+    }
 }

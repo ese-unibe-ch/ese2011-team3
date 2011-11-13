@@ -47,4 +47,18 @@ public class Ajax extends Main {
 	renderJSON(gson.toJson(overlapping));
     }
 
+	// parse dates
+	Date start = formatter.parseDateTime(startDate).toDate();
+	Date end = formatter.parseDateTime(endDate).toDate();
+
+	// check for overlapping events for this user
+	OverlappingData overlapping = Calendar.getOverlappingData(getUser(),
+		start, end);
+
+	Gson gson = new GsonBuilder().setPrettyPrinting()
+		.excludeFieldsWithoutExposeAnnotation().setDateFormat(format)
+		.create();
+
+	renderJSON(gson.toJson(overlapping));
+    }
 }

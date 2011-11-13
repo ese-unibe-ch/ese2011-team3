@@ -1,9 +1,8 @@
-package utilitiesTest;
+package modelTest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import models.Calendar;
 import models.Event;
@@ -15,10 +14,9 @@ import org.junit.Test;
 
 import play.test.Fixtures;
 import play.test.UnitTest;
-import utilities.CalendarHelper;
-import utilities.CalendarHelper.OverlappingObject;
+import utilities.OverlappingData;
 
-public class TestCalendarHelper extends UnitTest {
+public class TestOverlappingEvents extends UnitTest {
     private SimpleDateFormat formatter = new SimpleDateFormat(
 	    "yyyy/MM/dd, HH:mm");
 
@@ -47,11 +45,12 @@ public class TestCalendarHelper extends UnitTest {
 
     @Test
     public void testOverlapping() throws ParseException {
-	List<Event> events = Event.findAll();
 	Date start = formatter.parse("2011/10/14, 15:30");
 	Date end = formatter.parse("2011/10/14, 16:00");
 
-	OverlappingObject noneOverlapping = CalendarHelper.overlaps(events,
+	User testUser = User.find("byNickname", "wuschu").first();
+
+	OverlappingData noneOverlapping = Calendar.getOverlappingData(testUser,
 		start, end);
 
 	assertEquals(0, noneOverlapping.getEvents().size());
@@ -60,7 +59,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date overlappingStart = formatter.parse("2011/10/14, 08:00");
 	Date overlappingEnd = formatter.parse("2011/10/14, 10:00");
 
-	OverlappingObject overlapping = CalendarHelper.overlaps(events,
+	OverlappingData overlapping = Calendar.getOverlappingData(testUser,
 		overlappingStart, overlappingEnd);
 
 	assertEquals(2, overlapping.getEvents().size());
@@ -80,7 +79,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/14, 13:00");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertTrue(overlapping);
     }
 
@@ -93,7 +92,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/14, 16:00");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertTrue(overlapping);
     }
 
@@ -106,7 +105,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/14, 16:00");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertTrue(overlapping);
     }
 
@@ -119,7 +118,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/14, 15:00");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertTrue(overlapping);
     }
 
@@ -132,7 +131,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/14, 15:30");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertTrue(overlapping);
     }
 
@@ -145,7 +144,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/14, 15:00");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertTrue(overlapping);
     }
 
@@ -158,7 +157,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/14, 13:00");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertTrue(overlapping);
     }
 
@@ -171,7 +170,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/14, 08:30");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertFalse(overlapping);
     }
 
@@ -181,7 +180,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/14, 16:00");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertFalse(overlapping);
     }
 
@@ -191,7 +190,7 @@ public class TestCalendarHelper extends UnitTest {
 	Date end = formatter.parse("2011/10/15, 15:00");
 	Event event = Event.find("byName", "default").first();
 
-	boolean overlapping = CalendarHelper.isOverlapping(event, start, end);
+	boolean overlapping = event.isOverlapping(start, end);
 	assertFalse(overlapping);
     }
 
