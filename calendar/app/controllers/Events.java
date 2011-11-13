@@ -38,11 +38,12 @@ public class Events extends Main {
 	}
 
 	if (validation.hasErrors()) {
+	    params.flash();
 	    flash.keep();
 
 	    Calendars.putCalendarData(calendarId, currentDate);
 
-	    renderTemplate("Calendars/editEvent.html");
+	    renderTemplate("Events/editEvent.html");
 	}
 
 	Event event = Event.findById(id);
@@ -75,9 +76,7 @@ public class Events extends Main {
 	if (validation.hasErrors()) {
 	    params.flash();
 	    flash.keep();
-
 	    Calendars.putCalendarData(calendarId, currentDate);
-	    renderArgs.put("actionName", "Add Event");
 
 	    renderTemplate("Events/addEvent.html");
 	}
@@ -117,7 +116,8 @@ public class Events extends Main {
 
     public static void addEvent(Long calendarId, Date currentDate) {
 	Calendars.putCalendarData(calendarId, currentDate);
-	renderArgs.put("actionName", "Add Event");
+
+	flash.clear();
 
 	DateTime now = new DateTime();
 	DateTime start = new DateTime(currentDate);
@@ -134,7 +134,6 @@ public class Events extends Main {
 
     public static void editEvent(Long calendarId, Date currentDate, Long eventId) {
 	Calendars.putCalendarData(calendarId, currentDate);
-	renderArgs.put("actionName", "Edit Event");
 
 	Query eventQuery = JPA.em()
 		.createQuery("SELECT e FROM Event e WHERE e.id = :id")
@@ -147,8 +146,8 @@ public class Events extends Main {
 	flash.put("endDate", new DateTime(event.end).toString("yyyy-MM-dd"));
 	flash.put("startTime", new DateTime(event.start).toString("HH:mm"));
 	flash.put("endTime", new DateTime(event.end).toString("HH:mm"));
-	renderArgs.put("repeatableType", event.repeatableType.getId());
-	renderArgs.put("isPublic", event.isPublic);
+	flash.put("repeatableType", event.repeatableType.getId());
+	flash.put("isPublic", event.isPublic);
 	flash.put("note", event.note);
 
 	renderTemplate("Events/editEvent.html");
