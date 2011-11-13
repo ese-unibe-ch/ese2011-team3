@@ -5,7 +5,7 @@
 #{script 'ajaxAction.js' /}
 
 <script type="text/javascript">
-	var overlappingAction = new AjaxAction(#{jsAction @Calendars.overlappingEvents(':startDate', ':endDate') /}, 'json');
+	var overlappingAction = new AjaxAction(#{jsAction @Ajax.isOverlappingEvent(':startDate', ':endDate') /}, 'json');
 	
 	$(document).ready(function() {
 		$('#viewEvent_submit').click(function() {
