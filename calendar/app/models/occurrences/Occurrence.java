@@ -51,6 +51,10 @@ public abstract class Occurrence {
 			return new MonthlyOccurrence(event);
 		case YEARLY:
 			return new YearlyOccurrence(event);
+		case OTHERDAY:
+			return new OtherDayOccurrence(event);
+		case OTHERWEEK:
+			return new OtherWeekOccurrence(event);
 		}
 		return null;
 	}
