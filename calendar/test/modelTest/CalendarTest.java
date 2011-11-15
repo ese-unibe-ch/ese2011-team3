@@ -162,17 +162,4 @@ public class CalendarTest extends UnitTest {
 		assertEquals(tom.defaultCalendar, tomsCalendar);
 	}
 
-	@Test
-	public void testDefaultCalendar() {
-		User tom = new User("tom", "WTF", "secret", "tom@alt-f4.com").save();
-		Calendar tomsCalendar = new Calendar("Home", tom).save();
-		tomsCalendar.save();
-		tom.refresh();
-		List<Calendar> calendars = Calendar.find("byOwner", tom).fetch();
-		assertEquals(calendars.size(), 1);
-		assertEquals(tom.calendars.size(), 1);
-		assertEquals(Calendar.find("byName", "Home").first(), tomsCalendar);
-		assertEquals(tom.defaultCalendar, tomsCalendar);
-	}
-
 }

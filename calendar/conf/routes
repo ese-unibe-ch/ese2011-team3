@@ -6,6 +6,7 @@
 GET     /                                       										Calendars.index
 GET		/captcha																		Main.captcha
 POST	/registerUser																	Security.registerUser
+GET		/calendars/{currentDate}/{calendarId}/remove/{eventId}/{iteration}				Events.removeOccurrence
 GET		/calendars/{currentDate}/{calendarId}/follow/{eventId}							Events.copyEvent
 GET		/calendars/{currentDate}/{calendarId}/edit/{eventId}							Events.editEvent
 GET		/calendars/{currentDate}/{calendarId}/delete/{eventId}							Events.deleteEvent

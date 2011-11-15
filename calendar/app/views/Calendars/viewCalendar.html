@@ -9,7 +9,7 @@
 				<table id="event_event">
 					<tr>
 						<td class="event_title">${occurrence.getEvent().name} #{if occurrence.getEvent().isFollowedBy(loginUser, calendar)} - (followed)#{/if}#{else} - (#{if occurrence.getEvent().isPublic}public#{/if}#{else}private#{/else})#{/else}</td>
-						<td class="event_properties">#{if occurrence.getEvent().owner.equals(loginUser)}<a href="@{Events.editEvent(calendar.id, currentDate, occurrence.getEvent().id)}">edit</a> | <a href="@{Events.deleteEvent(calendar.id, currentDate, occurrence.getEvent().id)}">delete</a>#{/if}#{else}<a href="@{Events.unfollowEvent(calendar.id, occurrence.getEvent().id)}">unfollow</a>#{/else}</td>
+						<td class="event_properties">#{if occurrence.getEvent().owner.equals(loginUser)}<a href="@{Events.editEvent(calendar.id, currentDate, occurrence.getEvent().id)}">edit</a> | <a href="@{Events.deleteEvent(calendar.id, currentDate, occurrence.getEvent().id)}">delete</a>#{if !occurrence.getEvent().occurrenceType.equals(utilities.OccurrenceType.NONE) && occurrence.getIteration() > 0}<a href="@{Events.removeOccurrence(calendar.id, currentDate, occurrence.getEvent().id, occurrence.getIteration())}"> | remove occurrence</a>#{/if}#{/if}#{else}<a href="@{Events.unfollowEvent(calendar.id, occurrence.getEvent().id)}">unfollow</a>#{/else}</td>
 					</tr>
 					<tr>
 						<td class="event_date" colspan="2">${occurrence.getStart().toString("yyyy/MM/dd, HH:mm")} - ${occurrence.getEnd().toString("yyyy/MM/dd, HH:mm")}, ${occurrence.getEvent().getOccurrenceType().getDescription()}</td>

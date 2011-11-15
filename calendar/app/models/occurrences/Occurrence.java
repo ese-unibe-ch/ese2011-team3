@@ -73,6 +73,9 @@ public abstract class Occurrence {
 	}
 
 	protected boolean happensOnDay(DateTime day) {
+		if (!this.event.occurrenceHappens(this.iteration)) {
+			return false;
+		}
 		DateTime normalizedStart = new DateTime(this.getStart())
 				.withTimeAtStartOfDay();
 		DateTime normalizedEnd = new DateTime(this.getEnd())

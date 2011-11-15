@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -67,6 +68,9 @@ public class Event extends Model {
 	@ManyToMany
 	public List<Calendar> calendars;
 
+	@ElementCollection
+	public List<Integer> occurrenceExceptions;
+
 	/**
 	 * creates an event which is by default of type RepeatableType.NONE and is
 	 * not public and therefore not followable.
@@ -94,6 +98,7 @@ public class Event extends Model {
 		this.occurrenceType = OccurrenceType.NONE;
 
 		this.calendars = new ArrayList<Calendar>();
+		this.occurrenceExceptions = new ArrayList<Integer>();
 		this.calendars.add(calendar);
 	}
 
@@ -236,6 +241,14 @@ public class Event extends Model {
 				}
 			}
 		}
+	}
+
+	public void addOccurrenceException(Integer index) {
+		this.occurrenceExceptions.add(index);
+	}
+
+	public boolean occurrenceHappens(Integer index) {
+		return !this.occurrenceExceptions.contains(index);
 	}
 
 	/**

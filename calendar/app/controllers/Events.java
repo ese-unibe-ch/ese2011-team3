@@ -195,4 +195,14 @@ public class Events extends Main {
 		Calendars.viewCalendar(calendarId, aDate);
 	}
 
+	public static void removeOccurrence(Long calendarId, Date currentDate,
+			Long eventId, int iteration) {
+		Event event = Event.find("byId", eventId).first();
+
+		event.addOccurrenceException(iteration);
+		event.save();
+
+		Calendars.viewCalendar(calendarId, currentDate);
+	}
+
 }
