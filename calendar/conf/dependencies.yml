@@ -2,5 +2,5 @@
 
 require:
     - play -> secure
-    - play -> cobertura
+    - play -> cobertura 2.4
     - joda-time 2.0
