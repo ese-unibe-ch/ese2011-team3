@@ -146,7 +146,7 @@ public class Events extends Main {
 		flash.put("endDate", new DateTime(event.end).toString("yyyy-MM-dd"));
 		flash.put("startTime", new DateTime(event.start).toString("HH:mm"));
 		flash.put("endTime", new DateTime(event.end).toString("HH:mm"));
-		flash.put("repeatableType", event.occurrenceType.getId());
+		flash.put("occurrenceType", event.occurrenceType.getId());
 		flash.put("isPublic", event.isPublic);
 		flash.put("note", event.note);
 
