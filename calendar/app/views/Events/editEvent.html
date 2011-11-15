@@ -95,13 +95,13 @@
 			</td>
 		</tr>
 	#{/field}
-	#{field 'repeatableType'}
+	#{field 'occurrenceType'}
 		<tr>
 			<td class="event_key">
 				<label for="${field.name}">&{field.name}</label>
 			</td>
 			<td class="event_value">
-			#{select field.name, items: utilities.RepeatableType.values(), value: field.flash /}
+			#{select field.name, items: utilities.OccurrenceType.values(), value: field.flash /}
 			<!-- 
 				this bunch of lines can be reqritte by this line above!
 				<select type="text" id="${field.id}" name="${field.name}" class="${field.errorClass}">

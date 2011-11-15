@@ -20,7 +20,7 @@ public class ViewHelper extends JavaExtensions {
 
 	String format = "yyyy-MM-dd, HH:mm";
 
-	if (event.repeatableType != RepeatableType.NONE) {
+	if (event.occurrenceType != OccurrenceType.NONE) {
 	    DateTime start = new DateTime(aDate).withTime(
 		    startDateTime.getHourOfDay(),
 		    startDateTime.getMinuteOfHour(), 0, 0);
