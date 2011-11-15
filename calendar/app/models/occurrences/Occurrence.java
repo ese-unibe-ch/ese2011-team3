@@ -55,6 +55,10 @@ public abstract class Occurrence {
 			return new OtherDayOccurrence(event);
 		case OTHERWEEK:
 			return new OtherWeekOccurrence(event);
+		case ENDMONTH:
+			return new EndMonthOccurrence(event);
+		case WORKDAY:
+			return new WorkDayOccurrence(event);
 		}
 		return null;
 	}

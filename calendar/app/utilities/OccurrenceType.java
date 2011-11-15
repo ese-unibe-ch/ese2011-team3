@@ -6,7 +6,9 @@ public enum OccurrenceType {
 	MONTHLY(3, "Every month", "repeats monthly"),
 	YEARLY(4, "Every year", "repeats yearly"),
 	OTHERDAY(5, "Every other day", "repeats every other day"),
-	OTHERWEEK(6, "Every other week", "repeats every other week");
+	OTHERWEEK(6, "Every other week", "repeats every other week"),
+	ENDMONTH(7, "End of month", "repeats every end of month"),
+	WORKDAY(8, "Every working day", "repeats every working day");
 
 	private int id;
 	private String title;
@@ -40,6 +42,10 @@ public enum OccurrenceType {
 			return OccurrenceType.OTHERDAY;
 		case 6:
 			return OccurrenceType.OTHERWEEK;
+		case 7:
+			return OccurrenceType.ENDMONTH;
+		case 8:
+			return OccurrenceType.WORKDAY;
 		default:
 			return OccurrenceType.NONE;
 		}
