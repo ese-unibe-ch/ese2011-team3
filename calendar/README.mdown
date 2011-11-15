@@ -19,9 +19,9 @@ Note: Some Linux distributions do not accept executable flags from downloaded fi
 For other systems (Windows and Mac), you also have to add play (play.bat for Windows) to the path using the system configuration.
 
 ##Getting access to the application
-1. clone our project by typing the following into your terminal: 'git clone git://github.com/ese-unibe-ch/ese2011-team3.git' (do not copy the quotation marks "")
-2. navigate into the newly created folder by typing 'cd ese2011-team3'
-3. run the application by typing 'play run dependencies' ENTER 'play test calendar' in your terminal
+1. clone our project by typing the following into your terminal: `git clone git://github.com/ese-unibe-ch/ese2011-team3.git` 
+2. navigate into the newly created folder by typing `cd ese2011-team3`
+3. run the application by typing `play run dependencies` ENTER `play test calendar` in your terminal
 4. navigate your browser to "localhost:9000" 
 
 ##Login data
