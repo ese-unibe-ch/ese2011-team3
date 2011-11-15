@@ -1,0 +1,33 @@
+#Get everything working
+
+##Requirement before using the calendar Application of Alt-F4
+1. Make sure you have at least Java 1.5 installed on your machine. 
+2. Install the play framework. You can download it [here!](http://download.playframework.org/releases/play-1.2.3.zip)
+3. After you’ve downloaded play! from their website, you need to install it somewhere on your hard drive.
+4. Make sure you have GIT installed on your machine. 
+
+Now, the problem is that you cannot just type ’play’ in bash out of the box. The simplest way to get this functionality is using symbolic links, like that (my installation path for play!: /home/USERNAME/play-1.2.3/):
+
+     sudo ln -s /home/USERNAME/play-1.2.3/play /usr/bin/play
+
+Writing access from root is required because /usr/bin/ is a system folder that can only be edited by root.
+
+Note: Some Linux distributions do not accept executable flags from downloaded files. So, you need to mark the play file as executable with (assume you’re in the play-1.2.3/ folder):
+
+     chmod +x play or chmod 755 play 
+
+For other systems (Windows and Mac), you also have to add play (play.bat for Windows) to the path using the system configuration.
+
+##Getting access to the application
+1. clone our project by typing the following into your terminal: `git clone git://github.com/ese-unibe-ch/ese2011-team3.git` 
+2. navigate into the newly created folder by typing `cd ese2011-team3`
+3. run the application by typing `play run dependencies` ENTER `play test calendar` in your terminal
+4. navigate your browser to "localhost:9000" 
+
+##Login data
+you although you have the possibility to register as a new user, you might want to log in with the following userdata.  
+Username: wuschu  
+Password: secret
+
+**have fun testing our calendar application v.1.0**
+
