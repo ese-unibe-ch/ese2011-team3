@@ -14,3 +14,4 @@ eclipse
 .settings/
 calendar/lib/*
 calendar/modules/*
+calendar/cobertura.ser

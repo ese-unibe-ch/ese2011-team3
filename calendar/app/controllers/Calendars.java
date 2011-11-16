@@ -134,8 +134,7 @@ public class Calendars extends Main {
 
 		if (getUser().calendars.size() == 1) {
 			User loginUser = getUser();
-			Calendar newCalendar = new Calendar("defaultCalendar", loginUser)
-					.save();
+			Calendar newCalendar = new Calendar("default", loginUser).save();
 			loginUser.addCalendar(newCalendar);
 		}
 		for (Event event : calendar.events) {
