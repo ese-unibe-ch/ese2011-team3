@@ -15,12 +15,12 @@
 					'endDate': $('#saveForm #endDate').val() + '-' + $('#saveForm #endTime').val()
 				},
 				function(data) {
-					if (data.isOverlapping == true) {
-						showPopup('overlapping');
-					}
-					else {
+					//if (data.isOverlapping == true) {
+					//	showPopup('overlapping');
+					//}
+					//else {
 						document.forms["saveForm"].submit();
-					}
+					//}
 				}
 			);
 		});
