@@ -2,10 +2,23 @@
 	width: 100px;
 }
 
-#login_login table{
-	margin: 0px auto;
+#login_login table {
+	margin: 0px auto 20px;
+}
+
+#login_login table td {
+	padding: 5px;
 }
 
 #login_login form {
 	width: 400px;
+}
+
+#login_login h1 {
+	padding: 0px 15px;
+	margin: 10px 0px;
+	font-weight: bold;
+	font-size: 23px;
+	color: #5f5f5f;
+	text-align: center;
 }
