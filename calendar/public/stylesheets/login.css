@@ -1,0 +1,11 @@
+#login_login input[type=submit] {
+	width: 100px;
+}
+
+#login_login table{
+	margin: 0px auto;
+}
+
+#login_login form {
+	width: 400px;
+}
