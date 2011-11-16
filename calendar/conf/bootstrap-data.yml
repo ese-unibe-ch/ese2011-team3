@@ -21,12 +21,31 @@ User(joe):
     password:  secret
     fullname:  Joe Gargamel
     mail:      gargamel@gmail.com
+
+User(pink_princess):
+    nickname:  pink_princess
+    password:  secret
+    fullname:  Jenny Prince
+    mail:      j.prince@gmail.com
+
+User(joker):
+    nickname:  joker
+    password:  secret
+    fullname:  Villain of Batman
+    mail:      joker@gmail.com
+
+User(phoenix):
+    nickname:  phoenix
+    password:  secret
+    fullname:  John Sinclair
+    mail:      sinclair@gmail.com
     
     
 Calendar(wuschu_home):
     name:  Home
     owner:  wuschu
-    
+    events:  [wu_ev4,wu_ev5,wu_ev6]
+
 Calendar(wuschu_work):
     name:  Work
     owner:  wuschu
@@ -34,10 +53,6 @@ Calendar(wuschu_work):
 
 Calendar(lexy_home):
     name:  Home
-    owner: lexy
-
-Calendar(lexy_work):
-    name: Work
     owner: lexy
     
 Calendar(joe_sports):
@@ -48,84 +63,175 @@ Calendar(joe_sports):
 Calendar(joe_uni):
     name:  Uni
     owner: joe 
-    events:  [joe_ev2,joe_ev2,joe_ev3]
+    events:  [joe_ev2]
     
-Calendar(king_julien_uni):
-    name:  Uni
+Calendar(king_julien_work):
+    name:  Work
     owner: king_julien
-    events:  
+    events:   [king_julien_ev1, king_julien_ev2] 
 
-Calendar(king_julien_home):
-    name:  Home
-    owner: king_julien
-    events:  
+Calendar(pink_princess_modelling):
+    name:  Modelling
+    owner: pink_princess 
+    events:  [pink_princess_ev1,pink_princess_ev2,pink_princess_ev3]
+
+Calendar(joker_evil_plans):
+    name:  Evil Plans
+    owner: joker 
+    events:  [joker_ev1]
+
+Calendar(phoenix_workout):
+    name:  Workout
+    owner:  phoenix
+    events: [phoenix_ev1]
+
     
 Event(joe_ev1):
-    name: drinking
+    name: drinking (yes it can be a sport)
     owner: joe
     calendars: [joe_sports]
-    start: '2011-10-14 10:00:00'
-    end:   '2011-10-14 12:00:00'
+    start: '2011-11-24 10:00:00'
+    end:   '2011-11-24 12:00:00'
     note:  Don't forget to buy beer.
+    occurrenceType: NONE
     
 Event(joe_ev2):
-    name: ese exercise 1
+    name: ESE
     owner: joe
     calendars: [joe_uni]
-    start: '2011-10-15 10:00:00'
-    end:   '2011-10-15 12:00:00'
+    start: '2011-11-16 10:00:00'
+    end:   '2011-11-16 13:00:00'
     note: 
     isPublic:  true
     isFollowable:  true
-    
-Event(joe_ev3):
-    name: ese exercise 2
-    owner: joe
-    calendars: [joe_uni]
-    start: '2011-10-27 10:00:00'
-    end:   '2011-10-27 12:00:00'
-    note: 
-    isPublic:  true
-    isFollowable:  true
-    
-Event(joe_ev4):
-    name: ese exercise 3
-    owner: joe
-    calendars: [joe_uni]
-    start: '2011-10-20 10:00:00'
-    end:   '2011-10-20 12:00:00'
-    note: 
+    occurrenceType: WEEKLY 
     
 Event(wu_ev1):
     name: rechnungswesen
     owner: wuschu
     calendars: [wuschu_work]
-    start: '2011-10-15 10:00:00'
-    end:   '2011-10-15 12:00:00'
+    start: '2011-11-22 10:00:00'
+    end:   '2011-11-22 12:00:00'
     note:  tötet das rechnungswesen
     isPublic:  true
     isFollowable:  true
+occurrenceType: NONE
     
 Event(wu_ev2):
-    name: ese
+    name: ESE cycle 1 deadline
     owner: wuschu
     calendars: [wuschu_work]
-    start: '2011-10-14 10:00:00'
-    end:   '2011-10-14 12:00:00'
-    note: 
-      
+    start: '2011-11-16 12:00:00'
+    end:   '2011-11-16 12:00:00'
+    note: that needs some effort
+    occurrenceType: NONE
+       
 Event(wu_ev3):
-    name: english
+    name: workshop speechifying
     owner: wuschu
     calendars: [wuschu_work]
-    start: '2011-10-14 10:00:00'
-    end:   '2011-10-14 12:00:00'
-    note:  
+    start: '2011-10-31 10:00:00'
+    end:   '2011-10-31 12:00:00'
+    note:  do not forget to read the texts!!
+    isPublic: true
+    occurrenceType: WEEKLY
     
 Event(wu_ev4):
-    name: long event
+    name: Holiday (yes I deserve it)
     owner: wuschu
-    calendars: [wuschu_work]
-    start: '2011-10-12 10:00:00'
-    end:   '2011-11-12 12:00:00'
+    calendars: [wuschu_work, wuschu_home]
+    start: '2011-11-21 01:00:00'
+    end:   '2011-11-27 23:00:00'
     note:    
+    isPublic: true
+    occurrenceType: NONE
+
+Event(wu_ev5):
+    name: Dinner at mom's
+    owner: wuschu
+    calendars: wuschu_home
+    start: '2011-11-18 19:00:00'
+    end:   '2011-11-18 22:00:00'
+    note: bring the laundry
+    occurrenceType: NONE
+
+Event(wu_ev6):
+    name: Date with Jenny Prince
+    owner: wuschu
+    calendars: wuschu_home
+    start: '2011-11-19 20:00:00'
+    end:   '2011-11-20 11:00:00'
+    note: bring flowers! (otherwise you never reach 3rd base)
+    occurrenceType: NONE
+
+Event(phoenix_ev1):
+    name: Full workout
+    owner: phoenix
+    calendars: phoenix_workout
+    start: '2011-11-01 16:00:00'
+    end:   '2011-11-01 18:00:00'
+    note: take a protein shake after workout
+    isPublic: true
+    occurrenceType: OTHERDAY
+
+Event(joker_ev1):
+    name: Try to kill Batman
+    owner: joker
+    calendars: joker_evil_plans
+    start: '2011-11-01 06:00:00'
+    end:   '2011-11-01 23:00:00'
+    note:
+    isPublic: true
+    occurrenceType: WORKDAY
+
+Event(pink_princess_ev1):
+    name: Date with Wuschu Jackson
+    owner: pink_princess
+    calendars: pink_princess_modelling
+    start: '2011-11-19 20:00:00'
+    end:   '2011-11-19 22:00:00'
+    note: 
+    isPublic: true
+    occurrenceType: NONE
+
+Event(pink_princess_ev2):
+    name: Shooting for VOGUE magazine
+    owner: pink_princess
+    calendars: pink_princess_modelling
+    start: '2011-11-21 08:00:00'
+    end:   '2011-11-21 20:00:00'
+    note: 
+    isPublic: true
+    occurrenceType: NONE
+
+Event(pink_princess_ev3):
+    name: Shooting for PLAYBOY magazine
+    owner: pink_princess
+    calendars: pink_princess_modelling
+    start: '2011-11-24 08:00:00'
+    end:   '2011-11-24 20:00:00'
+    note: 
+    isPublic: true
+    occurrenceType: NONE
+
+Event(king_julien_ev1):
+    name: Pay the bills
+    owner: king_julien
+    calendars: king_julien_work
+    start: '2011-09-21 16:00:00'
+    end:   '2011-09-21 17:00:00'
+    note: 
+    isPublic: true
+    occurrenceType: ENDMONTH
+
+Event(king_julien_ev2):
+    name: DJ in the fanciest club in town
+    owner: king_julien
+    calendars: king_julien_work
+    start: '2011-09-30 22:00:00'
+    end:   '2011-09-31 04:30:00'
+    note: 
+    isPublic: true
+    occurrenceType: WEEKLY
+
+    
