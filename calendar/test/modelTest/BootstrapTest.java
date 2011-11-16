@@ -13,33 +13,34 @@ import play.test.UnitTest;
 
 public class BootstrapTest extends UnitTest {
 
-    @Test
-    public void testDates() throws ParseException {
-	Fixtures.deleteAllModels();
-	Fixtures.loadModels("bootstrap-data.yml");
+	@Test
+	public void testDates() throws ParseException {
+		Fixtures.deleteAllModels();
+		Fixtures.loadModels("bootstrap-data.yml");
 
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	/*
-	 * start: 2011-10-12 10:00:00.00 end: 2011-11-12 12:00:00.00
-	 */
-	Date start = formatter.parse("2011-10-12 10:00:00");
-	Date end = formatter.parse("2011-11-12 12:00:00");
-	Event longEvent = Event.find("byName", "long event").first();
+		/*
+		 * start: 2011-10-12 10:00:00.00 end: 2011-11-12 12:00:00.00
+		 */
+		Date start = formatter.parse("2011-11-21 01:00:00");
+		Date end = formatter.parse("2011-11-27 23:00:00");
+		Event testEvent = Event.find("byName", "Holiday (yes I deserve it)")
+				.first();
 
-	assertEquals(start, longEvent.start);
-	assertEquals(end, longEvent.end);
-    }
+		assertEquals(start, testEvent.start);
+		assertEquals(end, testEvent.end);
+	}
 
-    @Test
-    public void testMalformedDates() throws ParseException {
+	@Test
+	public void testMalformedDates() throws ParseException {
 
-	new Event("test", null, null, null, null, null).save();
-	Event test = Event.find("byName", "test").first();
+		new Event("test", null, null, null, null, null).save();
+		Event test = Event.find("byName", "test").first();
 
-	test.setStart("ashdfhasf");
-	test.setEnd("ashdfhasf");
-	assertNull(test.start);
-	assertNull(test.end);
-    }
+		test.setStart("ashdfhasf");
+		test.setEnd("ashdfhasf");
+		assertNull(test.start);
+		assertNull(test.end);
+	}
 }
