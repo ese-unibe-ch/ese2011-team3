@@ -6,7 +6,7 @@
 
 <html>
     <head>
-        <title>ALT-F4 - #{get 'pageTitle' /}</title>
+        <title>ALT-F4 - login</title>
         <meta charset="${_response_encoding}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
         #{get 'moreStyles' /}
@@ -20,27 +20,30 @@
     			<td id="title_titlename"><h1>Welcome</h1></td>
     			<td id="title_titlemenu">
     				<ul>
-    					<li><a href="@{Security.registration()}">register a new user...</a></li>
+    					<li><a href="@{Security.registration()}">Register</a></li>
     				</ul>
     			</td>
 	    	</tr>
 	    	<tr>
 	    		<td id = "login_login" colspan = "2">
-		    		#{form @authenticate()}
+	    			<h1>log into ALT-F4</h1>
+	    			<div align="center">
+		    			#{form @authenticate()}
     					<table>
     						<tr>
-    							<td><label>Login</label></td>
+    							<td align="right"><label>username</label></td>
     							<td><input type="text" name="username" maxlength="80"/></td>
     						</tr>
     						<tr>
-    							<td><label>Password</label></td>
+    							<td align="right"><label>password</label></td>
     							<td><input type="password" name="password" maxlength="80"/></td>
     						</tr>
     						<tr>
-    							<td colspan = "2"><input type="submit" value="Log in" /></td>
+    							<td colspan="2" align="right"><input type="submit" value="log in" /></td>
     						</tr>
     					</table>
-					#{/form}
+						#{/form}
+					</div>
 				</td>
 	   		</tr>
     	</table>
