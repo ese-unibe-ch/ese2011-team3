@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import play.test.Fixtures;
 import play.test.UnitTest;
+import utilities.OccurrenceType;
 
 public class EventTest extends UnitTest {
 
@@ -34,14 +35,20 @@ public class EventTest extends UnitTest {
 				.save();
 		Calendar testCalendar = new Calendar("Home", testUser).save();
 
-		new Event("ESE sucks", "small note",
+		Event testEvent1 = new Event("ESE sucks", "small note",
 				formatter.parse("2011/10/14, 09:00"),
 				formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-				false).save();
+				false, OccurrenceType.NONE).save();
+
+		Event testEvent2 = new Event("ESE sucks hard", "big note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+				false, OccurrenceType.WEEKLY).save();
 
 		User user = User.find("byNickname", "wuschu").first();
-		Event testEvent = Event.find("byOwner", user).first();
-		assertNotNull(testEvent);
+
+		assertNotNull(testEvent1);
+		assertNotNull(testEvent2);
 	}
 
 	@Test
@@ -50,8 +57,7 @@ public class EventTest extends UnitTest {
 		User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
 				.save();
 
-		User joe = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-				.save();
+		User joe = new User("joe", "OMG", "secret", "joe@alt-f4.com").save();
 		Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
 		Calendar joesCalendar = new Calendar("Home", joe).save();
 
@@ -75,8 +81,7 @@ public class EventTest extends UnitTest {
 		User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
 				.save();
 
-		User joe = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-				.save();
+		User joe = new User("joe", "OMG", "secret", "joe@alt-f4.com").save();
 		Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
 		Calendar joesCalendar = new Calendar("Home", joe).save();
 
