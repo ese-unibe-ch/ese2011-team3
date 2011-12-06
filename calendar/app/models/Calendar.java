@@ -143,6 +143,39 @@ public class Calendar extends Model {
 		}
 		return events;
 	}
+	
+	/**
+	 * Gets all matching events.
+	 * @author Team 1
+	 */
+	public List<Event> matchingEvents(User watchingUser, Date currentDate, String query) {
+		if (query == null) {
+			//System.out.println("Got null argument...");
+			return null; 
+		}
+		if (query.equals("")) {
+			//System.out.println("Got empty argument.");
+			return null; 
+		}
+		
+		Query eventsQuery = JPA
+				.em()
+				.createQuery(
+						"SELECT e FROM Event e JOIN e.calendars c WHERE c.id = :id AND (e.isPublic = true OR c.owner.id = :watchingUserId)")
+				.setParameter("id", this.id)
+				.setParameter("watchingUserId", watchingUser.id);
+		List<Event> results = eventsQuery.getResultList();
+		List<Event> events = new ArrayList<Event>();
+		for (Event e : results) {
+			//System.out.println("Name: "+e.name+", query="+query);
+			if (e.name.contains(query)) {
+				events.add(e);
+			}
+		}
+		return events;
+	}
+	
+	
 	/**
 	 * Lists this calendars <code>events</code> that are not owned by this calendar's <code>owner</code>. 
 	 * That is to say all the events the <code>owner</code> is following.

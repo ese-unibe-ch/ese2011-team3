@@ -63,7 +63,7 @@ public class Calendars extends Main {
 		List<Calendar> calendarList = calendarQuery.getResultList();
 		// TODO: estimate what to do if an user don't got any calendars.
 		assert calendarList.size() != 0;
-		viewCalendar(calendarList.get(0).getId(), new Date());
+		viewCalendar(calendarList.get(0).getId(), new Date(), "");
 	}
 
 	public static void viewGlobalCalendar(Date currentDate) {
@@ -72,20 +72,33 @@ public class Calendars extends Main {
 		renderTemplate("Calendars/viewStrangerCalendar.html");
 	}
 
-	public static void viewCalendar(Long calendarId, Date currentDate) {
+	public static void viewCalendar(Long calendarId, Date currentDate, String eventSearch) {
+		
 		if (calendarId == 0) {
 			viewGlobalCalendar(currentDate);
 		}
-
+		
 		if (currentDate == null) {
 			currentDate = new Date();
 		}
-
+		
 		putCalendarData(calendarId, currentDate);
 		Query calendarQuery = JPA.em()
 				.createQuery("SELECT c FROM Calendar c WHERE c.id = :id")
 				.setParameter("id", calendarId);
 		Calendar calendar = (Calendar) calendarQuery.getSingleResult();
+		
+		
+		
+		// eventSearch
+		//System.out.println("Calling Calendars.viewCalendar with eventSearch = "+eventSearch);
+		renderArgs.put("eventSearch", eventSearch);
+		List<Event> searchedEvents = calendar.matchingEvents(calendar.owner, currentDate, eventSearch);
+		//System.out.println("Menge an Events gefunden: "+searchedEvents.size());
+		renderArgs.put("searchedEvents", searchedEvents);
+		
+		
+		
 		if (getUser().equals(calendar.owner)) {
 			renderTemplate("Calendars/viewCalendar.html");
 		} else {
@@ -93,14 +106,15 @@ public class Calendars extends Main {
 		}
 	}
 
+	
 	public static void viewNextMonth(Long calendarId, Date currentDate) {
 		viewCalendar(calendarId, new DateTime(currentDate).plusMonths(1)
-				.toDate());
+				.toDate(), "");
 	}
 
 	public static void viewPrevMonth(Long calendarId, Date currentDate) {
 		viewCalendar(calendarId, new DateTime(currentDate).minusMonths(1)
-				.toDate());
+				.toDate(), "");
 	}
 
 	public static void addEvent(Long calendarId, Date currentDate) {
@@ -191,7 +205,7 @@ public class Calendars extends Main {
 			event.save();
 		}
 
-		viewCalendar(calendarId, startDate);
+		viewCalendar(calendarId, startDate, "");
 	}
 
 	public static void deleteEvent(Long calendarId, Date currentDate,
@@ -204,7 +218,7 @@ public class Calendars extends Main {
 		Event event = (Event) deleteQuery.getSingleResult();
 		event.delete();
 
-		viewCalendar(calendarId, currentDate);
+		viewCalendar(calendarId, currentDate, "");
 	}
 
 	public static void createNewCalendar() {
@@ -216,7 +230,7 @@ public class Calendars extends Main {
 		Calendar calendar = new Calendar(calendarName, loginUser).save();
 		loginUser.addCalendar(calendar);
 
-		viewCalendar(calendar.id, null);
+		viewCalendar(calendar.id, null, "");
 	}
 
 	private static Date helperCreateDate(Date date, String timeString,
@@ -268,7 +282,7 @@ public class Calendars extends Main {
 		calendar.save();
 
 		Date aDate = event.start;
-		Calendars.viewCalendar(calendarId, aDate);
+		Calendars.viewCalendar(calendarId, aDate, "");
 	}
 
 	public static void overlappingEvents(@Required String startDate,
