@@ -1,19 +1,21 @@
 package models.undo;
 
+import models.Calendar;
 import models.Event;
 
-public class SaveEvent implements Action {
+public class SaveEvent extends AbstractEventAction {
 
-    private Event event;
+    private Calendar calendar;
 
-    public SaveEvent(Event event) {
-	this.event = event;
+    public SaveEvent(Event event, Calendar calendar) {
+	super(event);
+	this.calendar = calendar;
     }
 
     @Override
     public void execute() {
-	// TODO Auto-generated method stub
-
+	this.event.save();
+	this.calendar.save();
     }
 
     @Override

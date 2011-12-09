@@ -2,8 +2,10 @@ package modelTest.undo;
 
 import java.util.Date;
 
+import models.Calendar;
 import models.Event;
 import models.undo.Action;
+import models.undo.DeleteEvent;
 import models.undo.EditEvent;
 import models.undo.SaveEvent;
 
@@ -15,6 +17,7 @@ import play.test.Fixtures;
 import play.test.UnitTest;
 
 public class ActionTest extends UnitTest {
+
     @Before
     public void setUp() throws Exception {
 	Fixtures.deleteAllModels();
@@ -30,11 +33,13 @@ public class ActionTest extends UnitTest {
 	Event e = new Event("name", "note", new Date(), new Date(), null, null,
 		false, null).save();
 
-	Action s = new SaveEvent(e);
+	Calendar calendar = new Calendar("Calendar", null).save();
+
+	Action save = new SaveEvent(e, calendar);
 
 	Event e1 = Event.find("byName", "name").first();
 	assertNotNull(e1);
-	s.undo();
+	save.undo();
 	Event e2 = Event.find("byName", "name").first();
 	assertNull(e2);
 
@@ -43,15 +48,18 @@ public class ActionTest extends UnitTest {
     @Test
     public void testEditAction() {
 	Event e = new Event("name", "note", new Date(), new Date(), null, null,
-		false, null).save();
+		false, null);
+	Calendar calendar = new Calendar("Calendar", null).save();
 
-	Action save = new SaveEvent(e);
-	Action edit = new EditEvent(e);
+	Action save = new SaveEvent(e, calendar);
+	save.execute();
 
 	Event event = Event.find("byName", "name").first();
+	assertNotNull(event);
 
-	event.name = "okay";
-	event.save();
+	EditEvent edit = new EditEvent(e);
+	edit.setName("okay");
+	edit.execute();
 
 	Event e1 = Event.find("byName", "name").first();
 	assertNull(e1);
@@ -66,5 +74,22 @@ public class ActionTest extends UnitTest {
 
 	Event e4 = Event.find("byName", "name").first();
 	assertNotNull(e4);
+    }
+
+    @Test
+    public void testDeleteAction() {
+	Calendar calendar = new Calendar("Calendar", null).save();
+
+	new Event("name", "note", new Date(), new Date(), null, calendar,
+		false, null).save();
+
+	Event event = Event.find("byName", "name").first();
+	assertNotNull(event);
+
+	Action delete = new DeleteEvent(event);
+	delete.execute();
+
+	Event e1 = Event.find("byName", "name").first();
+	assertNull(e1);
     }
 }

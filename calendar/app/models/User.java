@@ -11,8 +11,11 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import models.undo.ActionHandler;
+import play.cache.Cache;
 import play.db.jpa.Model;
 
 /**
@@ -36,6 +39,9 @@ public class User extends Model implements Comparable<User> {
     public String officeNumber;
     public String[] officeTimes;
 
+    @Transient
+    private ActionHandler actionHandler;
+
     @Lob
     public String profile;
 
@@ -54,10 +60,14 @@ public class User extends Model implements Comparable<User> {
     public Calendar defaultCalendar = null;
 
     /**
-     * @param nick - give the nickname of the new user
-     * @param name - give the full name of the new user
-     * @param pass - the password of the new user
-     * @param mail - the email-address of the new user
+     * @param nick
+     *            - give the nickname of the new user
+     * @param name
+     *            - give the full name of the new user
+     * @param pass
+     *            - the password of the new user
+     * @param mail
+     *            - the email-address of the new user
      */
     public User(String nick, String name, String pass, String mail) {
 	this.nickname = nick;
@@ -69,14 +79,23 @@ public class User extends Model implements Comparable<User> {
 	this.calendars = new ArrayList<Calendar>();
     }
 
+    public ActionHandler getActionHandler() {
+	if (Cache.get("actionHandler") == null) {
+	    Cache.add("actionHandler", new ActionHandler());
+	}
+	return (ActionHandler) Cache.get("actionHandler");
+    }
+
     /**
      * this method is used to authenticate a user who tries to log in on the
      * application. The user is granted access to the application if the
      * name/pwd combination is right and existing. otherwise the user is
      * rejected and logging in fails.
      * 
-     * @param nickname the nickname of the given name/pwd combination
-     * @param password the password of the given name/pwd combination
+     * @param nickname
+     *            the nickname of the given name/pwd combination
+     * @param password
+     *            the password of the given name/pwd combination
      * @return 'null' if no match is found, otherwise the User object with the
      *         matching name/pwd combination
      */
@@ -121,7 +140,8 @@ public class User extends Model implements Comparable<User> {
     /**
      * Add a calendar to the user's list of calendars.
      * 
-     * @param calendar - set it to default if it is the very first calendar.
+     * @param calendar
+     *            - set it to default if it is the very first calendar.
      */
     public void addCalendar(Calendar calendar) {
 	if (this.defaultCalendar == null) {
@@ -154,24 +174,25 @@ public class User extends Model implements Comparable<User> {
     public List<Calendar> getCalendars() {
 	return this.calendars;
     }
-    
-    public String getBirthdayToString(){
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-		if (birthday!=null)
-			return fmt.format(birthday);
-		return "";
+
+    public String getBirthdayToString() {
+	SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+	if (birthday != null)
+	    return fmt.format(birthday);
+	return "";
     }
-    public String getOfficeTime(int i){
-    	if (this.officeTimes==null)
-    		this.officeTimes = new String[7];
-    	if (this.officeTimes[i]!=null)
-    		return this.officeTimes[i];
-    	return "";
+
+    public String getOfficeTime(int i) {
+	if (this.officeTimes == null)
+	    this.officeTimes = new String[7];
+	if (this.officeTimes[i] != null)
+	    return this.officeTimes[i];
+	return "";
     }
-    
-    public void setOfficeTime(int i, String str){
-    	if (this.officeTimes==null)
-    		this.officeTimes = new String[7];
-    	this.officeTimes[i] = str; 
+
+    public void setOfficeTime(int i, String str) {
+	if (this.officeTimes == null)
+	    this.officeTimes = new String[7];
+	this.officeTimes[i] = str;
     }
 }

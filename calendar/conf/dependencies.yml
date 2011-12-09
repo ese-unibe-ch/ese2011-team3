@@ -4,3 +4,4 @@ require:
     - play -> secure
     - play -> cobertura 2.4
     - joda-time 2.0
+    - org.mockito -> mockito-all 1.8.5
