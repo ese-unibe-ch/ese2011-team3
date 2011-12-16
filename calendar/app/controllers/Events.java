@@ -9,9 +9,12 @@ import javax.persistence.Query;
 import models.Calendar;
 import models.Event;
 import models.User;
-import models.undo.Action;
-import models.undo.EditEvent;
-import models.undo.SaveEvent;
+import models.actions.Action;
+import models.actions.DeleteEvent;
+import models.actions.EditEvent;
+import models.actions.FollowEvent;
+import models.actions.SaveEvent;
+import models.actions.UnfollowEvent;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -62,7 +65,7 @@ public class Events extends Main {
 	editEvent.setPublic(isPublic);
 	// event.save();
 
-	getUser().getActionHandler().invoke(editEvent);
+	getActionHandler().invoke(editEvent);
 
 	Calendars.viewCalendar(calendarId, startDate);
     }
@@ -97,7 +100,7 @@ public class Events extends Main {
 		calendar, isPublic, OccurrenceType.getType(occurrenceType));
 
 	Action action = new SaveEvent(event, calendar);
-	getUser().getActionHandler().invoke(action);
+	getActionHandler().invoke(action);
 
 	Calendars.viewCalendar(calendarId, startDate);
     }
@@ -110,7 +113,11 @@ public class Events extends Main {
 		.setParameter("id", eventId);
 
 	Event event = (Event) deleteQuery.getSingleResult();
-	event.delete();
+
+	DeleteEvent deleteEvent = new DeleteEvent(event);
+
+	getActionHandler().invoke(deleteEvent);
+	// event.delete();
 
 	Calendars.viewCalendar(calendarId, currentDate);
     }
@@ -188,18 +195,19 @@ public class Events extends Main {
 	Event event = Event.find("byId", eventId).first();
 	Calendar calendar = Calendar.find("byId", followCalendarId).first();
 
-	event.follow(calendar);
-	event.save();
-	calendar.save();
+	Action action = new FollowEvent(event, calendar);
+
+	getActionHandler().invoke(action);
+
     }
 
     public static void unfollowEvent(Long calendarId, Long eventId) {
 	Calendar calendar = Calendar.find("byId", calendarId).first();
 	Event event = Event.find("byId", eventId).first();
 
-	event.unfollow(calendar);
-	event.save();
-	calendar.save();
+	Action action = new UnfollowEvent(event, calendar);
+
+	getActionHandler().invoke(action);
 
 	Date aDate = event.start;
 	Calendars.viewCalendar(calendarId, aDate);

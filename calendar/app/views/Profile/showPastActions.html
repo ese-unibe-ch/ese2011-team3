@@ -1,0 +1,29 @@
+#{extends 'main.html' /}
+#{set pageTitle:'calendar' /}
+#{stylesheet 'event.css' /}
+
+<style type="text/css">
+	.action {
+		border: solid 1px black;
+		margin: 10px;
+		padding: 5px;
+	}
+</style>
+
+<td id="menu_menu">
+	<h1><a href="@{Profile.index()}">my profile</a></h1>
+	<h1><a href="@{Profile.showPastActions()}">my past actions</a></h1>
+</td>
+<td id="content_content">
+<table id="event_form">
+	<tr>
+		<td>
+			<strong>Past Actions:</strong>
+			<ol>
+				#{list items: undos, as: 'undo'}
+					<li><div class="action">${undo.toString()}, <br/><a href="@{Profile.undoAction(undo.getId())}">Undo this action?</a><br\> </div></li>
+				#{/list}
+			</ol>
+		</td>
+	</tr>
+</table>

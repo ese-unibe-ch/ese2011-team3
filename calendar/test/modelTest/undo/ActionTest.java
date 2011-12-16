@@ -4,10 +4,10 @@ import java.util.Date;
 
 import models.Calendar;
 import models.Event;
-import models.undo.Action;
-import models.undo.DeleteEvent;
-import models.undo.EditEvent;
-import models.undo.SaveEvent;
+import models.actions.Action;
+import models.actions.DeleteEvent;
+import models.actions.EditEvent;
+import models.actions.SaveEvent;
 
 import org.junit.After;
 import org.junit.Before;

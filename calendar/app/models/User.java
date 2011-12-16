@@ -11,11 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
-import models.undo.ActionHandler;
-import play.cache.Cache;
 import play.db.jpa.Model;
 
 /**
@@ -38,9 +35,6 @@ public class User extends Model implements Comparable<User> {
     public String telNumber;
     public String officeNumber;
     public String[] officeTimes;
-
-    @Transient
-    private ActionHandler actionHandler;
 
     @Lob
     public String profile;
@@ -77,13 +71,6 @@ public class User extends Model implements Comparable<User> {
 	this.contacts = new ArrayList<User>();
 	this.events = new ArrayList<Event>();
 	this.calendars = new ArrayList<Calendar>();
-    }
-
-    public ActionHandler getActionHandler() {
-	if (Cache.get("actionHandler") == null) {
-	    Cache.add("actionHandler", new ActionHandler());
-	}
-	return (ActionHandler) Cache.get("actionHandler");
     }
 
     /**

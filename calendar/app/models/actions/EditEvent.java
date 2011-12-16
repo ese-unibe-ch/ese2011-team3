@@ -1,4 +1,4 @@
-package models.undo;
+package models.actions;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,28 +9,46 @@ import models.Event;
 import models.User;
 import utilities.OccurrenceType;
 
-abstract class AbstractEventAction implements Action {
-    protected String name;
-    protected String note;
-    protected Date start;
-    protected Date end;
-    protected List<Calendar> calendars;
-    protected User owner;
-    protected boolean isPublic;
-    protected OccurrenceType occurrenceType;
-    protected Event event;
+public class EditEvent extends AbstractAction {
+    private transient Event event;
+    private String name;
+    private String note;
+    private Date start;
+    private Date end;
+    private User owner;
+    private OccurrenceType occurrenceType;
+    private boolean isPublic;
+    private Long id;
 
-    public AbstractEventAction(Event event) {
+    public EditEvent(Event event) {
+	this.event = event;
 	// copy all values
 	this.name = event.name;
 	this.note = event.note;
 	this.start = event.start;
 	this.end = event.end;
 	this.owner = event.owner;
-	this.calendars = event.calendars;
+
 	this.occurrenceType = event.occurrenceType;
 	this.isPublic = event.isPublic;
 	this.event = event;
+	this.id = event.id;
+    }
+
+    @Override
+    public void execute() {
+	this.event.save();
+    }
+
+    @Override
+    public void undo() {
+	Event event = Event.findById(this.id);
+	event.name = name;
+	event.note = note;
+	event.start = this.start;
+	event.end = this.end;
+	event.occurrenceType = this.occurrenceType;
+	event.save();
     }
 
     public String getName() {
@@ -65,10 +83,6 @@ abstract class AbstractEventAction implements Action {
 	this.event.end = end;
     }
 
-    public List<Calendar> getCalendars() {
-	return calendars;
-    }
-
     public void setCalendars(List<Calendar> calendars) {
 	// copy list, otherwise concurrent issues could occur.
 	this.event.calendars = new ArrayList<Calendar>(calendars);
@@ -100,8 +114,12 @@ abstract class AbstractEventAction implements Action {
     }
 
     public String toString() {
-	return this.getClass().getSimpleName() + ", " + this.event.name
-		+ " to: " + this.name;
-    }
+	Event event = Event.findById(this.id);
+	String out = "Edit event '" + this.name + "'";
+	if (!event.name.equals(this.name)) {
+	    out += " and change name to '" + event.name + "'";
 
+	}
+	return out;
+    }
 }

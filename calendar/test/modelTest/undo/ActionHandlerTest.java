@@ -3,9 +3,9 @@ package modelTest.undo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import models.undo.ActionHandler;
-import models.undo.EditEvent;
-import models.undo.SaveEvent;
+import models.actions.ActionHandler;
+import models.actions.EditEvent;
+import models.actions.SaveEvent;
 
 import org.junit.After;
 import org.junit.Before;

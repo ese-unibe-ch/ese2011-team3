@@ -1,11 +1,14 @@
-package models.undo;
+package models.actions;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class ActionHandler implements Serializable {
 
     private Stack<Action> undos;
+    private static Long undoCounter = 1L;
     private Stack<Action> redos;
 
     public ActionHandler() {
@@ -15,8 +18,11 @@ public class ActionHandler implements Serializable {
 
     public void invoke(Action action) {
 	this.undos.push(action);
+	action.setId(undoCounter);
 	action.execute();
 	this.redos.clear();
+
+	undoCounter++;
     }
 
     public void remove(Action a) {
@@ -34,6 +40,16 @@ public class ActionHandler implements Serializable {
 	action.undo();
 
 	this.redos.push(action);
+    }
+
+    public void undo(Long id) {
+	for (Action undo : this.undos) {
+	    if (undo.getId().equals(id)) {
+		undo.undo();
+		this.undos.remove(undo);
+		break;
+	    }
+	}
     }
 
     public void redoLast() {
@@ -56,5 +72,17 @@ public class ActionHandler implements Serializable {
 	    sb.append(redo.toString() + "\n");
 	}
 	return sb.toString();
+    }
+
+    public List<Action> getUndos() {
+	return new ArrayList<Action>(this.undos);
+    }
+
+    public List<Action> getRedos() {
+	return new ArrayList<Action>(this.redos);
+    }
+
+    public void destroy() {
+	this.undos.removeAllElements();
     }
 }

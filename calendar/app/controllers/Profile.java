@@ -2,9 +2,11 @@ package controllers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import models.User;
-import models.undo.ActionHandler;
+import models.actions.Action;
+import models.actions.ActionHandler;
 
 import org.joda.time.DateTime;
 
@@ -89,11 +91,27 @@ public class Profile extends Main {
 	viewProfile(userId);
     }
 
-    public static void showActions() {
+    public static void showPastActions() {
+	ActionHandler actionHandler = getActionHandler();
+	List<Action> undos = actionHandler.getUndos();
+	List<Action> redos = actionHandler.getRedos();
 
-	ActionHandler actionHandler = getUser().getActionHandler();
+	renderArgs.put("user", getUser());
+	renderArgs.put("undos", undos);
+	renderArgs.put("redos", redos);
+	renderTemplate("Profile/showPastActions.html");
+    }
 
-	renderText(actionHandler.toString());
+    public static void undoLast() {
+	getActionHandler().undoLast();
+    }
 
+    public static void undoAction(Long id) {
+	getActionHandler().undo(id);
+	showPastActions();
+    }
+
+    public static void redoLast() {
+	getActionHandler().redoLast();
     }
 }

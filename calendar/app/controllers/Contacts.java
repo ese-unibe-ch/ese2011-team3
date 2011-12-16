@@ -55,6 +55,8 @@ public class Contacts extends Main {
 				.setParameter("id", contactId).getSingleResult();
 		User user = getUser();
 
+		
+		
 		user.contacts.add(contact);
 		user.save();
 		String userSearch = null;
