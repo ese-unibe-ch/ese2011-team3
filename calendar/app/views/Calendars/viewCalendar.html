@@ -14,6 +14,7 @@
 					<tr>
 						<td class="event_date" colspan="2">${occurrence.getStart().toString("yyyy/MM/dd, HH:mm")} - ${occurrence.getEnd().toString("yyyy/MM/dd, HH:mm")}, ${occurrence.getEvent().getOccurrenceType().getDescription()}</td>
 					</tr>
+  
 					<tr>
 						<td class="event_note" colspan="2"><b>Note:</b> ${occurrence.getEvent().note}</td>
 					</tr>
@@ -28,3 +29,26 @@
 <div id="calendar_addevent">
 	<input type="button" onclick="javascript:location.href='@{Events.addEvent(calendar.id, currentDate)}';" name="Add Event" value="Add Event">
 </div>
+
+<hr />
+	<table id="events_contacts">
+	<h1>Search for events</h1>
+		#{form @Calendars.viewCalendar(calendar.id)}
+			<td id="events_search">
+				<input type="text" name="eventSearch" value="${eventSearch}" />
+				<input type="submit" value="Search" />
+			</td>
+		#{/form}
+		<tr>
+		</tr>
+		#{if searchedEvents != null}
+		#{list items:searchedEvents, as:'event'}
+			<tr>
+				<td id="events_name"> ${event.name} (<a href="@{Profile.viewProfile(event.owner.id)}">${event.owner.nickname}</a>'s Calendar - 
+				<a href="@{Calendars.viewCalendar(calendar.id, event.start)}">show</a>)
+				</td>
+				
+			</tr>
+		#{/list}
+		#{/if}
+	</table>

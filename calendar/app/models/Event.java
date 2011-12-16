@@ -23,6 +23,8 @@ import utilities.OccurrenceType;
 
 import com.google.gson.annotations.Expose;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Event is an entry in one or more {@link Calendar} that happens over a period
  * of time and can be repeated every day, week, month or year. It can be public
