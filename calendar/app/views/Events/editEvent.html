@@ -4,11 +4,23 @@
 #{script 'popup.js' /}
 #{script 'ajaxAction.js' /}
 
+#{stylesheet 'jquery-ui/smoothness/jquery-ui-1.8.16.custom.css' /}
+#{script 'jquery-ui/jquery-ui-1.8.16.custom.min.js' /}
+#{script 'jquery-ui/jquery-ui-timepicker-addon.js' /}
+
 <script type="text/javascript">
 	var overlappingAction = new AjaxAction(#{jsAction @Ajax.isOverlappingEvent(':startDate', ':endDate') /}, 'json');
 	
 	$(document).ready(function() {
 		$('#viewEvent_submit').click(function() {
+			
+			//trim time values
+     		var startTime =  $('#saveForm #startTime').val();
+     		$('#saveForm #startTime').val($.trim(startTime));
+     		 
+     		var endTime =  $('#saveForm #endTime').val();
+     		$('#saveForm #endTime').val($.trim(endTime));
+		
 			overlappingAction.perform(
 				{
 					'startDate': $('#saveForm #startDate').val() + '-' + $('#saveForm #startTime').val(),
@@ -25,7 +37,8 @@
 			);
 		});
 		
-				//datepickers
+		
+		//datepsickers
 		$('#startDate').datepicker({
 			inline: true,
 			dateFormat: 'yy-mm-dd'
@@ -36,9 +49,13 @@
 			dateFormat: 'yy-mm-dd'
 		});
 		
-		$('#startTime').timepicker({});
+		$('#startTime').timepicker({
+			dateFormat: 'hh:mm'
+		});
 		
-		$('#endTime').timepicker({});
+		$('#endTime').timepicker({
+			dateFormat: 'hh:mm'
+		});
 		
 	});
 </script>

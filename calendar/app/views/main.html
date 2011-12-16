@@ -15,9 +15,13 @@
         #{get 'moreScripts' /}
     </head>
     <body>
+    	
     	<table id="main_main" cellspacing="0">
     		<tr id="title_title">
-    			<td id="title_titlename"><h1>#{get 'pageTitle' /}</h1></td>
+    			<td id="title_titlename">		
+    				<h1>#{get 'pageTitle' /}</h1>
+    				<div id="main_menu_bar"><img src="/public/images/undo.png" /> <img src="/public/images/redo.png" /></div>
+    			</td>
     			<td id="title_titlemenu">
     				<ul>
     					<li #{if pageTitle == 'calendars'}class="title_selected"#{/if}><a href="@{Calendars.index()}">calendars</a></li>

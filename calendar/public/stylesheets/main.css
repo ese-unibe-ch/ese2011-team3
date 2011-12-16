@@ -30,3 +30,10 @@ img {
 	width: 1000px;
 	margin: 20px auto;
 }
+
+#main_menu_bar {
+	padding: 0px;
+	margin: 0px;
+	height: 16px;
+	padding-left: 10px;
+}

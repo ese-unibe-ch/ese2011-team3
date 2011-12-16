@@ -14,6 +14,14 @@
 	
 	$(document).ready(function() {
 		$('#viewEvent_submit').click(function() {
+		
+			//trim time values
+     		var startTime =  $('#saveForm #startTime').val();
+     		$('#saveForm #startTime').val($.trim(startTime));
+     		 
+     		var endTime =  $('#saveForm #endTime').val();
+     		$('#saveForm #endTime').val($.trim(endTime));
+		
 			overlappingAction.perform(
 				{
 					'startDate': $('#saveForm #startDate').val() + '-' + $('#saveForm #startTime').val(),
@@ -41,9 +49,13 @@
 			dateFormat: 'yy-mm-dd'
 		});
 		
-		$('#startTime').timepicker({});
+		$('#startTime').timepicker({
+			dateFormat: 'hh:mm'
+		});
 		
-		$('#endTime').timepicker({});
+		$('#endTime').timepicker({
+			dateFormat: 'hh:mm'
+		});
 		
 	});
 </script>
