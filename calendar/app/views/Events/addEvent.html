@@ -1,0 +1,145 @@
+#{extends 'Calendars/calendarGrid.html' /}
+#{stylesheet 'event.css' /}
+#{stylesheet 'popup.css' /}
+#{script 'popup.js' /}
+#{script 'ajaxAction.js' /}
+
+<script type="text/javascript">
+	var overlappingAction = new AjaxAction(#{jsAction @Ajax.isOverlappingEvent(':startDate', ':endDate') /}, 'json');
+	
+	$(document).ready(function() {
+		$('#viewEvent_submit').click(function() {
+			overlappingAction.perform(
+				{
+					'startDate': $('#saveForm #startDate').val() + '-' + $('#saveForm #startTime').val(),
+					'endDate': $('#saveForm #endDate').val() + '-' + $('#saveForm #endTime').val()
+				},
+				function(data) {
+					//if (data.isOverlapping == true) {
+					//	showPopup('overlapping');
+					//}
+					//else {
+						document.forms["saveForm"].submit();
+					//}
+				}
+			);
+		});
+	});
+</script>
+
+#{form @Events.saveEvent(calendar.id, currentDate), id:'saveForm', name:'saveForm'}
+<h1>Add Event</h1>
+<table id="event_form">
+	#{field 'name'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${field.flash}" class="${field.errorClass}" />
+				<span class="error">#{error field.name /}</span>
+			</td>
+		</tr>
+	#{/field}
+	#{field 'startDate'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${field.flash}" class="${field.errorClass}" />
+				<span class="error">#{error field.name /}</span>
+			</td>
+		</tr>
+	#{/field}
+	#{field 'startTime'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${field.flash}" class="${field.errorClass}" />
+				<span class="error">#{error field.name /}</span>
+			</td>
+		</tr>
+	#{/field}
+	#{field 'endDate'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${field.flash}" class="${field.errorClass}" />
+				<span class="error">#{error field.name /}</span>
+			</td>
+		</tr>
+	#{/field}
+	#{field 'endTime'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="text" id="${field.id}" name="${field.name}" value="${field.flash}" class="${field.errorClass}" />
+				<span class="error">#{error field.name /}</span>
+			</td>
+		</tr>
+	#{/field}
+	#{field 'occurrenceType'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+			#{select field.name, items: utilities.OccurrenceType.values(), value: field.flash /}
+				<span class="error">#{error field.name /}</span>
+			</td>
+		</tr>
+	#{/field}
+	#{field 'isPublic'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<input type="checkbox" id="${field.id}" name="${field.name}" value="true" #{if field.flash.equals("true")} checked #{/if} class="${field.errorClass}" />
+				<span class="error">#{error field.name /}</span>
+			</td>
+		</tr>
+	#{/field}
+	#{field 'note'}
+		<tr>
+			<td class="event_key">
+				<label for="${field.name}">&{field.name}</label>
+			</td>
+			<td class="event_value">
+				<textarea id="${field.id}" name="${field.name}" class="${field.errorClass}">${flash.note}</textarea>
+				<span class="error">#{error field.name /}</span>
+			</td>
+		</tr>
+	#{/field}
+	<tr>
+		<td colspan="2" id="event_buttons">
+			<input type="button" name="Cancel" value="Cancel" onclick="javascript:location.href='@{Calendars.viewCalendar(calendar.id, currentDate)}';"/>
+			<input type="button" id="viewEvent_submit" name="OK" value="OK" />
+		</td>
+	</tr>
+</table>
+#{/form}
+<div id="popup">
+	<div id="popup_content">
+		<div id="question">Question?</div>
+		<input type="submit" id="yes" value="Yes!">
+		<input type="submit" id="no" value="No!">
+	</div>
+</div>
+
+#{popup name:'overlapping'}
+	<h1>Event overlapping</h1>
+	<p>This event is concurring with some other events in your calendar!</p>
+	<p>Do you really want to save this event?</p>
+	<div id="buttons">
+		<input type="button" value="No" onclick="#{hidePopup name:'overlapping' /}" />
+		<input type="button" value="Yes" onclick="javascript: hidePopup('overlapping'); document.forms['saveForm'].submit();" />
+	</div>
+#{/popup}

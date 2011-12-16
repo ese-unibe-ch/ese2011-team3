@@ -1,0 +1,197 @@
+package modelTest;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import models.Calendar;
+import models.Event;
+import models.User;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import play.test.Fixtures;
+import play.test.UnitTest;
+import utilities.OverlappingData;
+
+public class TestOverlappingEvents extends UnitTest {
+    private SimpleDateFormat formatter = new SimpleDateFormat(
+	    "yyyy/MM/dd, HH:mm");
+
+    @Before
+    public void setUp() throws ParseException {
+	Fixtures.deleteAllModels();
+
+	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+		.save();
+	Calendar testCalendar = new Calendar("Home", testUser).save();
+
+	new Event("default", "small note",
+		formatter.parse("2011/10/14, 09:00"),
+		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+		false).save();
+
+	new Event("ese", "small note", formatter.parse("2011/10/14, 08:00"),
+		formatter.parse("2011/10/14, 10:00"), testUser, testCalendar,
+		false).save();
+    }
+
+    @After
+    public void tearDown() {
+	Fixtures.deleteAllModels();
+    }
+
+    @Test
+    public void testOverlapping() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 15:30");
+	Date end = formatter.parse("2011/10/14, 16:00");
+
+	User testUser = User.find("byNickname", "wuschu").first();
+
+	OverlappingData noneOverlapping = Calendar.getOverlappingData(testUser,
+		start, end);
+
+	assertEquals(0, noneOverlapping.getEvents().size());
+	assertFalse(noneOverlapping.isOverlapping());
+
+	Date overlappingStart = formatter.parse("2011/10/14, 08:00");
+	Date overlappingEnd = formatter.parse("2011/10/14, 10:00");
+
+	OverlappingData overlapping = Calendar.getOverlappingData(testUser,
+		overlappingStart, overlappingEnd);
+
+	assertEquals(2, overlapping.getEvents().size());
+	assertTrue(overlapping.isOverlapping());
+    }
+
+    /*
+     * test all overlapping cases!
+     */
+
+    /*
+     * case: start < event.start and end < event.end
+     */
+    @Test
+    public void testOverlappingCase1() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 08:00");
+	Date end = formatter.parse("2011/10/14, 13:00");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertTrue(overlapping);
+    }
+
+    /*
+     * case: start > event.start and end > event.end
+     */
+    @Test
+    public void testOverlappingCase2() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 10:00");
+	Date end = formatter.parse("2011/10/14, 16:00");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertTrue(overlapping);
+    }
+
+    /*
+     * case: start < event.start and end > event.end
+     */
+    @Test
+    public void testOverlappingCase3() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 08:00");
+	Date end = formatter.parse("2011/10/14, 16:00");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertTrue(overlapping);
+    }
+
+    /*
+     * case: start = event.start and end = event.end
+     */
+    @Test
+    public void testOverlappingCase4() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 09:00");
+	Date end = formatter.parse("2011/10/14, 15:00");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertTrue(overlapping);
+    }
+
+    /*
+     * case: start = event.start and end > event.end
+     */
+    @Test
+    public void testOverlappingCase5() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 09:00");
+	Date end = formatter.parse("2011/10/14, 15:30");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertTrue(overlapping);
+    }
+
+    /*
+     * case: start > event.start and end = event.end
+     */
+    @Test
+    public void testOverlappingCase6() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 09:30");
+	Date end = formatter.parse("2011/10/14, 15:00");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertTrue(overlapping);
+    }
+
+    /*
+     * case: start > event.start and end < event.end
+     */
+    @Test
+    public void testOverlappingCase7() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 10:00");
+	Date end = formatter.parse("2011/10/14, 13:00");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertTrue(overlapping);
+    }
+
+    /*
+     * test three non-overlapping cases!
+     */
+    @Test
+    public void testNonOverlappingCase1() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 08:00");
+	Date end = formatter.parse("2011/10/14, 08:30");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertFalse(overlapping);
+    }
+
+    @Test
+    public void testNonOverlappingCase2() throws ParseException {
+	Date start = formatter.parse("2011/10/14, 15:30");
+	Date end = formatter.parse("2011/10/14, 16:00");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertFalse(overlapping);
+    }
+
+    @Test
+    public void testNonOverlappingCase3() throws ParseException {
+	Date start = formatter.parse("2011/10/15, 09:00");
+	Date end = formatter.parse("2011/10/15, 15:00");
+	Event event = Event.find("byName", "default").first();
+
+	boolean overlapping = event.isOverlapping(start, end);
+	assertFalse(overlapping);
+    }
+
+}

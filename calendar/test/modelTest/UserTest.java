@@ -1,5 +1,8 @@
 package modelTest;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import models.User;
 
 import org.junit.After;
@@ -49,6 +52,17 @@ public class UserTest extends UnitTest {
 		assertNotNull(testUser);
 		assertEquals(testUser.nickname, testNickname);
 
+	}
+
+	@Test
+	public void testGetBirthdayToString() {
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		User testUser = new User("joe", "omg", "secret", "joe@alt-f4.com")
+				.save();
+		testUser.birthday = new Date();
+		Assert.assertTrue(testUser.birthday != null);
+		Assert.assertEquals(testUser.getBirthdayToString(),
+				fmt.format(new Date()));
 	}
 
 }

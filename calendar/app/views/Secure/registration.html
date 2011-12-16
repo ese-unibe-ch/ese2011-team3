@@ -1,40 +1,75 @@
+<!DOCTYPE html>
 
-#{form @Security.registerUser() , enctype:'multipart/form-data'}
-<table>
-	<tr><td>Name: </td><td>
-	#{field 'fullname'}
-	<input id="${field.id}" type="text" name="${field.name}" value="${flash.fullname}"/>
-	<span class="error">#{error field.name /}</span>
-	#{/field}
-	</td></tr>
-	<tr><td>Nickname: </td><td>
-	#{field 'nickname'}
-	<input id="${field.id}" type="text" name="${field.name}" value="${flash.nickname}" />
-	<span class="error">#{error field.name /}</span>
-	#{/field}
-	<td></td>
-	
-	<tr><td>e-Mail: </td><td>
-	#{field 'mail'}
-	<input type="text" id="${field.id}" name="${field.name}" value="${flash.mail}"/>
-	<span class="error">#{error field.name /}</span>
-	#{/field}
-	<td></td>
-	<tr><td>Password: </td>
-	
-	<td>
-	#{field 'password'}
-	<input type="password" id="${field.id}" name="${field.name}" />
-	<span class="error">#{error field.name /}</span>
-	#{/field}
-	<td></td>
-	<tr><td>Repeat password: </td><td>
-	#{field 'confirmPassword'}
-	<input type="password" id="${field.id}" name="${field.name}" />
-	<span class="error">#{error field.name /}</span>
-	#{/field}
-	<td></td>
+#{stylesheet 'title.css' /}
+#{stylesheet 'login.css' /}
 
-	<tr><td colspan="2"><input type="submit" id="submit" name="register" value="Register User"></td></tr>
-</table>
-#{/form}
+
+<html>
+    <head>
+        <title>ALT-F4 - login</title>
+        <meta charset="${_response_encoding}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+        #{get 'moreStyles' /}
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+        <script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        #{get 'moreScripts' /}
+    </head>
+    <body>
+    	<table id="main_main" cellspacing="0">
+    		<tr id="title_title">
+    			<td id="title_titlename"><h1>Register</h1></td>
+    			<td id="title_titlemenu">
+    				<ul>
+    					<li><a href="@{Secure.login()}">Cancel</a></li>
+    				</ul>
+    			</td>
+	    	</tr>
+	    	<tr>
+	    		<td id = "login_login" colspan = "2">
+	    			<h1>register a new user</h1>
+	    			<div align="center">
+		    			#{form @Security.registerUser() , enctype:'multipart/form-data'}
+						<table>
+							<tr><td align="right">full name</td><td>
+							#{field 'fullname'}
+							<input id="${field.id}" type="text" name="${field.name}" value="${flash.fullname}"/>
+							<span class="error">#{error field.name /}</span>
+							#{/field}
+							</td></tr>
+							<tr><td align="right">username</td><td>
+							#{field 'nickname'}
+							<input id="${field.id}" type="text" name="${field.name}" value="${flash.nickname}" />
+							<span class="error">#{error field.name /}</span>
+							#{/field}
+							<td></td>
+	
+							<tr><td align="right">mail address</td><td>
+							#{field 'mail'}
+							<input type="text" id="${field.id}" name="${field.name}" value="${flash.mail}"/>
+							<span class="error">#{error field.name /}</span>
+							#{/field}
+							<td></td>
+							<tr><td align="right">password</td>
+	
+							<td>
+							#{field 'password'}
+							<input type="password" id="${field.id}" name="${field.name}" />
+							<span class="error">#{error field.name /}</span>
+							#{/field}
+							<td></td>
+							<tr><td align="right">confirm passoword</td><td>
+							#{field 'confirmPassword'}
+							<input type="password" id="${field.id}" name="${field.name}" />
+							<span class="error">#{error field.name /}</span>
+							#{/field}
+							<td></td>
+
+							<tr><td colspan="2" align="right"><input type="submit" id="submit" name="register" value="Register"></td></tr>
+						</table>
+						#{/form}
+					</div>
+				</td>
+	   		</tr>
+    	</table>
+    </body>
+</html>

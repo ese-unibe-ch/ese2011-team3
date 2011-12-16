@@ -3,7 +3,7 @@
 #{script 'ajaxAction.js' /}
 
 <script type="text/javascript">
-	var copyEventAction = new AjaxAction(#{jsAction @Calendars.copyEvent(':eventId') /}, 'html');
+	var copyEventAction = new AjaxAction(#{jsAction @Events.copyEvent(':eventId') /}, 'html');
 	
 	$(document).ready(function() {
 		$('#copyEvent_perform').click(function() {
@@ -23,19 +23,19 @@
 
 <h1>${calendar.owner.nickname}: ${calendar.name} (view/follow access)</h1>
 <table id="event_list">
-	#{list items:calendar.eventsAtDay(loginUser, currentDate), as:'event'}
+	#{list items:calendar.eventsAtDay(loginUser, new org.joda.time.DateTime(currentDate)), as:'occurrence'}
 		<tr>
 			<td>
 				<table id="event_event">
 					<tr>
-						<td class="event_title">${event.name} #{if event?.isFollowedBy(calendar.owner, calendar)} - (followed#{if event.owner.equals(loginUser)} from you#{/if})#{/if}</td>
-						<td class="event_properties">#{ifnot event?.owner.equals(loginUser)}<a href="" id="copyEvent_perform" name="${event.id}">follow</a>#{/ifnot}</td>
+						<td class="event_title">${occurrence.getEvent().name} #{if occurrence.getEvent().isFollowedBy(calendar.owner, calendar)} - (followed#{if occurrence.getEvent().owner.equals(loginUser)} from you#{/if})#{/if}</td>
+						<td class="event_properties">#{ifnot occurrence.getEvent().owner.equals(loginUser)}<a href="" id="copyEvent_perform" name="${occurrence.getEvent().id}">follow</a>#{/ifnot}</td>
 					</tr>
 					<tr>
-						<td class="event_date" colspan="2">${event.adaptDate(currentDate)}, ${event?.getRepeatableType().getDescription()}</td>
+						<td class="event_date" colspan="2">${occurrence.getStart().toString("yyyy/MM/dd, HH:mm")} - ${occurrence.getEnd().toString("yyyy/MM/dd, HH:mm")}, ${occurrence.getEvent().getOccurrenceType().getDescription()}</td>
 					</tr>
 					<tr>
-						<td class="event_note" colspan="2">Note: ${event.note}</td>
+						<td class="event_note" colspan="2">Note: ${occurrence.getEvent().note}</td>
 					</tr>
 				</table>
 			</td>

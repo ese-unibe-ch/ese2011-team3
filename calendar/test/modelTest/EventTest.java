@@ -13,256 +13,136 @@ import org.junit.Test;
 
 import play.test.Fixtures;
 import play.test.UnitTest;
-import utilities.RepeatableType;
+import utilities.OccurrenceType;
 
 public class EventTest extends UnitTest {
 
-    @Before
-    public void setUp() throws Exception {
-	Fixtures.deleteAllModels();
-    }
+	@Before
+	public void setUp() throws Exception {
+		Fixtures.deleteAllModels();
+	}
 
-    @After
-    public void tearDown() throws Exception {
-	Fixtures.deleteAllModels();
-    }
+	@After
+	public void tearDown() throws Exception {
+		Fixtures.deleteAllModels();
+	}
 
-    @Test
-    public void testRepeatableTypes() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+	@Test
+	public void testCreateEvent() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
 
-	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar testCalendar = new Calendar("Home", testUser).save();
+		User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
+		Calendar testCalendar = new Calendar("Home", testUser).save();
 
-	new Event("default", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false).save();
+		Event testEvent1 = new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+				false, OccurrenceType.NONE).save();
 
-	new Event("daily", "small note", formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, RepeatableType.DAILY).save();
+		Event testEvent2 = new Event("ESE sucks hard", "big note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+				false, OccurrenceType.WEEKLY).save();
 
-	new Event("monthly", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, RepeatableType.MONTHLY).save();
+		User user = User.find("byNickname", "wuschu").first();
 
-	new Event("weekly", "small note", formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, RepeatableType.WEEKLY).save();
+		assertNotNull(testEvent1);
+		assertNotNull(testEvent2);
+	}
 
-	new Event("yearly", "small note", formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, RepeatableType.YEARLY).save();
+	@Test
+	public void testIfEventIsFollowedBy() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+		User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
 
-	new Event("none", "small note", formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, RepeatableType.NONE).save();
+		User joe = new User("joe", "OMG", "secret", "joe@alt-f4.com").save();
+		Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
+		Calendar joesCalendar = new Calendar("Home", joe).save();
 
-	Event defaultEvent = Event.find("byName", "default").first();
-	Event daily = Event.find("byName", "daily").first();
-	Event monthly = Event.find("byName", "monthly").first();
-	Event weekly = Event.find("byName", "weekly").first();
-	Event yearly = Event.find("byName", "yearly").first();
-	Event none = Event.find("byName", "none").first();
+		new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
+				false).save();
 
-	assertEquals(RepeatableType.NONE, defaultEvent.getRepeatableType());
-	assertEquals(RepeatableType.DAILY, daily.getRepeatableType());
-	assertEquals(RepeatableType.MONTHLY, monthly.getRepeatableType());
-	assertEquals(RepeatableType.WEEKLY, weekly.getRepeatableType());
-	assertEquals(RepeatableType.YEARLY, yearly.getRepeatableType());
-	assertEquals(RepeatableType.NONE, none.getRepeatableType());
-    }
+		User user = User.find("byNickname", "wuschu").first();
+		Event testEvent = Event.find("byOwner", user).first();
 
-    @Test
-    public void testRepeatableEventDaily() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+		testEvent.follow(joesCalendar);
+		testEvent.save();
 
-	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar testCalendar = new Calendar("Home", testUser).save();
+		assertTrue(testEvent.getFollowers().contains(joe));
+	}
 
-	new Event("daily", "small note", formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, RepeatableType.DAILY).save();
+	@Test
+	public void testIfEventIsFollowed() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+		User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
 
-	Event event = Event.find("byName", "daily").first();
+		User joe = new User("joe", "OMG", "secret", "joe@alt-f4.com").save();
+		Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
+		Calendar joesCalendar = new Calendar("Home", joe).save();
 
-	assertTrue(event.happensOnDay(formatter.parse("2011/10/14, 09:00")));
-	assertTrue(event.happensOnDay(formatter.parse("2011/10/15, 10:00")));
-	assertTrue(event.happensOnDay(formatter.parse("2011/10/16, 11:00")));
-	assertTrue(event.happensOnDay(formatter.parse("2011/10/17, 12:00")));
-    }
+		new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
+				false).save();
 
-    @Test
-    public void testRepeatableEventWeekly() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+		User user = User.find("byNickname", "wuschu").first();
+		Event testEvent = Event.find("byOwner", user).first();
 
-	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar testCalendar = new Calendar("Home", testUser).save();
+		testEvent.follow(joesCalendar);
+		testEvent.save();
 
-	new Event("weekly", "small note", formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, RepeatableType.WEEKLY).save();
+		assertTrue(testEvent.getFollowers().size() > 0);
+	}
 
-	Event event = Event.find("byName", "weekly").first();
+	@Test
+	public void testGetFollowableEvents() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
 
-	assertTrue(event.happensOnDay(formatter.parse("2011/10/14, 09:00")));
-	assertTrue(event.happensOnDay(formatter.parse("2011/10/21, 10:00")));
-    }
+		User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
+		Calendar testCalendar = new Calendar("Home", testUser).save();
 
-    @Test
-    public void testRepeatableEventMonthly() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+		new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
+				true).save();
 
-	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar testCalendar = new Calendar("Home", testUser).save();
+		Event followableEvent = Event
+				.find("byIsPublicAndOwner", true, testUser).first();
+		assertNotNull(followableEvent);
+	}
 
-	new Event("monthly", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, RepeatableType.MONTHLY).save();
+	@Test
+	public void testFollowEvent() throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
 
-	Event event = Event.find("byName", "monthly").first();
+		User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
+				.save();
 
-	assertTrue(event.happensOnDay(formatter.parse("2011/10/14, 09:00")));
-	assertTrue(event.happensOnDay(formatter.parse("2012/11/14, 10:00")));
-    }
+		User joe = new User("joe", "WTF", "secret", "joe@alt-f4.com").save();
 
-    @Test
-    public void testRepeatableEventYearly() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
+		Calendar joesCalendar = new Calendar("Home", joe).save();
+		Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
 
-	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar testCalendar = new Calendar("Home", testUser).save();
+		new Event("ESE sucks", "small note",
+				formatter.parse("2011/10/14, 09:00"),
+				formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
+				true).save();
 
-	new Event("yearly", "small note", formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false, RepeatableType.YEARLY).save();
+		Event followableEvent = Event.find("byIsPublic", true).first();
 
-	Event event = Event.find("byName", "yearly").first();
+		assertNotNull(followableEvent);
 
-	assertTrue(event.happensOnDay(formatter.parse("2011/10/14, 09:00")));
-	assertTrue(event.happensOnDay(formatter.parse("2012/10/14, 10:00")));
-    }
+		followableEvent.follow(joesCalendar); // ugly!
+		followableEvent.save();
 
-    @Test
-    public void testCreateEvent() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
-
-	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar testCalendar = new Calendar("Home", testUser).save();
-
-	new Event("ESE sucks", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		false).save();
-
-	User user = User.find("byNickname", "wuschu").first();
-	Event testEvent = Event.find("byOwner", user).first();
-	assertNotNull(testEvent);
-    }
-
-    @Test
-    public void testIfEventIsFollowedBy() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
-	User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-
-	User joe = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
-	Calendar joesCalendar = new Calendar("Home", joe).save();
-
-	new Event("ESE sucks", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
-		false).save();
-
-	User user = User.find("byNickname", "wuschu").first();
-	Event testEvent = Event.find("byOwner", user).first();
-
-	testEvent.follow(joesCalendar);
-	testEvent.save();
-
-	assertTrue(testEvent.getFollowers().contains(joe));
-    }
-
-    @Test
-    public void testIfEventIsFollowed() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
-	User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-
-	User joe = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
-	Calendar joesCalendar = new Calendar("Home", joe).save();
-
-	new Event("ESE sucks", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
-		false).save();
-
-	User user = User.find("byNickname", "wuschu").first();
-	Event testEvent = Event.find("byOwner", user).first();
-
-	testEvent.follow(joesCalendar);
-	testEvent.save();
-
-	assertTrue(testEvent.getFollowers().size() > 0);
-    }
-
-    @Test
-    public void testGetFollowableEvents() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
-
-	User testUser = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-	Calendar testCalendar = new Calendar("Home", testUser).save();
-
-	new Event("ESE sucks", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), testUser, testCalendar,
-		true).save();
-
-	Event followableEvent = Event
-		.find("byIsPublicAndOwner", true, testUser).first();
-	assertNotNull(followableEvent);
-    }
-
-    @Test
-    public void testFollowEvent() throws ParseException {
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
-
-	User wuschu = new User("wuschu", "WTF", "secret", "wuschu@alt-f4.com")
-		.save();
-
-	User joe = new User("joe", "WTF", "secret", "joe@alt-f4.com").save();
-
-	Calendar joesCalendar = new Calendar("Home", joe).save();
-	Calendar wuschusCalendar = new Calendar("Home", wuschu).save();
-
-	new Event("ESE sucks", "small note",
-		formatter.parse("2011/10/14, 09:00"),
-		formatter.parse("2011/10/14, 15:00"), wuschu, wuschusCalendar,
-		true).save();
-
-	Event followableEvent = Event.find("byIsPublic", true).first();
-
-	assertNotNull(followableEvent);
-
-	followableEvent.follow(joesCalendar); // ugly!
-	followableEvent.save();
-
-	Calendar testCalendar = Calendar.find("byOwner", joe).first();
-	assertEquals(1, testCalendar.events.size());
-    }
+		Calendar testCalendar = Calendar.find("byOwner", joe).first();
+		assertEquals(1, testCalendar.events.size());
+	}
 
 }
