@@ -1,6 +1,11 @@
 #{extends 'Calendars/calendarGrid.html' /}
 #{stylesheet 'event.css' /}
 #{stylesheet 'popup.css' /}
+
+#{stylesheet 'jquery-ui/smoothness/jquery-ui-1.8.16.custom.css' /}
+#{script 'jquery-ui/jquery-ui-1.8.16.custom.min.js' /}
+#{script 'jquery-ui/jquery-ui-timepicker-addon.js' /}
+
 #{script 'popup.js' /}
 #{script 'ajaxAction.js' /}
 
@@ -24,6 +29,22 @@
 				}
 			);
 		});
+		
+		//datepickers
+		$('#startDate').datepicker({
+			inline: true,
+			dateFormat: 'yy-mm-dd'
+		});
+		
+		$('#endDate').datepicker({
+			inline: true,
+			dateFormat: 'yy-mm-dd'
+		});
+		
+		$('#startTime').timepicker({});
+		
+		$('#endTime').timepicker({});
+		
 	});
 </script>
 
