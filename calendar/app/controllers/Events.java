@@ -205,4 +205,15 @@ public class Events extends Main {
 	Calendars.viewCalendar(calendarId, currentDate, "");
     }
 
+    public static List<Event> searchEventByName(String term, Long id, User user) {
+	Query query = JPA
+		.em()
+		.createQuery(
+			"SELECT e FROM Event e JOIN e.calendars c WHERE c.id = ?1 AND (e.isPublic = true OR c.owner.id = ?2 ) AND upper(e.name) LIKE ?3")
+		.setParameter(1, id).setParameter(2, getUser().id)
+		.setParameter(3, term.toUpperCase() + "%");
+	List<Event> events = query.getResultList();
+
+	return new ArrayList<Event>(events);
+    }
 }
