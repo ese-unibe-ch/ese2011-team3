@@ -48,8 +48,8 @@ public class Ajax extends Main {
 	Query q = JPA
 		.em()
 		.createQuery(
-			"SELECT u FROM User u WHERE u.nickname LIKE ?1 ORDER BY u.nickname ASC")
-		.setParameter(1, term + "%");
+			"SELECT u FROM User u WHERE upper(u.nickname) LIKE ?1 ORDER BY u.nickname ASC")
+		.setParameter(1, term.toUpperCase() + "%");
 	List<User> users = q.getResultList();
 	users.remove(getUser());
 
