@@ -1,6 +1,20 @@
 #{extends 'main.html' /}
 #{set pageTitle:'contacts' /}
 #{stylesheet 'contacts.css' /}
+#{stylesheet 'jquery-ui/smoothness/jquery-ui-1.8.16.custom.css' /}
+#{script 'jquery-ui/jquery-ui-1.8.16.custom.min.js' /}
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('#contact_query').each( function() {
+	   		var $input = $(this);
+	  		var serverUrl = $input.data('url');
+	   		$input.autocomplete({ source:serverUrl });
+		});
+	});
+</script>
 
 <td id="menu_menu">
 	<h1>my contacts</h1>
@@ -38,7 +52,7 @@
 		#{form @Contacts.index()}
 			<td id="contacts_search">
 				<input type="hidden" name="contactSearch" value="${contactSearch}" />
-				<input type="text" name="userSearch" value="${userSearch}"  /> 
+				<input type="text" id="contact_query" name="userSearch" value="${userSearch}" class="autocomplete" data-url="@{Ajax.searchUser()}" /> 
 				<input type="submit" value="Search" />
 			</td>
 		#{/form}

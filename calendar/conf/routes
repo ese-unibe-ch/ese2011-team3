@@ -32,6 +32,9 @@ GET		/profile/																		Profile.index
 GET 	/editProfile/{userId}															Profile.editProfile
 GET		/profile/{userId}																Profile.viewProfile
 
+GET		/ajax/user/search																Ajax.searchUser
+GET		/ajax/event/search																Ajax.searchEvent
+
 GET		/tester																			Tester.index
 
 # Ignore favicon requests

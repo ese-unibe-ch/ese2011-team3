@@ -1,6 +1,20 @@
 #{extends 'Calendars/calendarGrid.html' /}
 #{stylesheet 'event.css' /}
 
+#{stylesheet 'jquery-ui/smoothness/jquery-ui-1.8.16.custom.css' /}
+#{script 'jquery-ui/jquery-ui-1.8.16.custom.min.js' /}
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('#event_query').each( function() {
+	   		var $input = $(this);
+	  		var serverUrl = $input.data('url');
+	   		$input.autocomplete({ source:serverUrl });
+		});
+	});
+</script>
+
 <h1>${loginUser.nickname}: ${calendar.name} (view/edit access)</h1>
 <table id="event_list">
 	#{list items:calendar.eventsAtDay(loginUser, new org.joda.time.DateTime(currentDate)), as:'occurrence'}
@@ -31,11 +45,11 @@
 </div>
 
 <hr />
-	<table id="events_contacts">
+	<table id="events_search">
 	<h1>Search for events</h1>
 		#{form @Calendars.viewCalendar(calendar.id)}
 			<td id="events_search">
-				<input type="text" name="eventSearch" value="${eventSearch}" />
+				<input type="text" id="event_query" name="eventSearch" value="${eventSearch}" data-url="@{Ajax.searchEvent(calendar.id)}"/>
 				<input type="submit" value="Search" />
 			</td>
 		#{/form}

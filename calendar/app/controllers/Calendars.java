@@ -18,8 +18,6 @@ import play.mvc.With;
 @With(Secure.class)
 public class Calendars extends Main {
 
-    private static final String regexTime = "^([0-1][0-9]|[2][0-3]):([0-5][0-9])$";
-
     protected static void putCalendarData(Long calendarId, Date currentDate) {
 	Query calendarQuery = JPA.em()
 		.createQuery("SELECT c FROM Calendar c WHERE c.id = :id")
@@ -52,7 +50,7 @@ public class Calendars extends Main {
 		.setParameter("id", getUser().id);
 	List<Calendar> calendarList = calendarQuery.getResultList();
 	// TODO: estimate what to do if an user don't got any calendars.
-	assert calendarList.size() != 0;
+	// assert calendarList.size() != 0;
 	viewCalendar(calendarList.get(0).getId(), new Date(), "");
     }
 
