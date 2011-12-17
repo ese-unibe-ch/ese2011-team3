@@ -42,6 +42,7 @@ public class Ajax extends Main {
     }
 
     public static void searchUser(String term) {
+	term = term.trim();
 	List<User> users = User.searchUserByNickname(term, getUser());
 	List<User> concatcs = getUser().contacts;
 	users.removeAll(concatcs);
@@ -56,6 +57,7 @@ public class Ajax extends Main {
     }
 
     public static void searchEvent(Long id, String term) {
+	term = term.trim();
 	List<Event> events = Events.searchEventByName(term, id, getUser());
 	ArrayList<String> suggestions = new ArrayList<String>();
 	for (Event event : events) {
