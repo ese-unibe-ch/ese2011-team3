@@ -51,9 +51,7 @@ public class Ajax extends Main {
     }
 
     public static void searchEvent(Long id, String term) {
-
 	List<Event> events = Events.searchEventByName(term, id, getUser());
-
 	ArrayList<String> suggestions = new ArrayList<String>();
 	for (Event event : events) {
 	    suggestions.add(event.name);
