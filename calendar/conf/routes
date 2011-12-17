@@ -25,12 +25,15 @@ GET		/calendar/{currentDate}															Calendars.viewGlobalCalendar
 
 GET		/contacts/																		Contacts.index
 GET		/contacts/choose																Contacts.choose
+GET		/contacts/users																	Contacts.listUsers
 GET		/contacts/add/{contactId}														Contacts.add
 GET		/contacts/remove/{contactId}													Contacts.remove
 
 GET		/profile/																		Profile.index
 GET 	/editProfile/{userId}															Profile.editProfile
 GET		/profile/{userId}																Profile.viewProfile
+
+
 
 GET		/ajax/user/search																Ajax.searchUser
 GET		/ajax/event/search																Ajax.searchEvent

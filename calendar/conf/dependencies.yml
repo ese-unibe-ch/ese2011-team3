@@ -4,3 +4,4 @@ require:
     - play -> secure
     - play -> cobertura 2.4
     - joda-time 2.0
+    - play -> gravatar 1.0.2

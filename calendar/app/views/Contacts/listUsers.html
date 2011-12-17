@@ -1,0 +1,64 @@
+#{extends 'main.html' /}
+#{set pageTitle:'contacts' /}
+#{stylesheet 'contacts.css' /}
+#{stylesheet 'jquery-ui/smoothness/jquery-ui-1.8.16.custom.css' /}
+#{script 'jquery-ui/jquery-ui-1.8.16.custom.min.js' /}
+
+<style>
+	#contacts_grid {
+	
+	}
+	#contact {
+		float: left;
+		width: auto;
+		height: auto;
+		padding: 10px;
+		
+	}
+	#contact_inner {
+		padding: 5px;
+		border: solid 1px;
+	}
+	
+	
+	
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('#contact_query').each( function() {
+	   		var $input = $(this);
+	  		var serverUrl = $input.data('url');
+	   		$input.autocomplete({ 	source:serverUrl, 
+	   								delay: 0
+	   		});
+		});
+		
+	
+	});
+</script>
+
+<td id="menu_menu">
+	<h1>my contacts</h1>
+</td>
+<td id="content_content">
+
+	<table id="contacts_contacts">
+		<h1>Contacts Zone</h1>
+
+	<hr>
+		<h1>Search for Users</h1>
+		#{form @Contacts.listUsers()}
+			<td id="contacts_search">
+				<input type="text" id="contact_query" name="term" value="${term}" class="autocomplete" data-url="@{Ajax.searchUser()}" /> 
+				<input type="submit" value="Search" />
+			</td>
+		#{/form}
+	</table>
+	
+	<div class="contacts_grid">
+		#{list items:users, as:'user'}
+			<div id="contact"><div id="contact_inner"><a href="@{Profile.viewProfile(user.id)}"><div id="username">${user.nickname}</div> #{gravatar.img user.mail /}</a> <a href="@{Contacts.add(user.id)}"><img src="/public/images/add_contact.png" /></a></div></div>
+		#{/list}
+	</div
+</td>

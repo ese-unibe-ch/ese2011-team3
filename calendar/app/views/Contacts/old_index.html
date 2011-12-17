@@ -1,0 +1,73 @@
+#{extends 'main.html' /}
+#{set pageTitle:'contacts' /}
+#{stylesheet 'contacts.css' /}
+#{stylesheet 'jquery-ui/smoothness/jquery-ui-1.8.16.custom.css' /}
+#{script 'jquery-ui/jquery-ui-1.8.16.custom.min.js' /}
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('#contact_query').each( function() {
+	   		var $input = $(this);
+	  		var serverUrl = $input.data('url');
+	   		$input.autocomplete({ 	source:serverUrl, 
+	   								delay: 0
+	   		});
+		});
+	});
+</script>
+
+
+<td id="menu_menu">
+	<h1>my contacts</h1>
+</td>
+<td id="content_content">
+	<h1>Contacts</h1>
+	<table id="contacts_contacts">
+		#{form @Contacts.index()}
+			<td id="contacts_search">
+				<input type="text" name="contactSearch" value="${contactSearch}"  /> 
+				<input type="submit" value="Filter" />
+			</td>
+		#{/form}
+		#{list items:contacts, as:'contact'}
+			<tr>
+				<td id="contacts_name"><a href="@{Profile.viewProfile(contact.id)}">${contact.nickname}</a></td>
+				<td id="contacts_options"><a href="@{Contacts.remove(contact.id)}">remove from contacts</a></td>
+			</tr>
+			<tr>
+				<td>
+					<table id="contacts_calendars">
+						#{list items:contact.calendars, as:'cal'}
+							<tr>
+								<td><a href="@{Calendars.viewCalendar(cal.id, currentDate)}">${cal.name}</td>
+							</tr>
+						#{/list}
+					</table>
+				</td>
+			</tr>
+		#{/list}
+	</table>
+	
+	
+	
+	<hr />
+	<table id="contacts_contacts">
+	<h1>Other Users</h1>
+		#{form @Contacts.index()}
+			<td id="contacts_search">
+				<input type="hidden" name="contactSearch" value="${contactSearch}" />
+				<input type="text" id="contact_query" name="userSearch" value="${userSearch}" class="autocomplete" data-url="@{Ajax.searchUser()}" /> 
+				<input type="submit" value="Search" />
+			</td>
+		#{/form}
+		#{list items:users, as:'user'}
+			<tr>
+				<td id="contacts_name"><a href="@{Profile.viewProfile(user.id)}">${user.nickname}</a></td>
+				<td id="contacts_options"><a href="@{Contacts.add(user.id)}">add to contacts</a></td>
+			</tr>
+		#{/list}
+	</table>
+	
+</td>

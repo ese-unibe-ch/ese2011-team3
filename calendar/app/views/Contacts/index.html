@@ -18,6 +18,27 @@
 	});
 </script>
 
+<style>
+	#contacts_grid {
+		display: block;
+	}
+	
+	#users_grid {
+	
+	}
+	#entry {
+		float: left;
+		width: auto;
+		height: auto;
+		padding: 10px;
+		
+	}
+	#entry_inner {
+		padding: 5px;
+		border: solid 1px;
+	}
+</style>
+
 <td id="menu_menu">
 	<h1>my contacts</h1>
 </td>
@@ -25,44 +46,46 @@
 	<h1>Contacts</h1>
 	<table id="contacts_contacts">
 		#{form @Contacts.index()}
+		<tr>
 			<td id="contacts_search">
 				<input type="text" name="contactSearch" value="${contactSearch}"  /> 
 				<input type="submit" value="Filter" />
 			</td>
+		</tr>
 		#{/form}
-		#{list items:contacts, as:'contact'}
-			<tr>
-				<td id="contacts_name"><a href="@{Profile.viewProfile(contact.id)}">${contact.nickname}</a></td>
-				<td id="contacts_options"><a href="@{Contacts.remove(contact.id)}">remove from contacts</a></td>
-			</tr>
-			<tr>
-				<td>
-					<table id="contacts_calendars">
-						#{list items:contact.calendars, as:'cal'}
-							<tr>
-								<td><a href="@{Calendars.viewCalendar(cal.id, currentDate)}">${cal.name}</td>
-							</tr>
-						#{/list}
-					</table>
-				</td>
-			</tr>
-		#{/list}
-	</table>
-	<hr />
-	<table id="contacts_contacts">
-	<h1>Other Users</h1>
-		#{form @Contacts.index()}
-			<td id="contacts_search">
-				<input type="hidden" name="contactSearch" value="${contactSearch}" />
-				<input type="text" id="contact_query" name="userSearch" value="${userSearch}" class="autocomplete" data-url="@{Ajax.searchUser()}" /> 
-				<input type="submit" value="Search" />
+		<tr>
+			<td>
+				<div class="contacts_grid">
+				#{list items:contacts, as:'contact'}
+					<div id="entry"><div id="entry_inner"><a href="@{Profile.viewProfile(contact.id)}"><div id="username">${contact.nickname}</div> #{gravatar.img contact.mail /}</a> <a href="@{Contacts.remove(contact.id)}"><img src="/public/images/remove_contact.png" /></a></div></div>
+				#{/list}
+				</div
 			</td>
-		#{/form}
-		#{list items:users, as:'user'}
-			<tr>
-				<td id="contacts_name"><a href="@{Profile.viewProfile(user.id)}">${user.nickname}</a></td>
-				<td id="contacts_options"><a href="@{Contacts.add(user.id)}">add to contacts</a></td>
-			</tr>
-		#{/list}
+		</tr>
 	</table>
+
+	<hr />
+	<h1>Other Users</h1>
+	<table id="contacts_contacts">
+		<tr>
+			
+			#{form @Contacts.index()}
+				<td id="contacts_search">
+					<input type="hidden" name="contactSearch" value="${contactSearch}" />
+					<input type="text" id="contact_query" name="userSearch" value="${userSearch}" class="autocomplete" data-url="@{Ajax.searchUser()}" /> 
+					<input type="submit" value="Search" />
+				</td>
+			#{/form}
+		</tr>
+		<tr>
+			<td>
+				<div class="users_grid">
+					#{list items:users, as:'user'}
+						<div id="entry"><div id="entry_inner"><a href="@{Profile.viewProfile(user.id)}"><div id="username">${user.nickname}</div> #{gravatar.img user.mail /}</a> <a href="@{Contacts.add(user.id)}"><img src="/public/images/add_contact.png" /></a></div></div>
+					#{/list}
+				</div
+			</td>
+		</tr>
+	</table>
+	
 </td>

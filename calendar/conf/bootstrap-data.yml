@@ -39,7 +39,28 @@ User(phoenix):
     password:  secret
     fullname:  John Sinclair
     mail:      sinclair@gmail.com
+  
+User(lexruee):
+    nickname:  lexruee
+    password:  secret
+    fullname:  Alex Rüedlinger
+    mail:      a.rueedlinger@gmail.com
     
+    
+User(poljpocket):
+    nickname:  poljpocket
+    password:  secret
+    fullname:  Polj
+    mail:      julian.pollak@students.unibe.ch
+    
+      
+Calendar(poljpocket_home):
+    name:  Home
+    owner:  poljpocket
+    
+Calendar(lexruee_home):
+    name:  Home
+    owner:  lexruee
     
 Calendar(wuschu_home):
     name:  Home
