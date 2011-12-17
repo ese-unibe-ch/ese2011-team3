@@ -10,7 +10,9 @@
 		$('#event_query').each( function() {
 	   		var $input = $(this);
 	  		var serverUrl = $input.data('url');
-	   		$input.autocomplete({ source:serverUrl });
+	   		$input.autocomplete({ 	source:serverUrl,
+	   								delay: 0
+	   		 });
 		});
 	});
 </script>
