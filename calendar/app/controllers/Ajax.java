@@ -43,10 +43,15 @@ public class Ajax extends Main {
 
     public static void searchUser(String term) {
 	List<User> users = User.searchUserByNickname(term, getUser());
+	List<User> concatcs = getUser().contacts;
+	users.removeAll(concatcs);
+
 	ArrayList<String> suggestions = new ArrayList<String>();
+
 	for (User user : users) {
 	    suggestions.add(user.nickname);
 	}
+
 	renderJSON(suggestions);
     }
 
