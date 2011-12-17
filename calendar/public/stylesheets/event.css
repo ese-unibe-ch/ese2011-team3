@@ -60,3 +60,7 @@
 #event_buttons {
 	text-align: right;
 }
+
+div.ui-datepicker{
+ font-size:12px;
+}
