@@ -8,6 +8,7 @@
 <td id="content_content">
 <table id="event_form">
 	<tr>
+		<td style="padding: 10px;">#{gravatar.img user?.mail /}</td>
 		<td><h1>${user.fullname}</h1><td>
 		<td class="event_key">#{if user?.equals(loginUser)}<a href="@{Profile.editProfile(user.id)}">edit profile</a>#{/if}
 	</tr>
