@@ -10,7 +10,7 @@ import models.User;
 import play.db.jpa.JPA;
 import utilities.OccurrenceType;
 
-public class DeleteEvent extends AbstractAction {
+public class RemoveEvent extends AbstractAction {
 
     private Event event;
     private String name;
@@ -23,7 +23,7 @@ public class DeleteEvent extends AbstractAction {
     private Long id;
     private ArrayList<Long> calendarIds = new ArrayList<Long>();
 
-    public DeleteEvent(Event event) {
+    public RemoveEvent(Event event) {
 	this.event = event;
 	// copy all values
 	this.name = event.name;
@@ -73,6 +73,10 @@ public class DeleteEvent extends AbstractAction {
 	}
 	event.save();
 	aCalendar.save();
+    }
+
+    public void addCalendar(Calendar calendar) {
+	this.calendarIds.add(calendar.id);
     }
 
 }

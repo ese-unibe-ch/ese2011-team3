@@ -5,7 +5,7 @@ import java.util.Date;
 import models.Calendar;
 import models.Event;
 import models.actions.Action;
-import models.actions.DeleteEvent;
+import models.actions.RemoveEvent;
 import models.actions.EditEvent;
 import models.actions.SaveEvent;
 
@@ -86,7 +86,7 @@ public class ActionTest extends UnitTest {
 	Event event = Event.find("byName", "name").first();
 	assertNotNull(event);
 
-	Action delete = new DeleteEvent(event);
+	Action delete = new RemoveEvent(event);
 	delete.execute();
 
 	Event e1 = Event.find("byName", "name").first();

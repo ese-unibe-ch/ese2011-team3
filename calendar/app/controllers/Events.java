@@ -10,7 +10,7 @@ import models.Calendar;
 import models.Event;
 import models.User;
 import models.actions.Action;
-import models.actions.DeleteEvent;
+import models.actions.RemoveEvent;
 import models.actions.EditEvent;
 import models.actions.FollowEvent;
 import models.actions.SaveEvent;
@@ -114,7 +114,7 @@ public class Events extends Main {
 
 	Event event = (Event) deleteQuery.getSingleResult();
 
-	DeleteEvent deleteEvent = new DeleteEvent(event);
+	RemoveEvent deleteEvent = new RemoveEvent(event);
 
 	getActionHandler().invoke(deleteEvent);
 	// event.delete();

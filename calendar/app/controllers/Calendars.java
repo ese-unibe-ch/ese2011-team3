@@ -6,10 +6,11 @@ import java.util.List;
 import javax.persistence.Query;
 
 import models.Calendar;
-import models.Event;
 import models.GlobalCalendar;
 import models.User;
+import models.actions.Action;
 import models.actions.CalendarEdit;
+import models.actions.CalendarRemove;
 
 import org.joda.time.DateTime;
 
@@ -142,12 +143,15 @@ public class Calendars extends Main {
 	    Calendar newCalendar = new Calendar("default", loginUser).save();
 	    loginUser.addCalendar(newCalendar);
 	}
-	for (Event event : calendar.events) {
-	    event.delete();
-	}
-	calendar.save();
-	calendar.delete();
+
+	Action remove = new CalendarRemove(calendar, getUser());
+
+	getActionHandler().invoke(remove);
+
+	/*
+	 * for (Event event : calendar.events) { event.delete(); }
+	 * calendar.save(); calendar.delete();
+	 */
 	Calendars.index();
     }
-
 }
